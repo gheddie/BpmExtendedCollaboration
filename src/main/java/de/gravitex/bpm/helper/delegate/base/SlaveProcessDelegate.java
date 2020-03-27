@@ -1,4 +1,4 @@
-package de.gravitex.bpm.helper.listener.base;
+package de.gravitex.bpm.helper.delegate.base;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;

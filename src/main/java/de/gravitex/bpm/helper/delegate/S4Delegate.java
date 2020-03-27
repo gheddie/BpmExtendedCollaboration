@@ -3,7 +3,7 @@ package de.gravitex.bpm.helper.delegate;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 
 import de.gravitex.bpm.helper.constant.ProcessConstants;
-import de.gravitex.bpm.helper.listener.base.SlaveProcessDelegate;
+import de.gravitex.bpm.helper.delegate.base.SlaveProcessDelegate;
 
 public class S4Delegate extends SlaveProcessDelegate {
 
