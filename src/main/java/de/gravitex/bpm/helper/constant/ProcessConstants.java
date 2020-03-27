@@ -8,6 +8,7 @@ public class ProcessConstants {
 			public static final String TASK_M2 = "TASK_M2";
 			public static final String TASK_M1 = "TASK_M1";
 			public static final String TASK_M4 = "TASK_M4";
+			public static final String TASK_M0 = "TASK_M0";
 		}	
 		
 		public class MSG {
@@ -15,7 +16,11 @@ public class ProcessConstants {
 		}
 		
 		public class DEF {
-			public static final String MAIN_PROCESS = "MAIN_PROCESS";		
+			public static final String DEF_MAIN_PROCESS = "DEF_MAIN_PROCESS";		
+		}
+
+		public class VAR {
+			public static final String VAR_MAINVAL = "VAR_MAINVAL";
 		}
 	}
 	
@@ -35,7 +40,11 @@ public class ProcessConstants {
 		}
 		
 		public class DEF {
-			public static final String SLAVE_PROCESS = "SLAVE_PROCESS";			
+			public static final String DEF_SLAVE_PROCESS = "DEF_SLAVE_PROCESS";			
+		}
+		
+		public class VAR {
+			public static final String VAR_SUBVAL = "VAR_SUBVAL";
 		}
 	}
 }
