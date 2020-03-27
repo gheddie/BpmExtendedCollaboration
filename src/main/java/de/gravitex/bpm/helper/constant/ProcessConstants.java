@@ -2,13 +2,6 @@ package de.gravitex.bpm.helper.constant;
 
 public class ProcessConstants {
 	
-	public class Common {
-		
-		public class VAR {
-			public static final String VAR_PROCESS_REGISTRY = "VAR_PROCESS_REGISTRY";
-		}
-	}
-	
 	public class Main {
 		
 		public class GATEWAY {
@@ -55,6 +48,8 @@ public class ProcessConstants {
 		public class MSG {
 			public static final String MSG_CALL_A = "MSG_CALL_A";
 			public static final String MSG_CALL_B = "MSG_CALL_B";
+			public static final String MSG_CALL_S5 = "MSG_CALL_S5";
+			public static final String MSG_CALL_S6 = "MSG_CALL_S6";
 		}
 		
 		public class CALLBACK {

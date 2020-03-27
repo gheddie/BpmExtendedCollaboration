@@ -1,4 +1,4 @@
-package de.gravitex.bpm.helper;
+package de.gravitex.bpm.helper.base;
 
 import static org.junit.Assert.assertEquals;
 

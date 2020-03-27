@@ -9,6 +9,7 @@ public class M1Delegate extends ExtendedJavaDelegate {
 
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
-		getProcessRegistry(execution).startProcessInstanceByMessage(execution, ProcessConstants.Slave.MSG.MSG_CALL_B);
+		execution.getProcessEngine().getRuntimeService()
+				.startProcessInstanceByMessage(ProcessConstants.Slave.MSG.MSG_CALL_B);
 	}
 }

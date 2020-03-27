@@ -11,6 +11,7 @@ import org.camunda.bpm.engine.test.ProcessEngineRule;
 import org.junit.Rule;
 import org.junit.Test;
 
+import de.gravitex.bpm.helper.base.BpmEngineTest;
 import de.gravitex.bpm.helper.constant.ProcessConstants;
 import de.gravitex.bpm.helper.util.HashMapBuilder;
 import de.gravitex.bpm.helper.util.ProcessHelper;
@@ -48,6 +49,10 @@ public class CollaborationHelperTest extends BpmEngineTest {
 		assertThat(slaveProcessInstance).isWaitingAt(ProcessConstants.Slave.GATEWAY.GW_SLAVE_2);
 		
 		// master should wait on 'M5' as 'MSG_RECALL_M5' was invoked
-		assertThat(masterProcessInstance).isWaitingAt(ProcessConstants.Main.TASK.TASK_M5);
+		executeAndAssertSingleTask(processEngine, masterProcessInstance, ProcessConstants.Main.TASK.TASK_M5, null,
+				true);
+		
+		// slave should be at 'TASK_S5'...
+		assertThat(slaveProcessInstance).isWaitingAt(ProcessConstants.Slave.TASK.TASK_S5);
 	}
 }
