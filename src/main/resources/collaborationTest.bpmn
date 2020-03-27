@@ -169,6 +169,9 @@
       <bpmn:outgoing>SequenceFlow_0t2id7l</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:userTask id="TASK_M5" name="M5">
+      <bpmn:extensionElements>
+        <camunda:taskListener class="de.gravitex.bpm.helper.listener.M5CompleteListener" event="complete" />
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_112lh8x</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_01e294u</bpmn:outgoing>
     </bpmn:userTask>
