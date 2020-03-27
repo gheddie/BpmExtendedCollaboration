@@ -1,11 +1,11 @@
 package de.gravitex.bpm.helper.delegate;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.camunda.bpm.engine.delegate.JavaDelegate;
 
 import de.gravitex.bpm.helper.constant.ProcessConstants;
-import de.gravitex.bpm.helper.delegate.base.ExtendedJavaDelegate;
 
-public class M1Delegate extends ExtendedJavaDelegate {
+public class M1Delegate implements JavaDelegate {
 
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {

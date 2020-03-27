@@ -62,6 +62,7 @@ public class ProcessConstants {
 		
 		public class VAR {
 			public static final String VAR_SUBVAL = "VAR_SUBVAL";
+			public static final String VAR_MASTER_PROCESS_BK = "VAR_MASTER_PROCESS_BK";
 		}
 	}
 }

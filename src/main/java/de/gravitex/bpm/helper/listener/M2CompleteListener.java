@@ -1,15 +1,22 @@
 package de.gravitex.bpm.helper.listener;
 
 import org.camunda.bpm.engine.delegate.DelegateTask;
+import org.camunda.bpm.engine.delegate.TaskListener;
 
 import de.gravitex.bpm.helper.constant.ProcessConstants;
-import de.gravitex.bpm.helper.listener.base.ExtendedTaskListener;
+import de.gravitex.bpm.helper.util.HashMapBuilder;
+import de.gravitex.bpm.helper.util.ProcessHelper;
 
-public class M2CompleteListener extends ExtendedTaskListener {
+public class M2CompleteListener implements TaskListener {
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void notify(DelegateTask delegateTask) {
-		delegateTask.getProcessEngine().getRuntimeService()
-				.startProcessInstanceByMessage(ProcessConstants.Slave.MSG.MSG_CALL_A);
+		delegateTask.getProcessEngine().getRuntimeService().startProcessInstanceByMessage(
+				ProcessConstants.Slave.MSG.MSG_CALL_A,
+				ProcessHelper.createBusinessKey(
+						ProcessHelper.createBusinessKey(ProcessConstants.Slave.DEF.DEF_SLAVE_PROCESS)),
+				HashMapBuilder.create().withValuePair(ProcessConstants.Slave.VAR.VAR_MASTER_PROCESS_BK,
+						delegateTask.getExecution().getBusinessKey()).build());
 	}
 }
