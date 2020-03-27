@@ -1,12 +1,11 @@
 package de.gravitex.bpm.helper;
 
+import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
-import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.engine.test.Deployment;
 import org.camunda.bpm.engine.test.ProcessEngineRule;
 import org.junit.Rule;
@@ -14,6 +13,7 @@ import org.junit.Test;
 
 import de.gravitex.bpm.helper.constant.ProcessConstants;
 import de.gravitex.bpm.helper.util.HashMapBuilder;
+import de.gravitex.bpm.helper.util.ProcessHelper;
 
 public class CollaborationHelperTest extends BpmEngineTest {
 
@@ -23,12 +23,31 @@ public class CollaborationHelperTest extends BpmEngineTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	@Deployment(resources = { "collaborationTest.bpmn" })
-	public void testSingleInvocation() {
+	public void testM2_S1_S4_M5_S5() {
 
-		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey(
-				ProcessConstants.Main.DEF.DEF_MAIN_PROCESS,
-				HashMapBuilder.create().withValuePair(ProcessConstants.Main.VAR.VAR_MAINVAL, 1).build());
+		String mainBusinessKey = ProcessHelper.createBusinessKey(ProcessConstants.Main.DEF.DEF_MAIN_PROCESS);
+		ProcessInstance masterProcessInstance = processEngine.getRuntimeService().startProcessInstanceByKey(
+				ProcessConstants.Main.DEF.DEF_MAIN_PROCESS, mainBusinessKey,
+				HashMapBuilder.create().withValuePair(ProcessConstants.Main.VAR.VAR_MAINVAL, 2).build());
 
-		executeAndAssertSingleTask(processEngine, processInstance, ProcessConstants.Main.TASK.TASK_M0, null);
+		// master
+		executeAndAssertSingleTask(processEngine, masterProcessInstance, ProcessConstants.Main.TASK.TASK_M2, null, true);
+		
+		// we have a slave process
+		List<ProcessInstance> slaveProcessInstanceList = processEngine.getRuntimeService().createProcessInstanceQuery()
+				.processDefinitionKey(ProcessConstants.Slave.DEF.DEF_SLAVE_PROCESS).list();
+		assertEquals(1, slaveProcessInstanceList.size());
+		
+		ProcessInstance slaveProcessInstance = slaveProcessInstanceList.get(0);
+
+		// slave
+		executeAndAssertSingleTask(processEngine, slaveProcessInstance, ProcessConstants.Slave.TASK.TASK_S1,
+				HashMapBuilder.create().withValuePair(ProcessConstants.Slave.VAR.VAR_SUBVAL, 4).build(), true);
+		
+		// slave
+		assertThat(slaveProcessInstance).isWaitingAt(ProcessConstants.Slave.GATEWAY.GW_SLAVE_2);
+		
+		// master should wait on 'M5' as 'MSG_RECALL_M5' was invoked
+		assertThat(masterProcessInstance).isWaitingAt(ProcessConstants.Main.TASK.TASK_M5);
 	}
 }

@@ -9,14 +9,21 @@ import org.camunda.bpm.engine.ProcessEngineServices;
 import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
+import org.camunda.bpm.engine.task.TaskQuery;
 
 public abstract class BpmEngineTest {
 
 	protected void executeAndAssertSingleTask(ProcessEngineServices processEngine, ProcessInstance processInstance,
-			String taskDefinitionKey, Map<String, Object> variables) {
+			String taskDefinitionKey, Map<String, Object> variables, boolean execute) {
 		TaskService taskService = processEngine.getTaskService();
-		List<Task> taskList = taskService.createTaskQuery().processInstanceId(processInstance.getId()).taskDefinitionKey(taskDefinitionKey).list();
+		TaskQuery taskQuery = taskService.createTaskQuery();
+		List<Task> taskList = taskQuery.taskDefinitionKey(taskDefinitionKey).list();
+		if (processInstance != null) {
+			taskQuery.processInstanceId(processInstance.getId());
+		}
 		assertEquals(1, taskList.size());
-		taskService.complete(taskList.get(0).getId(), variables);
+		if (execute) {
+			taskService.complete(taskList.get(0).getId(), variables);			
+		}
 	}
 }

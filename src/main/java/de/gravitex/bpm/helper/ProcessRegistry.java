@@ -1,5 +1,6 @@
 package de.gravitex.bpm.helper;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -7,28 +8,21 @@ import org.camunda.bpm.engine.ProcessEngineServices;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 
-public class ProcessRegistry {
+import de.gravitex.bpm.helper.constant.ProcessConstants;
+import de.gravitex.bpm.helper.util.HashMapBuilder;
+import de.gravitex.bpm.helper.util.ProcessHelper;
 
-	private static ProcessRegistry instance;
+public class ProcessRegistry implements Serializable {
 
+	private static final long serialVersionUID = -1762063369307483469L;
+	
 	private HashMap<ProcessCallbackKey, ProcessCallback> callbacks = new HashMap<ProcessCallbackKey, ProcessCallback>();
 
-	private ProcessRegistry() {
-		// ...
-	}
-
-	public static ProcessRegistry getInstance() {
-		if (instance == null) {
-			instance = new ProcessRegistry();
-		}
-		return instance;
-	}
-
-	public ProcessInstance startProcessInstanceByMessage(DelegateExecution delegateExecution, String messageName,
-			String callbackIdentifier, String callbackMessageName) {
+	public ProcessInstance startProcessInstanceByMessage(DelegateExecution delegateExecution, String messageName) {
+		String businessKey = ProcessHelper.createBusinessKey(ProcessConstants.Slave.DEF.DEF_SLAVE_PROCESS);
 		ProcessInstance processInstance = delegateExecution.getProcessEngine().getRuntimeService()
-				.startProcessInstanceByMessage(messageName);
-		registerCallback(processInstance.getId(), callbackIdentifier, callbackMessageName, delegateExecution.getBusinessKey());
+				.startProcessInstanceByMessage(messageName, HashMapBuilder.create()
+						.withValuePair(ProcessConstants.Common.VAR.VAR_PROCESS_REGISTRY, this).build());
 		return processInstance;
 	}
 	
@@ -43,12 +37,13 @@ public class ProcessRegistry {
 		return businessKey;
 	}
 
-	private void registerCallback(String aProcessId, String aCallbackId, String aCallbackMessageName, String aMasterProcessBusinessKey) {
+	public void registerCallback(String aProcessId, String aCallbackId, String aCallbackMessageName, String aMasterProcessBusinessKey) {
 		callbacks.put(ProcessCallbackKey.fromValues(aProcessId, aCallbackId),
 				ProcessCallback.fromValues(aCallbackMessageName, aMasterProcessBusinessKey));
 	}
 
 	public ProcessCallback getCallback(String aProcessId, String aCallbackId) {
-		return callbacks.get(ProcessCallbackKey.fromValues(aProcessId, aCallbackId));
+		ProcessCallback processCallback = callbacks.get(ProcessCallbackKey.fromValues(aProcessId, aCallbackId));
+		return processCallback;
 	}
 }
