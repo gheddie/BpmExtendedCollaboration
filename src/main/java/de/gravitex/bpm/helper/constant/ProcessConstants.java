@@ -15,6 +15,7 @@ public class ProcessConstants {
 			public static final String TASK_M4 = "TASK_M4";
 			public static final String TASK_M0 = "TASK_M0";
 			public static final String TASK_M5 = "TASK_M5";
+			public static final String TASK_M7 = "TASK_M7";
 		}	
 		
 		public class MSG {
@@ -27,7 +28,9 @@ public class ProcessConstants {
 
 		public class VAR {
 			public static final String VAR_MAINVAL = "VAR_MAINVAL";
-			public static final String VAR_SOME_STRING_LIST = "VAR_SOME_STRING_LIST";
+			public static final String VAR_PROCESS_DATA = "VAR_PROCESS_DATA";
+			// a single process item passed to 'another slave' process ('M6')
+			public static final String VAR_PROCESS_DATA_ITEM = "VAR_PROCESS_DATA_ITEM";
 		}
 	}
 	
@@ -70,10 +73,15 @@ public class ProcessConstants {
 		
 		public class MSG {
 			public static final String MSG_START_ANOTHER_SLAVE = "MSG_START_ANOTHER_SLAVE";
+			public static final String MSG_FINISH_AS = "MSG_FINISH_AS";
 		}
 		
 		public class DEF {
 			public static final String DEF_ANOTHER_SLAVE_PROCESS = "DEF_ANOTHER_SLAVE_PROCESS";
+		}
+		
+		public class VAR {
+			public static final String VAR_ANOTHER_SLAVE_ITEM = "VAR_ANOTHER_SLAVE_ITEM";
 		}
 	}
 	

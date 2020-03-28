@@ -39,28 +39,20 @@ public class CollaborationTest extends BpmEngineTest {
 
 		runner1.toS5(masterProcessInstance1, slaveProcessInstance1);
 		runner2.toS5(masterProcessInstance2, slaveProcessInstance2);
-
+		
+		runner1.toEnd(masterProcessInstance1);
+		runner2.toEnd(masterProcessInstance2);
+		
 		// all slaves gone...
 		assertEquals(0, processEngine.getRuntimeService().createProcessInstanceQuery()
 				.processDefinitionKey(ProcessConstants.Slave.DEF.DEF_SLAVE_PROCESS).list().size());
 		
-		// 2 mains left...
-		assertEquals(2, processEngine.getRuntimeService().createProcessInstanceQuery()
+		// all mains gone...
+		assertEquals(0, processEngine.getRuntimeService().createProcessInstanceQuery()
 				.processDefinitionKey(ProcessConstants.Main.DEF.DEF_MAIN_PROCESS).list().size());
-
-		// 2 'another slaves' with parent 'masterProcessInstance1'...
-		assertEquals(2, getAnotherSlavesForMaster(masterProcessInstance1).size());
-
-		// 2 'another slaves' with parent 'masterProcessInstance2'...
-		assertEquals(2, getAnotherSlavesForMaster(masterProcessInstance2).size());
-	}
-
-	private List<ProcessInstance> getAnotherSlavesForMaster(ProcessInstance masterProcessInstance) {
 		
-		return processEngine.getRuntimeService().createProcessInstanceQuery()
-				.processDefinitionKey(ProcessConstants.AnotherSlave.DEF.DEF_ANOTHER_SLAVE_PROCESS)
-				.variableValueEquals(ProcessConstants.Common.VAR.VAR_MASTER_PROCESS_BK,
-						masterProcessInstance.getBusinessKey())
-				.list();
+		// all another slaves gone...
+		assertEquals(0, processEngine.getRuntimeService().createProcessInstanceQuery()
+				.processDefinitionKey(ProcessConstants.AnotherSlave.DEF.DEF_ANOTHER_SLAVE_PROCESS).list().size());
 	}
 }

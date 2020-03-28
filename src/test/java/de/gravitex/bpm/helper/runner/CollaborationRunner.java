@@ -3,11 +3,9 @@ package de.gravitex.bpm.helper.runner;
 import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.assertThat;
 import static org.junit.Assert.assertEquals;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.assertj.core.util.Arrays;
 import org.camunda.bpm.engine.ProcessEngineServices;
 import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
@@ -15,6 +13,7 @@ import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.engine.task.TaskQuery;
 
 import de.gravitex.bpm.helper.constant.ProcessConstants;
+import de.gravitex.bpm.helper.logic.ProcessData;
 import de.gravitex.bpm.helper.util.HashMapBuilder;
 import de.gravitex.bpm.helper.util.ProcessHelper;
 import lombok.Data;
@@ -44,6 +43,16 @@ public class CollaborationRunner {
 		executeAndAssertSingleTask(processEngine, masterProcessInstance, ProcessConstants.Main.TASK.TASK_M5, null,
 				true);
 	}
+	
+	public void toEnd(ProcessInstance masterProcessInstance) {
+		List<Task> m7Tasks = processEngine.getTaskService().createTaskQuery().processInstanceId(masterProcessInstance.getId())
+				.taskDefinitionKey(ProcessConstants.Main.TASK.TASK_M7).list();
+		assertEquals(2,
+				m7Tasks.size());
+		for (Task task : m7Tasks) {
+			processEngine.getTaskService().complete(task.getId());
+		}
+	}
 
 	@SuppressWarnings("unchecked")
 	public ProcessInstance toS1(ProcessInstance masterProcessInstance) {
@@ -66,8 +75,8 @@ public class CollaborationRunner {
 		ProcessInstance masterProcessInstance = ProcessHelper.startProcessInstanceByKey(processEngine,
 				ProcessConstants.Main.DEF.DEF_MAIN_PROCESS,
 				HashMapBuilder.create().withValuePair(ProcessConstants.Main.VAR.VAR_MAINVAL, 2)
-						.withValuePair(ProcessConstants.Main.VAR.VAR_SOME_STRING_LIST,
-								Arrays.asList(new String[] { "A", "B" }))
+						.withValuePair(ProcessConstants.Main.VAR.VAR_PROCESS_DATA,
+								ProcessData.fromStrings(new String[] { "A", "B" }))
 						.build());
 		// master
 		executeAndAssertSingleTask(processEngine, masterProcessInstance, ProcessConstants.Main.TASK.TASK_M2, null,
