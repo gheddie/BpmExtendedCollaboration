@@ -33,8 +33,6 @@ public class CollaborationRunner {
 		assertThat(slaveProcessInstance).isWaitingAt(ProcessConstants.Slave.TASK.TASK_S5);
 		executeAndAssertSingleTask(processEngine, slaveProcessInstance, ProcessConstants.Slave.TASK.TASK_S5, null,
 				true);
-		// master finished...
-		assertThat(masterProcessInstance).isEnded();
 		// slave finished...
 		assertThat(slaveProcessInstance).isEnded();
 	}
