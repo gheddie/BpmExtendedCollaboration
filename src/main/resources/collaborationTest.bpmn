@@ -95,11 +95,11 @@
       <bpmn:outgoing>SequenceFlow_14j3x5g</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:sequenceFlow id="SequenceFlow_0yqh7rp" sourceRef="TASK_S3" targetRef="ExclusiveGateway_04y5qt1" />
-    <bpmn:sequenceFlow id="flowS5" name="subval=3" sourceRef="GW_SLAVE_1" targetRef="TASK_S3">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${VAR_SUBVAL==3}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="flowS5" name="subval=S3" sourceRef="GW_SLAVE_1" targetRef="TASK_S3">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${VAR_SUBVAL=="S3"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="flowS4" name="subval=4" sourceRef="GW_SLAVE_1" targetRef="TASK_S4">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${VAR_SUBVAL==4}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="flowS4" name="subval=S4" sourceRef="GW_SLAVE_1" targetRef="TASK_S4">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${VAR_SUBVAL=="S4"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_1mvunf8" sourceRef="GW_SLAVE_2" targetRef="IntermediateCatchEvent_09y0pob" />
     <bpmn:sequenceFlow id="SequenceFlow_0306lqu" sourceRef="GW_SLAVE_2" targetRef="IntermediateCatchEvent_0wdtr64" />
@@ -150,11 +150,11 @@
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="SequenceFlow_0mvjk8o" sourceRef="StartEvent_155mgeg" targetRef="GW_MASTER_1" />
     <bpmn:sequenceFlow id="SequenceFlow_1tnbeda" sourceRef="TASK_M2" targetRef="TASK_M6" />
-    <bpmn:sequenceFlow id="SequenceFlow_1qdf59u" name="mainval=2" sourceRef="GW_MASTER_1" targetRef="TASK_M2">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${VAR_MAINVAL==2}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="SequenceFlow_1qdf59u" name="mainval=M2" sourceRef="GW_MASTER_1" targetRef="TASK_M2">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${VAR_MAINVAL=="M2"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_1rv9zk4" name="mainval=1" sourceRef="GW_MASTER_1" targetRef="TASK_M1">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${VAR_MAINVAL==1}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="SequenceFlow_1rv9zk4" name="mainval=M1" sourceRef="GW_MASTER_1" targetRef="TASK_M1">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${VAR_MAINVAL=="M1"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:intermediateCatchEvent id="IntermediateThrowEvent_114w7pf" name="MSG_RECALL_M4">
       <bpmn:incoming>SequenceFlow_0pjjn3k</bpmn:incoming>
@@ -329,7 +329,7 @@
         <di:waypoint x="654" y="341" />
         <di:waypoint x="762" y="341" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="659" y="315" width="45" height="14" />
+          <dc:Bounds x="656" y="315" width="52" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0pjjn3k_di" bpmnElement="SequenceFlow_0pjjn3k">
@@ -358,7 +358,7 @@
         <di:waypoint x="629" y="152" />
         <di:waypoint x="665" y="152" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="637" y="253" width="45" height="14" />
+          <dc:Bounds x="634" y="253" width="52" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="MessageFlow_0g3l16u_di" bpmnElement="MessageFlow_0g3l16u">
@@ -420,14 +420,14 @@
         <di:waypoint x="391" y="706" />
         <di:waypoint x="476" y="706" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="409" y="688" width="51" height="14" />
+          <dc:Bounds x="398" y="689" width="60" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1rv9zk4_di" bpmnElement="SequenceFlow_1rv9zk4">
         <di:waypoint x="366" y="681" />
         <di:waypoint x="366" y="587" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="369" y="620" width="51" height="14" />
+          <dc:Bounds x="375" y="621" width="60" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="MessageFlow_1uxveit_di" bpmnElement="MessageFlow_1uxveit">

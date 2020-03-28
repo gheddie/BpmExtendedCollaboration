@@ -66,7 +66,7 @@ public class CollaborationRunner {
 		ProcessInstance slaveProcessInstance = slaveProcessInstanceList.get(0);
 		// slave
 		executeAndAssertSingleTask(processEngine, slaveProcessInstance, ProcessConstants.Slave.TASK.TASK_S1,
-				HashMapBuilder.create().withValuePair(ProcessConstants.Slave.VAR.VAR_SUBVAL, 4).build(), true);
+				HashMapBuilder.create().withValuePair(ProcessConstants.Slave.VAR.VAR_SUBVAL, "S4").build(), true);
 		return slaveProcessInstance;
 	}
 
@@ -74,7 +74,7 @@ public class CollaborationRunner {
 	public ProcessInstance toM2() {
 		ProcessInstance masterProcessInstance = ProcessHelper.startProcessInstanceByKey(processEngine,
 				ProcessConstants.Main.DEF.DEF_MAIN_PROCESS,
-				HashMapBuilder.create().withValuePair(ProcessConstants.Main.VAR.VAR_MAINVAL, 2)
+				HashMapBuilder.create().withValuePair(ProcessConstants.Main.VAR.VAR_MAINVAL, "M2")
 						.withValuePair(ProcessConstants.Main.VAR.VAR_PROCESS_DATA,
 								ProcessData.fromStrings(new String[] { "A", "B" }))
 						.build());
