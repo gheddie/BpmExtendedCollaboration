@@ -1,5 +1,7 @@
 package de.gravitex.bpm.helper;
 
+import static org.junit.Assert.assertEquals;
+
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.test.Deployment;
 import org.camunda.bpm.engine.test.ProcessEngineRule;
@@ -9,7 +11,7 @@ import org.junit.Test;
 import de.gravitex.bpm.helper.base.BpmEngineTest;
 import de.gravitex.bpm.helper.runner.CollaborationRunner;
 
-public class CollaborationHelperTest extends BpmEngineTest {
+public class CollaborationTest extends BpmEngineTest {
 
 	@Rule
 	public ProcessEngineRule processEngine = new ProcessEngineRule();
@@ -32,5 +34,8 @@ public class CollaborationHelperTest extends BpmEngineTest {
 		
 		runner1.toS5(masterProcessInstance1, slaveProcessInstance1);
 		runner2.toS5(masterProcessInstance2, slaveProcessInstance2);
+		
+		// all 'another slaves' must be gone, too...
+		assertEquals(0, processEngine.getRuntimeService().createProcessInstanceQuery().list().size());
 	}
 }

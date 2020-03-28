@@ -12,11 +12,9 @@ public class M2CompleteListener implements TaskListener {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void notify(DelegateTask delegateTask) {
-		delegateTask.getProcessEngine().getRuntimeService().startProcessInstanceByMessage(
-				ProcessConstants.Slave.MSG.MSG_CALL_A,
-				ProcessHelper.createBusinessKey(
-						ProcessHelper.createBusinessKey(ProcessConstants.Slave.DEF.DEF_SLAVE_PROCESS)),
-				HashMapBuilder.create().withValuePair(ProcessConstants.Slave.VAR.VAR_MASTER_PROCESS_BK,
+		ProcessHelper.startProcessInstanceByMessage(delegateTask.getExecution().getProcessEngineServices(),
+				ProcessConstants.Slave.DEF.DEF_SLAVE_PROCESS, ProcessConstants.Slave.MSG.MSG_CALL_A,
+				HashMapBuilder.create().withValuePair(ProcessConstants.Common.VAR.VAR_MASTER_PROCESS_BK,
 						delegateTask.getExecution().getBusinessKey()).build());
 	}
 }

@@ -27,6 +27,7 @@ public class ProcessConstants {
 
 		public class VAR {
 			public static final String VAR_MAINVAL = "VAR_MAINVAL";
+			public static final String VAR_SOME_STRING_LIST = "VAR_SOME_STRING_LIST";
 		}
 	}
 	
@@ -62,7 +63,24 @@ public class ProcessConstants {
 		
 		public class VAR {
 			public static final String VAR_SUBVAL = "VAR_SUBVAL";
-			public static final String VAR_MASTER_PROCESS_BK = "VAR_MASTER_PROCESS_BK";
+		}
+	}
+	
+	public class AnotherSlave {
+		
+		public class MSG {
+			public static final String MSG_START_ANOTHER_SLAVE = "MSG_START_ANOTHER_SLAVE";
+		}
+		
+		public class DEF {
+			public static final String DEF_ANOTHER_SLAVE_PROCESS = "DEF_ANOTHER_SLAVE_PROCESS";
+		}
+	}
+	
+	public class Common {
+		
+		public class VAR {
+			public static final String VAR_MASTER_PROCESS_BK = "VAR_MASTER_PROCESS_BK";			
 		}
 	}
 }

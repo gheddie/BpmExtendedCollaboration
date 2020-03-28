@@ -9,6 +9,6 @@ public abstract class SlaveProcessDelegate implements JavaDelegate {
 
 	protected String getMasterProcessBusinessKey(DelegateExecution execution) {
 		return (String) execution.getProcessEngine().getRuntimeService()
-				.getVariable(execution.getId(), ProcessConstants.Slave.VAR.VAR_MASTER_PROCESS_BK);
+				.getVariable(execution.getId(), ProcessConstants.Common.VAR.VAR_MASTER_PROCESS_BK);
 	}
 }

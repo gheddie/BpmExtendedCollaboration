@@ -12,7 +12,7 @@ public abstract class MasterProcessTaskListener implements TaskListener {
 		ProcessInstance processInstance = delegateTask.getProcessEngine().getRuntimeService()
 				.createProcessInstanceQuery()
 				.processDefinitionKey(ProcessConstants.Slave.DEF.DEF_SLAVE_PROCESS)
-				.variableValueEquals(ProcessConstants.Slave.VAR.VAR_MASTER_PROCESS_BK,
+				.variableValueEquals(ProcessConstants.Common.VAR.VAR_MASTER_PROCESS_BK,
 						delegateTask.getExecution().getBusinessKey())
 				.singleResult();
 		return processInstance;
