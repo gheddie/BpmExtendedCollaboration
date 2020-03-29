@@ -13,7 +13,7 @@ public class M2CompletementListener implements TaskListener {
 	@Override
 	public void notify(DelegateTask delegateTask) {
 		ProcessHelper.startProcessInstanceByMessage(delegateTask.getExecution().getProcessEngineServices(),
-				ProcessConstants.Slave.DEF.DEF_SLAVE_PROCESS, ProcessConstants.Slave.MSG.MSG_CALL_A,
+				ProcessConstants.Collaboration.Slave.DEF.DEF_SLAVE_PROCESS, ProcessConstants.Collaboration.Slave.MSG.MSG_CALL_A,
 				HashMapBuilder.create().withValuePair(ProcessConstants.Common.VAR.VAR_MASTER_PROCESS_BK,
 						delegateTask.getExecution().getBusinessKey()).build(), delegateTask.getExecution().getBusinessKey());
 	}

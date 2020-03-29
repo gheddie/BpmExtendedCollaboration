@@ -16,7 +16,7 @@ public class ProcessHelper {
 	
 	private static final HashMap<String, BusinesskeyGenerator> businesskeyGenerators = new HashMap<String, BusinesskeyGenerator>();
 	static {
-		businesskeyGenerators.put(ProcessConstants.AnotherSlave.DEF.DEF_ANOTHER_SLAVE_PROCESS, new AnotherSlaveBusinesskeyGenerator());
+		businesskeyGenerators.put(ProcessConstants.Collaboration.AnotherSlave.DEF.DEF_ANOTHER_SLAVE_PROCESS, new AnotherSlaveBusinesskeyGenerator());
 		businesskeyGenerators.put(DEFAULT_BKG, new DefaultBusinesskeyGenerator());
 	}
 

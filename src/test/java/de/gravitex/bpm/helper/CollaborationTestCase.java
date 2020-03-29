@@ -10,9 +10,9 @@ import org.junit.Test;
 
 import de.gravitex.bpm.helper.base.BpmEngineTest;
 import de.gravitex.bpm.helper.constant.ProcessConstants;
-import de.gravitex.bpm.helper.runner.CollaborationRunner;
+import de.gravitex.bpm.helper.runner.collaborationtest.CollaborationRunner;
 
-public class CollaborationTest extends BpmEngineTest {
+public class CollaborationTestCase extends BpmEngineTest {
 
 	@Rule
 	public ProcessEngineRule processEngine = new ProcessEngineRule();
@@ -41,14 +41,14 @@ public class CollaborationTest extends BpmEngineTest {
 		
 		// all slaves gone...
 		assertEquals(0, processEngine.getRuntimeService().createProcessInstanceQuery()
-				.processDefinitionKey(ProcessConstants.Slave.DEF.DEF_SLAVE_PROCESS).list().size());
+				.processDefinitionKey(ProcessConstants.Collaboration.Slave.DEF.DEF_SLAVE_PROCESS).list().size());
 		
 		// all mains gone...
 		assertEquals(0, processEngine.getRuntimeService().createProcessInstanceQuery()
-				.processDefinitionKey(ProcessConstants.Main.DEF.DEF_MAIN_PROCESS).list().size());
+				.processDefinitionKey(ProcessConstants.Collaboration.Main.DEF.DEF_MAIN_PROCESS).list().size());
 		
 		// all another slaves gone...
 		assertEquals(0, processEngine.getRuntimeService().createProcessInstanceQuery()
-				.processDefinitionKey(ProcessConstants.AnotherSlave.DEF.DEF_ANOTHER_SLAVE_PROCESS).list().size());
+				.processDefinitionKey(ProcessConstants.Collaboration.AnotherSlave.DEF.DEF_ANOTHER_SLAVE_PROCESS).list().size());
 	}
 }

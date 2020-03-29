@@ -12,7 +12,8 @@ public class AnotherSlaveBusinesskeyGenerator extends BusinesskeyGenerator {
 	@Override
 	protected List<Object> getBusinesskeyComponents() {
 		List<Object> parent = super.getBusinesskeyComponents();
-		ProcessDataItem item = (ProcessDataItem) getVariables().get(ProcessConstants.AnotherSlave.VAR.VAR_ANOTHER_SLAVE_ITEM);
+		ProcessDataItem item = (ProcessDataItem) getVariables()
+				.get(ProcessConstants.Collaboration.AnotherSlave.VAR.VAR_ANOTHER_SLAVE_ITEM);
 		List<Object> values = new ArrayList<Object>();
 		for (Object o : parent) {
 			values.add(o);

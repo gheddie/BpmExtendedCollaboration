@@ -10,6 +10,6 @@ public class S4Delegate extends SlaveProcessDelegate {
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
 		execution.getProcessEngine().getRuntimeService().correlateMessage(
-				ProcessConstants.Main.MSG.MSG_RECALL_M5, getMasterProcessBusinessKey(execution));
+				ProcessConstants.Collaboration.Main.MSG.MSG_RECALL_M5, getMasterProcessBusinessKey(execution));
 	}
 }

@@ -12,9 +12,9 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import de.gravitex.bpm.helper.util.HashMapBuilder;
-import de.gravitex.bpm.helper.util.ProcessObject;
+import de.gravitex.bpm.helper.util.collaborationtest.ProcessObject;
 
-public class InclusiveGatewayTest {
+public class InclusiveGatewayTestCase {
 
 	@Rule
 	public ProcessEngineRule processEngine = new ProcessEngineRule();

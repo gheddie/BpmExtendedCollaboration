@@ -10,6 +10,6 @@ public class M1Delegate implements JavaDelegate {
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
 		execution.getProcessEngine().getRuntimeService()
-				.startProcessInstanceByMessage(ProcessConstants.Slave.MSG.MSG_CALL_B);
+				.startProcessInstanceByMessage(ProcessConstants.Collaboration.Slave.MSG.MSG_CALL_B);
 	}
 }

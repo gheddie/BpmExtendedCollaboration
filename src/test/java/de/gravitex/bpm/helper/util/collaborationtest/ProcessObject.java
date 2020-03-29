@@ -1,4 +1,4 @@
-package de.gravitex.bpm.helper.util;
+package de.gravitex.bpm.helper.util.collaborationtest;
 
 import java.io.Serializable;
 
