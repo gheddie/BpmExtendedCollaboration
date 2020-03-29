@@ -8,7 +8,17 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.engine.task.TaskQuery;
 
+import lombok.Data;
+
+@Data
 public abstract class ProcessRunner {
+	
+	private ProcessEngineServices processEngine;
+	
+	public ProcessRunner(ProcessEngineServices aProcessEngine) {
+		super();
+		this.processEngine = aProcessEngine;
+	}
 
 	protected Task executeAndAssertSingleTask(ProcessEngineServices processEngine, ProcessInstance processInstance,
 			String taskDefinitionKey, Map<String, Object> variables, boolean execute) {

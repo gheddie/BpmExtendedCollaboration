@@ -6,6 +6,10 @@ public class ProcessConstants {
 		
 		public class RepairFacility {
 			
+			public class TASK {
+				public static final String TASK_ASSUME_WAGGON = "TASK_ASSUME_WAGGON";
+			}
+			
 			public class DEF {
 				public static final String DEF_REPAIR_FACILITY_PROCESS = "DEF_REPAIR_FACILITY_PROCESS";
 			}

@@ -5,7 +5,7 @@
     <bpmn:participant id="Participant_01bg2ti" name="train station" processRef="DEF_TRAIN_STATION_PROCESS" />
     <bpmn:participant id="Participant_0mhw2wp" name="repair facility" processRef="DEF_REPAIR_FACILITY_PROCESS" />
     <bpmn:messageFlow id="MessageFlow_17gm53k" sourceRef="Task_1nyuar1" targetRef="StartEvent_0srvslc" />
-    <bpmn:messageFlow id="MessageFlow_0cohfx1" sourceRef="Task_00fnv4o" targetRef="IntermediateThrowEvent_1dd2l7m" />
+    <bpmn:messageFlow id="MessageFlow_0cohfx1" sourceRef="TASK_ASSUME_WAGGON" targetRef="IntermediateThrowEvent_1dd2l7m" />
   </bpmn:collaboration>
   <bpmn:process id="DEF_TRAIN_STATION_PROCESS" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1" name="MSG_DEPARTURE_ORDERED">
@@ -35,7 +35,7 @@
     </bpmn:intermediateCatchEvent>
   </bpmn:process>
   <bpmn:process id="DEF_REPAIR_FACILITY_PROCESS" isExecutable="true">
-    <bpmn:sequenceFlow id="SequenceFlow_0ny7zgr" sourceRef="StartEvent_0srvslc" targetRef="Task_00fnv4o" />
+    <bpmn:sequenceFlow id="SequenceFlow_0ny7zgr" sourceRef="StartEvent_0srvslc" targetRef="TASK_ASSUME_WAGGON" />
     <bpmn:startEvent id="StartEvent_0srvslc" name="MSG_START_ASSUMPTION">
       <bpmn:outgoing>SequenceFlow_0ny7zgr</bpmn:outgoing>
       <bpmn:messageEventDefinition messageRef="Message_1thk6f5" />
@@ -43,11 +43,11 @@
     <bpmn:endEvent id="EndEvent_0148gd2">
       <bpmn:incoming>SequenceFlow_04hxdxx</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:task id="Task_00fnv4o" name="assume waggon">
+    <bpmn:sequenceFlow id="SequenceFlow_04hxdxx" sourceRef="TASK_ASSUME_WAGGON" targetRef="EndEvent_0148gd2" />
+    <bpmn:userTask id="TASK_ASSUME_WAGGON" name="assume waggon">
       <bpmn:incoming>SequenceFlow_0ny7zgr</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_04hxdxx</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:sequenceFlow id="SequenceFlow_04hxdxx" sourceRef="Task_00fnv4o" targetRef="EndEvent_0148gd2" />
+    </bpmn:userTask>
   </bpmn:process>
   <bpmn:message id="Message_1thk6f5" name="MSG_START_ASSUMPTION" />
   <bpmn:message id="Message_0xqe3b6" name="MSG_WAGGON_ASSUMED" />
@@ -103,9 +103,6 @@
         <di:waypoint x="524" y="160" />
         <di:waypoint x="524" y="346" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Task_00fnv4o_di" bpmnElement="Task_00fnv4o">
-        <dc:Bounds x="616" y="324" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_04hxdxx_di" bpmnElement="SequenceFlow_04hxdxx">
         <di:waypoint x="716" y="364" />
         <di:waypoint x="781" y="364" />
@@ -124,6 +121,9 @@
         <di:waypoint x="667" y="324" />
         <di:waypoint x="667" y="138" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_0uedq9n_di" bpmnElement="TASK_ASSUME_WAGGON">
+        <dc:Bounds x="616" y="324" width="100" height="80" />
+      </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>

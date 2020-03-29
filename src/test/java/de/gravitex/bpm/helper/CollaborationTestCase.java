@@ -20,8 +20,8 @@ public class CollaborationTestCase {
 	@Deployment(resources = { "collaborationTest.bpmn" })
 	public void testM2_S1_S4_M5_S5() {
 
-		CollaborationRunner runner1 = CollaborationRunner.withProcessEngine(processEngine);
-		CollaborationRunner runner2 = CollaborationRunner.withProcessEngine(processEngine);
+		CollaborationRunner runner1 = new CollaborationRunner(processEngine);
+		CollaborationRunner runner2 = new CollaborationRunner(processEngine);
 
 		ProcessInstance masterProcessInstance1 = runner1.toM2();
 		ProcessInstance masterProcessInstance2 = runner2.toM2();
