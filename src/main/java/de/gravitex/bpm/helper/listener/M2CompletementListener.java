@@ -7,7 +7,7 @@ import de.gravitex.bpm.helper.constant.ProcessConstants;
 import de.gravitex.bpm.helper.util.HashMapBuilder;
 import de.gravitex.bpm.helper.util.ProcessHelper;
 
-public class M2CompleteListener implements TaskListener {
+public class M2CompletementListener implements TaskListener {
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -15,6 +15,6 @@ public class M2CompleteListener implements TaskListener {
 		ProcessHelper.startProcessInstanceByMessage(delegateTask.getExecution().getProcessEngineServices(),
 				ProcessConstants.Slave.DEF.DEF_SLAVE_PROCESS, ProcessConstants.Slave.MSG.MSG_CALL_A,
 				HashMapBuilder.create().withValuePair(ProcessConstants.Common.VAR.VAR_MASTER_PROCESS_BK,
-						delegateTask.getExecution().getBusinessKey()).build());
+						delegateTask.getExecution().getBusinessKey()).build(), delegateTask.getExecution().getBusinessKey());
 	}
 }

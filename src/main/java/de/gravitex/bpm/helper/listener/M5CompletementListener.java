@@ -5,7 +5,7 @@ import org.camunda.bpm.engine.delegate.DelegateTask;
 import de.gravitex.bpm.helper.constant.ProcessConstants;
 import de.gravitex.bpm.helper.listener.base.MasterProcessTaskListener;
 
-public class M5CompleteListener extends MasterProcessTaskListener {
+public class M5CompletementListener extends MasterProcessTaskListener {
 
 	@Override
 	public void notify(DelegateTask delegateTask) {

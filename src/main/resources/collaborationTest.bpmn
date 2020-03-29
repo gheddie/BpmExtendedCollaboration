@@ -112,7 +112,7 @@
     </bpmn:endEvent>
     <bpmn:userTask id="TASK_S3" name="S3">
       <bpmn:extensionElements>
-        <camunda:taskListener class="de.gravitex.bpm.helper.listener.S3CompleteListener" event="complete" />
+        <camunda:taskListener class="de.gravitex.bpm.helper.listener.S3CompletementListener" event="complete" />
       </bpmn:extensionElements>
       <bpmn:incoming>flowS5</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0yqh7rp</bpmn:outgoing>
@@ -137,7 +137,7 @@
     </bpmn:exclusiveGateway>
     <bpmn:userTask id="TASK_M2" name="M2">
       <bpmn:extensionElements>
-        <camunda:taskListener class="de.gravitex.bpm.helper.listener.M2CompleteListener" event="complete" />
+        <camunda:taskListener class="de.gravitex.bpm.helper.listener.M2CompletementListener" event="complete" />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1qdf59u</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1tnbeda</bpmn:outgoing>
@@ -178,7 +178,7 @@
     </bpmn:exclusiveGateway>
     <bpmn:userTask id="TASK_M5" name="M5">
       <bpmn:extensionElements>
-        <camunda:taskListener class="de.gravitex.bpm.helper.listener.M5CompleteListener" event="complete" />
+        <camunda:taskListener class="de.gravitex.bpm.helper.listener.M5CompletementListener" event="complete" />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_112lh8x</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_01e294u</bpmn:outgoing>
@@ -206,7 +206,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_0n6jebn" sourceRef="ExclusiveGateway_0j2p52v" targetRef="TASK_M7" />
     <bpmn:userTask id="TASK_M7" name="M7">
       <bpmn:extensionElements>
-        <camunda:taskListener class="de.gravitex.bpm.helper.listener.M7CompleteListener" event="complete" />
+        <camunda:taskListener class="de.gravitex.bpm.helper.listener.M7CompletementListener" event="complete" />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0n6jebn</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1io6p98</bpmn:outgoing>

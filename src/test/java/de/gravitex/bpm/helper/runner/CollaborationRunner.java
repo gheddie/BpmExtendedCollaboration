@@ -77,7 +77,7 @@ public class CollaborationRunner {
 				HashMapBuilder.create().withValuePair(ProcessConstants.Main.VAR.VAR_MAINVAL, "M2")
 						.withValuePair(ProcessConstants.Main.VAR.VAR_PROCESS_DATA,
 								ProcessData.fromStrings(new String[] { "A", "B" }))
-						.build());
+						.build(), null);
 		// master
 		executeAndAssertSingleTask(processEngine, masterProcessInstance, ProcessConstants.Main.TASK.TASK_M2, null,
 				true);
