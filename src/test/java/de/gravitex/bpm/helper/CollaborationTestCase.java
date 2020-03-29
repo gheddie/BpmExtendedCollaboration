@@ -8,11 +8,10 @@ import org.camunda.bpm.engine.test.ProcessEngineRule;
 import org.junit.Rule;
 import org.junit.Test;
 
-import de.gravitex.bpm.helper.base.BpmEngineTest;
 import de.gravitex.bpm.helper.constant.ProcessConstants;
 import de.gravitex.bpm.helper.runner.collaborationtest.CollaborationRunner;
 
-public class CollaborationTestCase extends BpmEngineTest {
+public class CollaborationTestCase {
 
 	@Rule
 	public ProcessEngineRule processEngine = new ProcessEngineRule();

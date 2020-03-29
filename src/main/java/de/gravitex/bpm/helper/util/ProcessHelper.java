@@ -6,9 +6,9 @@ import org.camunda.bpm.engine.ProcessEngineServices;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 
 import de.gravitex.bpm.helper.constant.ProcessConstants;
-import de.gravitex.bpm.helper.util.businesskey.AnotherSlaveBusinesskeyGenerator;
 import de.gravitex.bpm.helper.util.businesskey.DefaultBusinesskeyGenerator;
 import de.gravitex.bpm.helper.util.businesskey.base.BusinesskeyGenerator;
+import de.gravitex.bpm.helper.util.businesskey.collaboration.AnotherSlaveBusinesskeyGenerator;
 
 public class ProcessHelper {
 	
@@ -36,10 +36,10 @@ public class ProcessHelper {
 		return masterProcessInstance;
 	}
 	
-	public static void startProcessInstanceByMessage(ProcessEngineServices processEngine, String processDefinitionKey,
+	public static ProcessInstance startProcessInstanceByMessage(ProcessEngineServices processEngine, String processDefinitionKey,
 			String messageName, HashMap<String, Object> variables, String parentBusinessKey) {
 		String businessKey = ProcessHelper.generateBusinessKey(processDefinitionKey, variables, parentBusinessKey);
-		processEngine.getRuntimeService().startProcessInstanceByMessage(messageName,
+		return processEngine.getRuntimeService().startProcessInstanceByMessage(messageName,
 				businessKey, variables);
 	}
 }

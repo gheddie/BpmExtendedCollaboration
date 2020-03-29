@@ -1,4 +1,4 @@
-package de.gravitex.bpm.helper.util.businesskey;
+package de.gravitex.bpm.helper.util.businesskey.collaboration;
 
 import java.util.ArrayList;
 import java.util.List;

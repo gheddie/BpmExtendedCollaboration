@@ -2,6 +2,41 @@ package de.gravitex.bpm.helper.constant;
 
 public class ProcessConstants {
 	
+	public class Trainpartment {
+		
+		public class Evaluation {
+			
+			public class DEF {
+				public static final String DEF_DEPARTMENT_EVALUATION_PROCESS = "DEF_DEPARTMENT_EVALUATION_PROCESS";
+			}
+			
+			public class MSG {
+				public static final String MSG_START_EVALUATION = "MSG_START_EVALUATION";
+			}
+			
+			public class VAR {
+				// waggon to be evaluated in the process
+				public static final String VAR_EVALUATION_WAGGON = "VAR_EVALUATION_WAGGON";
+			}
+		}
+		
+		public class Main {
+		
+			public class MSG {
+				public static final String MSG_DEPARTURE_ORDERED = "MSG_DEPARTURE_ORDERED";
+			}
+			
+			public class DEF {
+				public static final String DEF_DEPARTMENT_MAIN_PROCESS = "DEF_DEPARTMENT_MAIN_PROCESS";
+			}
+
+			public class VAR {
+				// process backbone containing the department waggons
+				public static final String VAR_TRAIN_DEPARTMENT_DATA = "VAR_TRAIN_DEPARTMENT_DATA";
+			}
+		}
+	}
+	
 	public class Collaboration {
 
 		public class Main {

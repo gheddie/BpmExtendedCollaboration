@@ -1,7 +1,6 @@
 package de.gravitex.bpm.helper.util.businesskey.matcher;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.camunda.bpm.engine.RuntimeService;
