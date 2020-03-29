@@ -1,4 +1,4 @@
-package de.gravitex.bpm.helper.listener;
+package de.gravitex.bpm.helper.listener.collaborationtest;
 
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.delegate.DelegateTask;
@@ -6,7 +6,7 @@ import org.camunda.bpm.engine.delegate.TaskListener;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 
 import de.gravitex.bpm.helper.constant.ProcessConstants;
-import de.gravitex.bpm.helper.logic.ProcessDataItem;
+import de.gravitex.bpm.helper.logic.collaborationtest.ProcessDataItem;
 import de.gravitex.bpm.helper.util.businesskey.matcher.BusinessKeyMatcher;
 
 public class M7CompletementListener implements TaskListener {

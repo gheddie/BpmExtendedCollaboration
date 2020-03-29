@@ -1,4 +1,4 @@
-package de.gravitex.bpm.helper.listener;
+package de.gravitex.bpm.helper.listener.collaborationtest;
 
 import org.camunda.bpm.engine.delegate.DelegateTask;
 import org.camunda.bpm.engine.delegate.TaskListener;

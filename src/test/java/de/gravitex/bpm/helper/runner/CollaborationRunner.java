@@ -13,7 +13,7 @@ import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.engine.task.TaskQuery;
 
 import de.gravitex.bpm.helper.constant.ProcessConstants;
-import de.gravitex.bpm.helper.logic.ProcessData;
+import de.gravitex.bpm.helper.logic.collaborationtest.ProcessData;
 import de.gravitex.bpm.helper.util.HashMapBuilder;
 import de.gravitex.bpm.helper.util.ProcessHelper;
 import lombok.Data;

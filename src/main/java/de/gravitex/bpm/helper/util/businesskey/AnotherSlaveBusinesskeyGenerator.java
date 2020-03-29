@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.gravitex.bpm.helper.constant.ProcessConstants;
-import de.gravitex.bpm.helper.logic.ProcessDataItem;
+import de.gravitex.bpm.helper.logic.collaborationtest.ProcessDataItem;
 import de.gravitex.bpm.helper.util.businesskey.base.BusinesskeyGenerator;
 
 public class AnotherSlaveBusinesskeyGenerator extends BusinesskeyGenerator {

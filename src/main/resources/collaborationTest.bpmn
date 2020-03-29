@@ -112,7 +112,7 @@
     </bpmn:endEvent>
     <bpmn:userTask id="TASK_S3" name="S3">
       <bpmn:extensionElements>
-        <camunda:taskListener class="de.gravitex.bpm.helper.listener.S3CompletementListener" event="complete" />
+        <camunda:taskListener class="de.gravitex.bpm.helper.listener.collaborationtest.S3CompletementListener" event="complete" />
       </bpmn:extensionElements>
       <bpmn:incoming>flowS5</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0yqh7rp</bpmn:outgoing>
@@ -124,7 +124,7 @@
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_0a3eqrc" sourceRef="ExclusiveGateway_04y5qt1" targetRef="GW_SLAVE_2" />
     <bpmn:sequenceFlow id="SequenceFlow_09gt93c" sourceRef="TASK_S4" targetRef="ExclusiveGateway_04y5qt1" />
-    <bpmn:serviceTask id="TASK_S4" name="S4" camunda:class="de.gravitex.bpm.helper.delegate.S4Delegate">
+    <bpmn:serviceTask id="TASK_S4" name="S4" camunda:class="de.gravitex.bpm.helper.delegate.collaborationtest.S4Delegate">
       <bpmn:incoming>flowS4</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_09gt93c</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -137,12 +137,12 @@
     </bpmn:exclusiveGateway>
     <bpmn:userTask id="TASK_M2" name="M2">
       <bpmn:extensionElements>
-        <camunda:taskListener class="de.gravitex.bpm.helper.listener.M2CompletementListener" event="complete" />
+        <camunda:taskListener class="de.gravitex.bpm.helper.listener.collaborationtest.M2CompletementListener" event="complete" />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1qdf59u</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1tnbeda</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:serviceTask id="TASK_M1" name="M1" camunda:class="de.gravitex.bpm.helper.delegate.M1Delegate">
+    <bpmn:serviceTask id="TASK_M1" name="M1" camunda:class="de.gravitex.bpm.helper.delegate.collaborationtest.M1Delegate">
       <bpmn:incoming>SequenceFlow_1rv9zk4</bpmn:incoming>
     </bpmn:serviceTask>
     <bpmn:startEvent id="StartEvent_155mgeg">
@@ -178,12 +178,12 @@
     </bpmn:exclusiveGateway>
     <bpmn:userTask id="TASK_M5" name="M5">
       <bpmn:extensionElements>
-        <camunda:taskListener class="de.gravitex.bpm.helper.listener.M5CompletementListener" event="complete" />
+        <camunda:taskListener class="de.gravitex.bpm.helper.listener.collaborationtest.M5CompletementListener" event="complete" />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_112lh8x</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_01e294u</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:serviceTask id="TASK_M4" name="M4" camunda:class="de.gravitex.bpm.helper.delegate.M4Delegate">
+    <bpmn:serviceTask id="TASK_M4" name="M4" camunda:class="de.gravitex.bpm.helper.delegate.collaborationtest.M4Delegate">
       <bpmn:incoming>SequenceFlow_0ws7bvb</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0ng6vt3</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -194,7 +194,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_0ng6vt3" sourceRef="TASK_M4" targetRef="ExclusiveGateway_0j2p52v" />
     <bpmn:sequenceFlow id="SequenceFlow_01e294u" sourceRef="TASK_M5" targetRef="ExclusiveGateway_0j2p52v" />
     <bpmn:sequenceFlow id="SequenceFlow_1gjl81g" sourceRef="TASK_M6" targetRef="GW_MASTER_2" />
-    <bpmn:serviceTask id="TASK_M6" name="M6" camunda:class="de.gravitex.bpm.helper.delegate.M6Delegate">
+    <bpmn:serviceTask id="TASK_M6" name="M6" camunda:class="de.gravitex.bpm.helper.delegate.collaborationtest.M6Delegate">
       <bpmn:incoming>SequenceFlow_1tnbeda</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1gjl81g</bpmn:outgoing>
       <bpmn:multiInstanceLoopCharacteristics camunda:collection="${VAR_PROCESS_DATA.getItems()}" camunda:elementVariable="VAR_PROCESS_DATA_ITEM" />
@@ -206,7 +206,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_0n6jebn" sourceRef="ExclusiveGateway_0j2p52v" targetRef="TASK_M7" />
     <bpmn:userTask id="TASK_M7" name="M7">
       <bpmn:extensionElements>
-        <camunda:taskListener class="de.gravitex.bpm.helper.listener.M7CompletementListener" event="complete" />
+        <camunda:taskListener class="de.gravitex.bpm.helper.listener.collaborationtest.M7CompletementListener" event="complete" />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0n6jebn</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1io6p98</bpmn:outgoing>

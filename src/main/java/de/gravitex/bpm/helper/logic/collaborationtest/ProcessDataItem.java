@@ -1,4 +1,4 @@
-package de.gravitex.bpm.helper.logic;
+package de.gravitex.bpm.helper.logic.collaborationtest;
 
 import lombok.Data;
 
