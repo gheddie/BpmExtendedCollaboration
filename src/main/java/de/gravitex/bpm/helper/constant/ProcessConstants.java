@@ -4,14 +4,14 @@ public class ProcessConstants {
 	
 	public class Trainpartment {
 		
-		public class Evaluation {
+		public class RepairFacility {
 			
 			public class DEF {
-				public static final String DEF_DEPARTMENT_EVALUATION_PROCESS = "DEF_DEPARTMENT_EVALUATION_PROCESS";
+				public static final String DEF_REPAIR_FACILITY_PROCESS = "DEF_REPAIR_FACILITY_PROCESS";
 			}
 			
 			public class MSG {
-				public static final String MSG_START_EVALUATION = "MSG_START_EVALUATION";
+				public static final String MSG_START_ASSUMPTION = "MSG_START_ASSUMPTION";
 			}
 			
 			public class VAR {
@@ -20,14 +20,14 @@ public class ProcessConstants {
 			}
 		}
 		
-		public class Main {
+		public class TrainStation {
 		
 			public class MSG {
 				public static final String MSG_DEPARTURE_ORDERED = "MSG_DEPARTURE_ORDERED";
 			}
 			
 			public class DEF {
-				public static final String DEF_DEPARTMENT_MAIN_PROCESS = "DEF_DEPARTMENT_MAIN_PROCESS";
+				public static final String DEF_TRAIN_STATION_PROCESS = "DEF_TRAIN_STATION_PROCESS";
 			}
 
 			public class VAR {

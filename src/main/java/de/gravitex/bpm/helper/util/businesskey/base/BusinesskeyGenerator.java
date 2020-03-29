@@ -5,10 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.log4j.Logger;
+
 import lombok.Data;
 
 @Data
 public abstract class BusinesskeyGenerator {
+	
+	private static final Logger logger = Logger.getLogger(BusinesskeyGenerator.class);
 
 	private String processDefinitionKey;
 	

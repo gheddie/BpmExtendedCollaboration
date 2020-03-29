@@ -2,6 +2,7 @@ package de.gravitex.bpm.helper.util;
 
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
 import org.camunda.bpm.engine.ProcessEngineServices;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 
@@ -9,14 +10,23 @@ import de.gravitex.bpm.helper.constant.ProcessConstants;
 import de.gravitex.bpm.helper.util.businesskey.DefaultBusinesskeyGenerator;
 import de.gravitex.bpm.helper.util.businesskey.base.BusinesskeyGenerator;
 import de.gravitex.bpm.helper.util.businesskey.collaboration.AnotherSlaveBusinesskeyGenerator;
+import de.gravitex.bpm.helper.util.businesskey.traindepartment.RepairFacilityBusinesskeyGenerator;
 
 public class ProcessHelper {
+	
+	private static final Logger logger = Logger.getLogger(ProcessHelper.class);
 	
 	private static final String DEFAULT_BKG = "DEFAULT_BKG";
 	
 	private static final HashMap<String, BusinesskeyGenerator> businesskeyGenerators = new HashMap<String, BusinesskeyGenerator>();
 	static {
+		// collaboration
 		businesskeyGenerators.put(ProcessConstants.Collaboration.AnotherSlave.DEF.DEF_ANOTHER_SLAVE_PROCESS, new AnotherSlaveBusinesskeyGenerator());
+		
+		// traindepartment
+		businesskeyGenerators.put(ProcessConstants.Trainpartment.RepairFacility.DEF.DEF_REPAIR_FACILITY_PROCESS, new RepairFacilityBusinesskeyGenerator());
+		
+		// default
 		businesskeyGenerators.put(DEFAULT_BKG, new DefaultBusinesskeyGenerator());
 	}
 
@@ -25,7 +35,9 @@ public class ProcessHelper {
 		if (businesskeyGenerator == null) {
 			businesskeyGenerator = businesskeyGenerators.get(DEFAULT_BKG);
 		}
-		return businesskeyGenerator.generateBusinessKey(processDefinitionKey, variables, parentBusinessKey);
+		String businessKey = businesskeyGenerator.generateBusinessKey(processDefinitionKey, variables, parentBusinessKey);
+		logger.info("generated business for definition '" + processDefinitionKey + "': " + businessKey);
+		return businessKey;
 	}
 
 	public static ProcessInstance startProcessInstanceByKey(ProcessEngineServices processEngine, String processDefinitonKey,

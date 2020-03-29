@@ -18,9 +18,9 @@ public class OrderWaggonRepairsDelegate implements JavaDelegate {
 		Waggon waggon = (Waggon) execution.getVariable(VAR_SINGLE_EVAL_WAGGON);
 		if (waggon.isCritical()) {
 			ProcessHelper.startProcessInstanceByMessage(execution.getProcessEngine(),
-					ProcessConstants.Trainpartment.Evaluation.DEF.DEF_DEPARTMENT_EVALUATION_PROCESS,
-					ProcessConstants.Trainpartment.Evaluation.MSG.MSG_START_EVALUATION, HashMapBuilder.create()
-							.withValuePair(ProcessConstants.Trainpartment.Evaluation.VAR.VAR_EVALUATION_WAGGON, waggon).build(),
+					ProcessConstants.Trainpartment.RepairFacility.DEF.DEF_REPAIR_FACILITY_PROCESS,
+					ProcessConstants.Trainpartment.RepairFacility.MSG.MSG_START_ASSUMPTION, HashMapBuilder.create()
+							.withValuePair(ProcessConstants.Trainpartment.RepairFacility.VAR.VAR_EVALUATION_WAGGON, waggon).build(),
 					execution.getBusinessKey());
 		}
 	}

@@ -1,5 +1,7 @@
 package de.gravitex.bpm.helper;
 
+import static org.junit.Assert.assertEquals;
+
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.test.Deployment;
 import org.camunda.bpm.engine.test.ProcessEngineRule;
@@ -23,9 +25,10 @@ public class TrainDepartmentNewTestCase {
 	public void testSimpleDeparture() {
 
 		ProcessInstance processInstance = ProcessHelper.startProcessInstanceByMessage(processEngine,
-				ProcessConstants.Trainpartment.Main.DEF.DEF_DEPARTMENT_MAIN_PROCESS, ProcessConstants.Trainpartment.Main.MSG.MSG_DEPARTURE_ORDERED,
+				ProcessConstants.Trainpartment.TrainStation.DEF.DEF_TRAIN_STATION_PROCESS,
+				ProcessConstants.Trainpartment.TrainStation.MSG.MSG_DEPARTURE_ORDERED,
 				HashMapBuilder.create()
-						.withValuePair(ProcessConstants.Trainpartment.Main.VAR.VAR_TRAIN_DEPARTMENT_DATA, new TrainDepartmentData()
+						.withValuePair(ProcessConstants.Trainpartment.TrainStation.VAR.VAR_TRAIN_DEPARTMENT_DATA, new TrainDepartmentData()
 								.addWaggons(Waggon.fromWaggonData("W1@C1,N1"), Waggon.fromWaggonData("W2"), Waggon.fromWaggonData("W3@C1")))
 						.build(),
 				null);
