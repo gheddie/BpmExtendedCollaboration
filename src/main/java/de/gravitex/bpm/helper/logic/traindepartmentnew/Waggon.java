@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.gravitex.bpm.helper.logic.traindepartmentnew.parser.WaggonDamageParser;
 import lombok.Data;
 
 @Data
@@ -13,7 +14,9 @@ public class Waggon implements Serializable {
 	
 	private String waggonNumber;
 	
-	private List<WaggonErrorCode> waggonErrorCodes = new ArrayList<WaggonErrorCode>();
+	private List<WaggonDamage> waggonDamages = new ArrayList<WaggonDamage>();
+	
+	private Integer repairDurationInHours = null;
 	
 	private Waggon() {
 		// ...
@@ -24,17 +27,14 @@ public class Waggon implements Serializable {
 		String[] splitted = waggonData.split("@");
 		waggon.setWaggonNumber(splitted[0]);
 		if (splitted.length > 1) {
-			String[] errorCodes = splitted[1].split(",");
-			for (String errorCode : errorCodes) {
-				waggon.getWaggonErrorCodes().add(WaggonErrorCode.valueOf(errorCode));
-			}
+			waggon.setWaggonDamages(WaggonDamageParser.parse(splitted[1]));			
 		}
 		return waggon;
 	}
 
 	public boolean isCritical() {
-		for (WaggonErrorCode waggonErrorCode : waggonErrorCodes) {
-			if (waggonErrorCode.isCritical()) {
+		for (WaggonDamage waggonDamage : waggonDamages) {
+			if (waggonDamage.isCritical()) {
 				return true;		
 			}
 		}

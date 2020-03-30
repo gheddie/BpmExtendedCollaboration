@@ -44,7 +44,7 @@
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_0bzhy2s" sourceRef="ExclusiveGateway_19sphcv" targetRef="EndEvent_05jngu9" />
     <bpmn:sequenceFlow id="SequenceFlow_1j028nc" sourceRef="ExclusiveGateway_19sphcv" targetRef="IntermediateThrowEvent_1dd2l7m">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${1==1}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!VAR_TRAIN_DEPARTMENT_DATA.allCriticalWaggonsAssumed()}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:association id="Association_05dakjc" sourceRef="ExclusiveGateway_19sphcv" targetRef="TextAnnotation_0773cnl" />
     <bpmn:textAnnotation id="TextAnnotation_0773cnl">

@@ -3,6 +3,7 @@ package de.gravitex.bpm.helper.constant;
 import de.gravitex.bpm.helper.delegate.traindepartmentnew.OrderWaggonRepairsDelegate;
 import de.gravitex.bpm.helper.logic.traindepartmentnew.TrainDepartmentData;
 import de.gravitex.bpm.helper.logic.traindepartmentnew.Waggon;
+import de.gravitex.bpm.helper.logic.traindepartmentnew.WaggonRepairAssumption;
 
 public class ProcessConstants {
 
@@ -27,13 +28,17 @@ public class ProcessConstants {
 				 * Type:
 				 * ({@link Integer})
 				 * Description:
-				 * Das Ergebnis einer Reparatur-Abschätzung.
+				 * Das Ergebnis einer Reparatur-Abschätzung (erfolgt per {@link WaggonRepairAssumption}).
 				 */
 				public static final String VAR_WAGGON_ASSUMPTION_RESULT = "VAR_WAGGON_ASSUMPTION_RESULT";
 			}
 		}
 
 		public class TrainStation {
+			
+			public class ERROR {
+				public static final String ERR_INVALID_WAGGON_ASSUMPTION = "ERR_INVALID_WAGGON_ASSUMPTION";
+			}
 
 			public class MSG {
 				public static final String MSG_DEPARTURE_ORDERED = "MSG_DEPARTURE_ORDERED";
