@@ -10,17 +10,16 @@ import de.gravitex.bpm.helper.util.ProcessHelper;
 
 public class OrderWaggonRepairsDelegate implements JavaDelegate {
 
-	private static final String VAR_SINGLE_EVAL_WAGGON = "VAR_SINGLE_EVAL_WAGGON";
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
-		Waggon waggon = (Waggon) execution.getVariable(VAR_SINGLE_EVAL_WAGGON);
+		Waggon waggon = (Waggon) execution.getVariable(ProcessConstants.Trainpartment.TrainStation.VAR.VAR_SINGLE_WAGGON_TO_ASSUME);
 		if (waggon.isCritical()) {
 			ProcessHelper.startProcessInstanceByMessage(execution.getProcessEngine(),
 					ProcessConstants.Trainpartment.RepairFacility.DEF.DEF_REPAIR_FACILITY_PROCESS,
-					ProcessConstants.Trainpartment.RepairFacility.MSG.MSG_START_ASSUMPTION, HashMapBuilder.create()
-							.withValuePair(ProcessConstants.Trainpartment.RepairFacility.VAR.VAR_EVALUATION_WAGGON, waggon).build(),
+					ProcessConstants.Trainpartment.RepairFacility.MSG.MSG_START_ASSUMPTION,
+					HashMapBuilder.create()
+							.withValuePair(ProcessConstants.Trainpartment.TrainStation.VAR.VAR_SINGLE_WAGGON_TO_ASSUME, waggon).build(),
 					execution.getBusinessKey());
 		}
 	}

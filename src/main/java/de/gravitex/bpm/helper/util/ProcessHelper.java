@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 import org.camunda.bpm.engine.ProcessEngineServices;
+import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 
 import de.gravitex.bpm.helper.constant.ProcessConstants;
@@ -43,6 +44,13 @@ public class ProcessHelper {
 	public static ProcessInstance startProcessInstanceByKey(ProcessEngineServices processEngine, String processDefinitonKey,
 			HashMap<String, Object> variables, String parentBusinessKey) {
 		String businessKey = ProcessHelper.generateBusinessKey(processDefinitonKey, variables, parentBusinessKey);
+		// provide parent execution business key
+		if (parentBusinessKey != null) {
+			if (variables == null) {
+				variables = new HashMap<String, Object>();
+			}
+			variables.put(ProcessConstants.Common.VAR.VAR_MASTER_PROCESS_BK, parentBusinessKey);			
+		}
 		ProcessInstance masterProcessInstance = processEngine.getRuntimeService().startProcessInstanceByKey(
 				processDefinitonKey, businessKey, variables);
 		return masterProcessInstance;
@@ -51,7 +59,19 @@ public class ProcessHelper {
 	public static ProcessInstance startProcessInstanceByMessage(ProcessEngineServices processEngine, String processDefinitionKey,
 			String messageName, HashMap<String, Object> variables, String parentBusinessKey) {
 		String businessKey = ProcessHelper.generateBusinessKey(processDefinitionKey, variables, parentBusinessKey);
+		// provide parent execution business key
+		if (parentBusinessKey != null) {
+			if (variables == null) {
+				variables = new HashMap<String, Object>();
+			}
+			variables.put(ProcessConstants.Common.VAR.VAR_MASTER_PROCESS_BK, parentBusinessKey);			
+		}
 		return processEngine.getRuntimeService().startProcessInstanceByMessage(messageName,
 				businessKey, variables);
+	}
+	
+	public static String getMasterProcessBusinessKey(DelegateExecution execution) {
+		return (String) execution.getProcessEngine().getRuntimeService()
+				.getVariable(execution.getId(), ProcessConstants.Common.VAR.VAR_MASTER_PROCESS_BK);
 	}
 }

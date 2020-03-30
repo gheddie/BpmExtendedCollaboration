@@ -3,6 +3,7 @@ package de.gravitex.bpm.helper.logic.traindepartmentnew;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 public class TrainDepartmentData implements Serializable {
 	
@@ -18,7 +19,7 @@ public class TrainDepartmentData implements Serializable {
 		return waggons.values();
 	}
 
-	public TrainDepartmentData addWaggons(Waggon... aWaggons) {
+	public TrainDepartmentData addWaggons(List<Waggon> aWaggons) {
 		for (Waggon waggon : aWaggons) {
 			waggons.put(waggon.getWaggonNumber(), waggon);
 		}

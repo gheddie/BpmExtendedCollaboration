@@ -50,8 +50,13 @@ public class BusinessKeyMatcher {
 
 	public ProcessInstance singleResult(RuntimeService runtimeService) {
 		List<ProcessInstance> result = listResult(runtimeService);
-		if (result == null || result.size() != 1) {
-			throw new BusinessKeyMatcherException();
+		if (result == null) {
+			throw new BusinessKeyMatcherException(
+					"no process instances matched for single result and process definition key '" + processDefinitionKey + "'!!");
+		}
+		if (result.size() != 1) {
+			throw new BusinessKeyMatcherException("invalid number of instances (" + result.size()
+					+ ") matched for single result and process definition key '" + processDefinitionKey + "'!!");
 		}
 		return result.get(0);
 	}

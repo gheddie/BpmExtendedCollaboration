@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_09z394c" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="2.0.3">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_09z394c" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="2.0.3">
   <bpmn:message id="Message_0qjwkrk" name="MSG_DEPARTURE_ORDERED" />
   <bpmn:collaboration id="Collaboration_1pma7cv">
     <bpmn:participant id="Participant_01bg2ti" name="train station" processRef="DEF_TRAIN_STATION_PROCESS" />
@@ -22,17 +22,34 @@
     <bpmn:serviceTask id="Task_1nyuar1" name="order waggon repairs" camunda:class="de.gravitex.bpm.helper.delegate.traindepartmentnew.OrderWaggonRepairsDelegate">
       <bpmn:incoming>SequenceFlow_0azyqci</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_08epxzs</bpmn:outgoing>
-      <bpmn:multiInstanceLoopCharacteristics camunda:collection="${VAR_TRAIN_DEPARTMENT_DATA.getWaggonList()}" camunda:elementVariable="VAR_SINGLE_EVAL_WAGGON" />
+      <bpmn:multiInstanceLoopCharacteristics camunda:collection="${VAR_TRAIN_DEPARTMENT_DATA.getWaggonList()}" camunda:elementVariable="VAR_SINGLE_WAGGON_TO_ASSUME" />
     </bpmn:serviceTask>
     <bpmn:endEvent id="EndEvent_05jngu9">
-      <bpmn:incoming>SequenceFlow_1xbx8mw</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0bzhy2s</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="SequenceFlow_1xbx8mw" sourceRef="IntermediateThrowEvent_1dd2l7m" targetRef="EndEvent_05jngu9" />
+    <bpmn:sequenceFlow id="SequenceFlow_1xbx8mw" sourceRef="IntermediateThrowEvent_1dd2l7m" targetRef="ExclusiveGateway_19sphcv" />
     <bpmn:intermediateCatchEvent id="IntermediateThrowEvent_1dd2l7m" name="MSG_WAGGON_ASSUMED">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="de.gravitex.bpm.helper.listener.traindepartmentnew.MessageWaggonAssumedStartExecutionListener" event="end" />
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_08epxzs</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1j028nc</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1xbx8mw</bpmn:outgoing>
       <bpmn:messageEventDefinition messageRef="Message_0xqe3b6" />
     </bpmn:intermediateCatchEvent>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_19sphcv" default="SequenceFlow_0bzhy2s">
+      <bpmn:incoming>SequenceFlow_1xbx8mw</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0bzhy2s</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_1j028nc</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_0bzhy2s" sourceRef="ExclusiveGateway_19sphcv" targetRef="EndEvent_05jngu9" />
+    <bpmn:sequenceFlow id="SequenceFlow_1j028nc" sourceRef="ExclusiveGateway_19sphcv" targetRef="IntermediateThrowEvent_1dd2l7m">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${1==1}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:association id="Association_05dakjc" sourceRef="ExclusiveGateway_19sphcv" targetRef="TextAnnotation_0773cnl" />
+    <bpmn:textAnnotation id="TextAnnotation_0773cnl">
+      <bpmn:text>loop until all waggons were assumed</bpmn:text>
+    </bpmn:textAnnotation>
   </bpmn:process>
   <bpmn:process id="DEF_REPAIR_FACILITY_PROCESS" isExecutable="true">
     <bpmn:sequenceFlow id="SequenceFlow_0ny7zgr" sourceRef="StartEvent_0srvslc" targetRef="TASK_ASSUME_WAGGON" />
@@ -45,6 +62,9 @@
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_04hxdxx" sourceRef="TASK_ASSUME_WAGGON" targetRef="EndEvent_0148gd2" />
     <bpmn:userTask id="TASK_ASSUME_WAGGON" name="assume waggon">
+      <bpmn:extensionElements>
+        <camunda:taskListener class="de.gravitex.bpm.helper.listener.traindepartmentnew.AssumeWaggonTaskComplementListener" event="complete" />
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0ny7zgr</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_04hxdxx</bpmn:outgoing>
     </bpmn:userTask>
@@ -109,7 +129,7 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1xbx8mw_di" bpmnElement="SequenceFlow_1xbx8mw">
         <di:waypoint x="685" y="120" />
-        <di:waypoint x="906" y="120" />
+        <di:waypoint x="747" y="120" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="IntermediateCatchEvent_1433f8u_di" bpmnElement="IntermediateThrowEvent_1dd2l7m">
         <dc:Bounds x="649" y="102" width="36" height="36" />
@@ -124,6 +144,26 @@
       <bpmndi:BPMNShape id="UserTask_0uedq9n_di" bpmnElement="TASK_ASSUME_WAGGON">
         <dc:Bounds x="616" y="324" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_19sphcv_di" bpmnElement="ExclusiveGateway_19sphcv" isMarkerVisible="true">
+        <dc:Bounds x="747" y="95" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0bzhy2s_di" bpmnElement="SequenceFlow_0bzhy2s">
+        <di:waypoint x="797" y="120" />
+        <di:waypoint x="906" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1j028nc_di" bpmnElement="SequenceFlow_1j028nc">
+        <di:waypoint x="772" y="95" />
+        <di:waypoint x="772" y="44" />
+        <di:waypoint x="667" y="44" />
+        <di:waypoint x="667" y="102" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_0773cnl_di" bpmnElement="TextAnnotation_0773cnl">
+        <dc:Bounds x="801" y="41" width="99.99999794078421" height="53.981106612685565" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_05dakjc_di" bpmnElement="Association_05dakjc">
+        <di:waypoint x="787" y="110" />
+        <di:waypoint x="810" y="95" />
+      </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>

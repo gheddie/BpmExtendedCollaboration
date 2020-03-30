@@ -19,7 +19,6 @@ public class M6Delegate implements JavaDelegate {
 				ProcessConstants.Collaboration.AnotherSlave.DEF.DEF_ANOTHER_SLAVE_PROCESS,
 				ProcessConstants.Collaboration.AnotherSlave.MSG.MSG_START_ANOTHER_SLAVE,
 				HashMapBuilder.create()
-						.withValuePair(ProcessConstants.Common.VAR.VAR_MASTER_PROCESS_BK, execution.getBusinessKey())
 						.withValuePair(ProcessConstants.Collaboration.AnotherSlave.VAR.VAR_ANOTHER_SLAVE_ITEM, item)
 						.build(),
 				execution.getBusinessKey());
