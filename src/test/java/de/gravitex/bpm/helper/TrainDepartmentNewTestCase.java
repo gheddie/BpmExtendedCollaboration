@@ -24,26 +24,50 @@ public class TrainDepartmentNewTestCase {
 	@Deployment(resources = { "trainDepartmentNew.bpmn" })
 	public void testSimpleDeparture() {
 
-		TrainDepartmentNewRunner runner = new TrainDepartmentNewRunner(processEngine);
+		TrainDepartmentNewRunner runner1 = new TrainDepartmentNewRunner(processEngine);
+		TrainDepartmentNewRunner runner2 = new TrainDepartmentNewRunner(processEngine);
 
-		ProcessInstance masterProcessInstance = runner.startDepartureProcess(
+		ProcessInstance masterProcessInstance1 = runner1.startDepartureProcess(
+				new WaggonList().withWaggonData("W1@D1=C1,N1#D2=C2").withWaggonData("W2").withWaggonData("W3@D2=C1,C3,C4").getWaggonList());
+		ProcessInstance masterProcessInstance2 = runner1.startDepartureProcess(
 				new WaggonList().withWaggonData("W1@D1=C1,N1#D2=C2").withWaggonData("W2").withWaggonData("W3@D2=C1,C3,C4").getWaggonList());
 
-		// we have 3 facility processes
+		// we have 5 facility processes in master1
 		assertEquals(5,
 				processEngine.getRuntimeService().createProcessInstanceQuery()
 						.processDefinitionKey(ProcessConstants.Trainpartment.RepairFacility.DEF.DEF_REPAIR_FACILITY_PROCESS)
-						.variableValueEquals(ProcessConstants.Common.VAR.VAR_MASTER_PROCESS_BK, masterProcessInstance.getBusinessKey())
+						.variableValueEquals(ProcessConstants.Common.VAR.VAR_MASTER_PROCESS_BK, masterProcessInstance1.getBusinessKey())
+						.list().size());
+		
+		// we have 5 facility processes in master2
+		assertEquals(5,
+				processEngine.getRuntimeService().createProcessInstanceQuery()
+						.processDefinitionKey(ProcessConstants.Trainpartment.RepairFacility.DEF.DEF_REPAIR_FACILITY_PROCESS)
+						.variableValueEquals(ProcessConstants.Common.VAR.VAR_MASTER_PROCESS_BK, masterProcessInstance2.getBusinessKey())
 						.list().size());
 
-		assertThat(masterProcessInstance).isWaitingAt(ProcessConstants.Trainpartment.RepairFacility.CATCH.CATCH_MSG_WAGGON_DAMAGE_ASSUMED);
+		assertThat(masterProcessInstance1).isWaitingAt(ProcessConstants.Trainpartment.RepairFacility.CATCH.CATCH_MSG_WAGGON_DAMAGE_ASSUMED);
+		assertThat(masterProcessInstance2).isWaitingAt(ProcessConstants.Trainpartment.RepairFacility.CATCH.CATCH_MSG_WAGGON_DAMAGE_ASSUMED);
+		
+		// assumements for master 1
+		
+		runner1.assumeWaggonDamages(masterProcessInstance1, WaggonDamageRepairAssumption.fromValues("W1", "D1", WaggonErrorCode.C1, 13),
+				WaggonDamageRepairAssumption.fromValues("W1", "D2", WaggonErrorCode.C2, 27));
 
-		runner.assumeWaggonDamages(masterProcessInstance, WaggonDamageRepairAssumption.fromValues("W1", "D1", WaggonErrorCode.C1, 13));
-		runner.assumeWaggonDamages(masterProcessInstance, WaggonDamageRepairAssumption.fromValues("W1", "D2", WaggonErrorCode.C2, 27));
-		runner.assumeWaggonDamages(masterProcessInstance, WaggonDamageRepairAssumption.fromValues("W3", "D2", WaggonErrorCode.C1, 25));
-		runner.assumeWaggonDamages(masterProcessInstance, WaggonDamageRepairAssumption.fromValues("W3", "D2", WaggonErrorCode.C3, 26));
-		runner.assumeWaggonDamages(masterProcessInstance, WaggonDamageRepairAssumption.fromValues("W3", "D2", WaggonErrorCode.C4, 27));
+		runner1.assumeWaggonDamages(masterProcessInstance1, WaggonDamageRepairAssumption.fromValues("W3", "D2", WaggonErrorCode.C1, 25),
+				WaggonDamageRepairAssumption.fromValues("W3", "D2", WaggonErrorCode.C3, 26),
+				WaggonDamageRepairAssumption.fromValues("W3", "D2", WaggonErrorCode.C4, 27));
+		
+		// assumements for master 2
+		
+		runner2.assumeWaggonDamages(masterProcessInstance2, WaggonDamageRepairAssumption.fromValues("W1", "D1", WaggonErrorCode.C1, 13),
+				WaggonDamageRepairAssumption.fromValues("W1", "D2", WaggonErrorCode.C2, 27));
 
-		assertThat(masterProcessInstance).isEnded();
+		runner2.assumeWaggonDamages(masterProcessInstance2, WaggonDamageRepairAssumption.fromValues("W3", "D2", WaggonErrorCode.C1, 25),
+				WaggonDamageRepairAssumption.fromValues("W3", "D2", WaggonErrorCode.C3, 26),
+				WaggonDamageRepairAssumption.fromValues("W3", "D2", WaggonErrorCode.C4, 27));
+		
+		assertThat(masterProcessInstance1).isEnded();
+		assertThat(masterProcessInstance2).isEnded();
 	}
 }

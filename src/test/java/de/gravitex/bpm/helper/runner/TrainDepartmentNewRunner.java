@@ -38,16 +38,17 @@ public class TrainDepartmentNewRunner extends ProcessRunner {
 		TaskService taskService = getProcessEngine().getTaskService();
 		String additionalValue = null;
 		for (WaggonDamageRepairAssumption repairAssumption : waggonRepairAssumption) {
-			// get assume task for waggon...
+			// get assume task for waggon damage info...
 			additionalValue = ((ProcessIdentifier) repairAssumption).generateProcessIdentifier();
 			String facilityBusinessKey = BusinessKeyMatcher
 					.forProcessDefinitionKey(ProcessConstants.Trainpartment.RepairFacility.DEF.DEF_REPAIR_FACILITY_PROCESS)
-					.withAdditionalValue(additionalValue).singleResult(getProcessEngine().getRuntimeService())
-					.getBusinessKey();
+					.withAdditionalValue(additionalValue).withParentBusinessKey(processInstance.getBusinessKey())
+					.singleResult(getProcessEngine().getRuntimeService()).getBusinessKey();
 			taskService.complete(taskService.createTaskQuery().processInstanceBusinessKey(facilityBusinessKey)
 					.taskDefinitionKey(ProcessConstants.Trainpartment.RepairFacility.TASK.TASK_ASSUME_WAGGON).singleResult().getId(),
-					HashMapBuilder.create().withValuePair(ProcessConstants.Trainpartment.RepairFacility.VAR.VAR_WAGGON_ASSUMPTION_RESULT,
-							repairAssumption).build());
+					HashMapBuilder.create()
+							.withValuePair(ProcessConstants.Trainpartment.RepairFacility.VAR.VAR_WAGGON_ASSUMPTION_RESULT, repairAssumption)
+							.build());
 		}
 	}
 }
