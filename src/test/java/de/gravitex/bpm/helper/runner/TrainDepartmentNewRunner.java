@@ -12,7 +12,7 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 import de.gravitex.bpm.helper.constant.ProcessConstants;
 import de.gravitex.bpm.helper.logic.traindepartmentnew.TrainDepartmentData;
 import de.gravitex.bpm.helper.logic.traindepartmentnew.Waggon;
-import de.gravitex.bpm.helper.logic.traindepartmentnew.WaggonRepairAssumption;
+import de.gravitex.bpm.helper.logic.traindepartmentnew.WaggonDamageRepairAssumption;
 import de.gravitex.bpm.helper.runner.base.ProcessRunner;
 import de.gravitex.bpm.helper.util.HashMapBuilder;
 import de.gravitex.bpm.helper.util.ProcessHelper;
@@ -36,9 +36,9 @@ public class TrainDepartmentNewRunner extends ProcessRunner {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void assumeWaggons(ProcessInstance processInstance, WaggonRepairAssumption... waggonRepairAssumption) {
+	public void assumeWaggonDamages(ProcessInstance processInstance, WaggonDamageRepairAssumption... waggonRepairAssumption) {
 		TaskService taskService = getProcessEngine().getTaskService();
-		for (WaggonRepairAssumption repairAssumption : waggonRepairAssumption) {
+		for (WaggonDamageRepairAssumption repairAssumption : waggonRepairAssumption) {
 			// get assume task for waggon...
 			String facilityBusinessKey = BusinessKeyMatcher
 					.forProcessDefinitionKey(ProcessConstants.Trainpartment.RepairFacility.DEF.DEF_REPAIR_FACILITY_PROCESS)
@@ -47,7 +47,7 @@ public class TrainDepartmentNewRunner extends ProcessRunner {
 			taskService.complete(taskService.createTaskQuery().processInstanceBusinessKey(facilityBusinessKey)
 					.taskDefinitionKey(ProcessConstants.Trainpartment.RepairFacility.TASK.TASK_ASSUME_WAGGON).singleResult().getId(),
 					HashMapBuilder.create().withValuePair(ProcessConstants.Trainpartment.RepairFacility.VAR.VAR_WAGGON_ASSUMPTION_RESULT,
-							repairAssumption.getRepairDurationInHours()).build());
+							repairAssumption).build());
 		}
 	}
 }

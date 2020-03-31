@@ -3,7 +3,8 @@ package de.gravitex.bpm.helper.constant;
 import de.gravitex.bpm.helper.delegate.traindepartmentnew.OrderWaggonRepairsDelegate;
 import de.gravitex.bpm.helper.logic.traindepartmentnew.TrainDepartmentData;
 import de.gravitex.bpm.helper.logic.traindepartmentnew.Waggon;
-import de.gravitex.bpm.helper.logic.traindepartmentnew.WaggonRepairAssumption;
+import de.gravitex.bpm.helper.logic.traindepartmentnew.WaggonDamageRepairAssumption;
+import de.gravitex.bpm.helper.logic.traindepartmentnew.WaggonErrorCode;
 
 public class ProcessConstants {
 
@@ -21,16 +22,21 @@ public class ProcessConstants {
 
 			public class MSG {
 				public static final String MSG_START_ASSUMPTION = "MSG_START_ASSUMPTION";
+				public static final String MSG_WAGGON_DAMAGE_ASSUMED = "MSG_WAGGON_DAMAGE_ASSUMED";
 			}
 
 			public class VAR {
 				/**
 				 * Type:
-				 * ({@link Integer})
+				 * ({@link WaggonDamageRepairAssumption})
 				 * Description:
-				 * Das Ergebnis einer Reparatur-Abschätzung (erfolgt per {@link WaggonRepairAssumption}).
+				 * Das Ergebnis einer Reparatur-Abschätzung für einen {@link WaggonErrorCode} eines Wagens
 				 */
 				public static final String VAR_WAGGON_ASSUMPTION_RESULT = "VAR_WAGGON_ASSUMPTION_RESULT";
+			}
+
+			public class CATCH {
+				public static final String CATCH_MSG_WAGGON_DAMAGE_ASSUMED = "CATCH_MSG_WAGGON_DAMAGE_ASSUMED";
 			}
 		}
 
@@ -42,7 +48,7 @@ public class ProcessConstants {
 
 			public class MSG {
 				public static final String MSG_DEPARTURE_ORDERED = "MSG_DEPARTURE_ORDERED";
-				public static final String MSG_WAGGON_ASSUMED = "MSG_WAGGON_ASSUMED";
+				public static final String MSG_WAGGON_DAMAGE_ASSUMED = "MSG_WAGGON_DAMAGE_ASSUMED";
 			}
 
 			public class DEF {
@@ -69,7 +75,7 @@ public class ProcessConstants {
 				 * by message {@link ProcessConstants.Trainpartment.RepairFacility.MSG#MSG_START_ASSUMPTION}.
 				 * Also passes back an assumed waggon to the main process.
 				 */
-				public static final String VAR_SINGLE_WAGGON_TO_ASSUME = "VAR_SINGLE_WAGGON_TO_ASSUME";
+				public static final String VAR_SINGLE_WAGGON__DAMAGE_TO_ASSUME = "VAR_SINGLE_WAGGON_TO_ASSUME";
 			}
 		}
 	}

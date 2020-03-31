@@ -32,8 +32,8 @@ public class TrainDepartmentData implements Serializable {
 	
 	public boolean allCriticalWaggonsAssumed() {
 		for (Waggon waggon : waggons.values()) {
-			if (waggon.isCritical() && waggon.getRepairDurationInHours() == null) {
-				logger.info("waggon " + waggon.getWaggonNumber() + " is critical and not yet repair assumed --> returning false!!");
+			if (waggon.isCritical() && !waggon.allCriticalDamagesAssumed()) {
+				logger.info("waggon " + waggon.getWaggonNumber() + " is critical and not all critical damages are yet repair assumed --> returning false!!");
 				return false;
 			}
 		}
@@ -43,5 +43,9 @@ public class TrainDepartmentData implements Serializable {
 
 	public Waggon getWaggonByWaggonNumber(String aWaggonNumber) {
 		return waggons.get(aWaggonNumber);
+	}
+
+	public void updateRepairAssumement(WaggonDamageRepairAssumption waggonDamageRepairAssumption) {
+		waggons.get(waggonDamageRepairAssumption.getWaggonNumber()).updateRepairAssumement(waggonDamageRepairAssumption);
 	}
 }

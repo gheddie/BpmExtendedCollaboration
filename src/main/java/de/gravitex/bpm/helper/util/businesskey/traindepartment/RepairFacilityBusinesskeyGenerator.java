@@ -13,7 +13,7 @@ public class RepairFacilityBusinesskeyGenerator extends BusinesskeyGenerator {
 	protected List<Object> getBusinesskeyComponents() {
 		List<Object> parent = super.getBusinesskeyComponents();
 		Waggon waggon = (Waggon) getVariables()
-				.get(ProcessConstants.Trainpartment.TrainStation.VAR.VAR_SINGLE_WAGGON_TO_ASSUME);
+				.get(ProcessConstants.Trainpartment.TrainStation.VAR.VAR_SINGLE_WAGGON__DAMAGE_TO_ASSUME);
 		List<Object> values = new ArrayList<Object>();
 		for (Object o : parent) {
 			values.add(o);

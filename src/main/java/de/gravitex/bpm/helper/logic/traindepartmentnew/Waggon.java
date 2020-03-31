@@ -2,6 +2,7 @@ package de.gravitex.bpm.helper.logic.traindepartmentnew;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import de.gravitex.bpm.helper.logic.traindepartmentnew.parser.WaggonDamageParser;
@@ -14,9 +15,7 @@ public class Waggon implements Serializable {
 	
 	private String waggonNumber;
 	
-	private List<WaggonDamage> waggonDamages = new ArrayList<WaggonDamage>();
-	
-	private Integer repairDurationInHours = null;
+	private HashMap<String, WaggonDamage> waggonDamages = new HashMap<String, WaggonDamage>();
 	
 	private Waggon() {
 		// ...
@@ -27,17 +26,36 @@ public class Waggon implements Serializable {
 		String[] splitted = waggonData.split("@");
 		waggon.setWaggonNumber(splitted[0]);
 		if (splitted.length > 1) {
-			waggon.setWaggonDamages(WaggonDamageParser.parse(splitted[1]));			
+			waggon.applyWaggonDamages(WaggonDamageParser.parse(splitted[1]));			
 		}
 		return waggon;
 	}
 
+	private void applyWaggonDamages(List<WaggonDamage> aWaggonDamages) {
+		for (WaggonDamage waggonDamage : aWaggonDamages) {
+			waggonDamages.put(waggonDamage.getDamageIdentifier(), waggonDamage);
+		}
+	}
+
 	public boolean isCritical() {
-		for (WaggonDamage waggonDamage : waggonDamages) {
+		for (WaggonDamage waggonDamage : waggonDamages.values()) {
 			if (waggonDamage.isCritical()) {
 				return true;		
 			}
 		}
 		return false;
+	}
+
+	public boolean allCriticalDamagesAssumed() {
+		for (WaggonDamage waggonDamage : waggonDamages.values()) {
+			if (!waggonDamage.allCriticalDamagesAssumed()) {
+				return false;				
+			}
+		}
+		return true;
+	}
+
+	public void updateRepairAssumement(WaggonDamageRepairAssumption waggonDamageRepairAssumption) {
+		waggonDamages.get(waggonDamageRepairAssumption.getDamageIdentifier()).updateRepairAssumement(waggonDamageRepairAssumption);
 	}
 }

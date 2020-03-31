@@ -13,13 +13,13 @@ public class OrderWaggonRepairsDelegate implements JavaDelegate {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
-		Waggon waggon = (Waggon) execution.getVariable(ProcessConstants.Trainpartment.TrainStation.VAR.VAR_SINGLE_WAGGON_TO_ASSUME);
+		Waggon waggon = (Waggon) execution.getVariable(ProcessConstants.Trainpartment.TrainStation.VAR.VAR_SINGLE_WAGGON__DAMAGE_TO_ASSUME);
 		if (waggon.isCritical()) {
 			ProcessHelper.startProcessInstanceByMessage(execution.getProcessEngine(),
 					ProcessConstants.Trainpartment.RepairFacility.DEF.DEF_REPAIR_FACILITY_PROCESS,
 					ProcessConstants.Trainpartment.RepairFacility.MSG.MSG_START_ASSUMPTION,
 					HashMapBuilder.create()
-							.withValuePair(ProcessConstants.Trainpartment.TrainStation.VAR.VAR_SINGLE_WAGGON_TO_ASSUME, waggon).build(),
+							.withValuePair(ProcessConstants.Trainpartment.TrainStation.VAR.VAR_SINGLE_WAGGON__DAMAGE_TO_ASSUME, waggon).build(),
 					execution.getBusinessKey());
 		}
 	}

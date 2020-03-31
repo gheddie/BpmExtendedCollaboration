@@ -5,7 +5,7 @@
     <bpmn:participant id="Participant_01bg2ti" name="train station" processRef="DEF_TRAIN_STATION_PROCESS" />
     <bpmn:participant id="Participant_0mhw2wp" name="repair facility" processRef="DEF_REPAIR_FACILITY_PROCESS" />
     <bpmn:messageFlow id="MessageFlow_17gm53k" sourceRef="Task_1nyuar1" targetRef="StartEvent_0srvslc" />
-    <bpmn:messageFlow id="MessageFlow_0cohfx1" sourceRef="TASK_ASSUME_WAGGON" targetRef="IntermediateThrowEvent_1dd2l7m" />
+    <bpmn:messageFlow id="MessageFlow_0cohfx1" sourceRef="TASK_ASSUME_WAGGON" targetRef="CATCH_MSG_WAGGON_DAMAGE_ASSUMED" />
   </bpmn:collaboration>
   <bpmn:process id="DEF_TRAIN_STATION_PROCESS" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1" name="MSG_DEPARTURE_ORDERED">
@@ -18,7 +18,7 @@
       <bpmn:incoming>SequenceFlow_0o2swg7</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0azyqci</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_08epxzs" sourceRef="Task_1nyuar1" targetRef="IntermediateThrowEvent_1dd2l7m" />
+    <bpmn:sequenceFlow id="SequenceFlow_08epxzs" sourceRef="Task_1nyuar1" targetRef="CATCH_MSG_WAGGON_DAMAGE_ASSUMED" />
     <bpmn:serviceTask id="Task_1nyuar1" name="order waggon repairs" camunda:class="de.gravitex.bpm.helper.delegate.traindepartmentnew.OrderWaggonRepairsDelegate">
       <bpmn:incoming>SequenceFlow_0azyqci</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_08epxzs</bpmn:outgoing>
@@ -27,8 +27,8 @@
     <bpmn:endEvent id="EndEvent_05jngu9">
       <bpmn:incoming>SequenceFlow_0bzhy2s</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="SequenceFlow_1xbx8mw" sourceRef="IntermediateThrowEvent_1dd2l7m" targetRef="ExclusiveGateway_19sphcv" />
-    <bpmn:intermediateCatchEvent id="IntermediateThrowEvent_1dd2l7m" name="MSG_WAGGON_ASSUMED">
+    <bpmn:sequenceFlow id="SequenceFlow_1xbx8mw" sourceRef="CATCH_MSG_WAGGON_DAMAGE_ASSUMED" targetRef="ExclusiveGateway_19sphcv" />
+    <bpmn:intermediateCatchEvent id="CATCH_MSG_WAGGON_DAMAGE_ASSUMED" name="MSG_WAGGON_DAMAGE_ASSUMED">
       <bpmn:extensionElements>
         <camunda:executionListener class="de.gravitex.bpm.helper.listener.traindepartmentnew.MessageWaggonAssumedStartExecutionListener" event="end" />
       </bpmn:extensionElements>
@@ -43,7 +43,7 @@
       <bpmn:outgoing>SequenceFlow_1j028nc</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_0bzhy2s" sourceRef="ExclusiveGateway_19sphcv" targetRef="EndEvent_05jngu9" />
-    <bpmn:sequenceFlow id="SequenceFlow_1j028nc" sourceRef="ExclusiveGateway_19sphcv" targetRef="IntermediateThrowEvent_1dd2l7m">
+    <bpmn:sequenceFlow id="SequenceFlow_1j028nc" sourceRef="ExclusiveGateway_19sphcv" targetRef="CATCH_MSG_WAGGON_DAMAGE_ASSUMED">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!VAR_TRAIN_DEPARTMENT_DATA.allCriticalWaggonsAssumed()}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:association id="Association_05dakjc" sourceRef="ExclusiveGateway_19sphcv" targetRef="TextAnnotation_0773cnl" />
@@ -61,16 +61,16 @@
       <bpmn:incoming>SequenceFlow_04hxdxx</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_04hxdxx" sourceRef="TASK_ASSUME_WAGGON" targetRef="EndEvent_0148gd2" />
-    <bpmn:userTask id="TASK_ASSUME_WAGGON" name="assume waggon">
+    <bpmn:userTask id="TASK_ASSUME_WAGGON" name="assume waggon damage">
       <bpmn:extensionElements>
-        <camunda:taskListener class="de.gravitex.bpm.helper.listener.traindepartmentnew.AssumeWaggonTaskComplementListener" event="complete" />
+        <camunda:taskListener class="de.gravitex.bpm.helper.listener.traindepartmentnew.AssumeWaggonDamageTaskComplementListener" event="complete" />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0ny7zgr</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_04hxdxx</bpmn:outgoing>
     </bpmn:userTask>
   </bpmn:process>
   <bpmn:message id="Message_1thk6f5" name="MSG_START_ASSUMPTION" />
-  <bpmn:message id="Message_0xqe3b6" name="MSG_WAGGON_ASSUMED" />
+  <bpmn:message id="Message_0xqe3b6" name="MSG_WAGGON_DAMAGE_ASSUMED" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1pma7cv">
       <bpmndi:BPMNShape id="Participant_01bg2ti_di" bpmnElement="Participant_01bg2ti">
@@ -131,10 +131,10 @@
         <di:waypoint x="685" y="120" />
         <di:waypoint x="747" y="120" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="IntermediateCatchEvent_1433f8u_di" bpmnElement="IntermediateThrowEvent_1dd2l7m">
+      <bpmndi:BPMNShape id="IntermediateCatchEvent_1433f8u_di" bpmnElement="CATCH_MSG_WAGGON_DAMAGE_ASSUMED">
         <dc:Bounds x="649" y="102" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="626" y="72" width="83" height="27" />
+          <dc:Bounds x="625" y="163" width="83" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="MessageFlow_0cohfx1_di" bpmnElement="MessageFlow_0cohfx1">

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.gravitex.bpm.helper.logic.traindepartmentnew.WaggonDamage;
-import de.gravitex.bpm.helper.logic.traindepartmentnew.WaggonErrorCode;
+import de.gravitex.bpm.helper.logic.traindepartmentnew.WaggonDamageInfo;
 
 public class WaggonDamageParser {
 
@@ -22,14 +22,14 @@ public class WaggonDamageParser {
 	}
 
 	public static WaggonDamage getWaggonDamage(String damageIdentifier, String errorCodes) {
-		return WaggonDamage.fromValues(damageIdentifier, getErrorCodes(errorCodes));
+		return WaggonDamage.fromValues(damageIdentifier, getDamageInfos(errorCodes));
 	}
 
-	private static List<WaggonErrorCode> getErrorCodes(String errorCodes) {
-		List<WaggonErrorCode> errorCodeList = new ArrayList<WaggonErrorCode>();
+	private static List<WaggonDamageInfo> getDamageInfos(String errorCodes) {
+		List<WaggonDamageInfo> waggonDamageInfos = new ArrayList<WaggonDamageInfo>();
 		for (String waggonErrorCodeValue : errorCodes.split(",")) {
-			errorCodeList.add(WaggonErrorCode.valueOf(waggonErrorCodeValue));
+			waggonDamageInfos.add(WaggonDamageInfo.fromValues(waggonErrorCodeValue));
 		}
-		return errorCodeList;
+		return waggonDamageInfos;
 	}
 }
