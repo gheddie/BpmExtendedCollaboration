@@ -1,7 +1,8 @@
 package de.gravitex.bpm.helper.constant;
 
 import de.gravitex.bpm.helper.delegate.traindepartmentnew.OrderWaggonRepairsDelegate;
-import de.gravitex.bpm.helper.entity.traindepartmentnew.TrainDepartmentData;
+import de.gravitex.bpm.helper.entity.traindepartmentnew.DepartureOrder;
+import de.gravitex.bpm.helper.entity.traindepartmentnew.TrainDepartureData;
 import de.gravitex.bpm.helper.entity.traindepartmentnew.Waggon;
 import de.gravitex.bpm.helper.entity.traindepartmentnew.WaggonDamageRepairAssumption;
 import de.gravitex.bpm.helper.entity.traindepartmentnew.WaggonErrorCode;
@@ -43,7 +44,10 @@ public class ProcessConstants {
 		public class TrainStation {
 			
 			public class ERROR {
-				public static final String ERR_INVALID_WAGGON_ASSUMPTION = "ERR_INVALID_WAGGON_ASSUMPTION";
+				/**
+				 * creation of a {@link DepartureOrder} failed...
+				 */
+				public static final String ERROR_CREATE_DO = "ERROR_CREATE_DO";
 			}
 
 			public class MSG {
@@ -58,7 +62,7 @@ public class ProcessConstants {
 			public class VAR {
 				/**
 				 * Type:
-				 * ({@linkplain TrainDepartmentData})
+				 * ({@linkplain TrainDepartureData})
 				 * Description: Process backbone
 				 * containing the department waggons. Passed to
 				 * {@link ProcessConstants.Trainpartment.TrainStation.DEF#DEF_TRAIN_STATION_PROCESS}

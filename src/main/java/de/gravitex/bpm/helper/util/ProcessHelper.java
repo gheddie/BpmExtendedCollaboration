@@ -8,7 +8,7 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 
 import de.gravitex.bpm.helper.constant.ProcessConstants;
-import de.gravitex.bpm.helper.entity.traindepartmentnew.TrainDepartmentData;
+import de.gravitex.bpm.helper.entity.traindepartmentnew.TrainDepartureData;
 import de.gravitex.bpm.helper.util.businesskey.DefaultBusinesskeyGenerator;
 import de.gravitex.bpm.helper.util.businesskey.base.BusinesskeyGenerator;
 import de.gravitex.bpm.helper.util.businesskey.collaboration.AnotherSlaveBusinesskeyGenerator;
@@ -76,8 +76,8 @@ public class ProcessHelper {
 				.getVariable(execution.getId(), ProcessConstants.Common.VAR.VAR_MASTER_PROCESS_BK);
 	}
 
-	public static TrainDepartmentData getgetTrainDepartmentData(DelegateExecution execution) {
-		return (TrainDepartmentData) execution.getProcessEngine().getRuntimeService()
+	public static TrainDepartureData getTrainDepartureData(DelegateExecution execution) {
+		return (TrainDepartureData) execution.getProcessEngine().getRuntimeService()
 				.getVariable(execution.getId(), ProcessConstants.Trainpartment.TrainStation.VAR.VAR_TRAIN_DEPARTMENT_DATA);
 	}
 }

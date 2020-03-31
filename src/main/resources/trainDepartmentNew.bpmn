@@ -12,9 +12,9 @@
       <bpmn:outgoing>SequenceFlow_0o2swg7</bpmn:outgoing>
       <bpmn:messageEventDefinition messageRef="Message_0qjwkrk" />
     </bpmn:startEvent>
-    <bpmn:sequenceFlow id="SequenceFlow_0o2swg7" sourceRef="StartEvent_1" targetRef="Task_0gd9din" />
-    <bpmn:sequenceFlow id="SequenceFlow_0azyqci" sourceRef="Task_0gd9din" targetRef="Task_1nyuar1" />
-    <bpmn:serviceTask id="Task_0gd9din" name="create departing order" camunda:class="de.gravitex.bpm.helper.delegate.traindepartmentnew.CreateDepartingOrderDelegate">
+    <bpmn:sequenceFlow id="SequenceFlow_0o2swg7" sourceRef="StartEvent_1" targetRef="TaskCreateDepartureOrder" />
+    <bpmn:sequenceFlow id="SequenceFlow_0azyqci" sourceRef="TaskCreateDepartureOrder" targetRef="Task_1nyuar1" />
+    <bpmn:serviceTask id="TaskCreateDepartureOrder" name="create departure order" camunda:class="de.gravitex.bpm.helper.delegate.traindepartmentnew.CreateDepartureOrderDelegate">
       <bpmn:incoming>SequenceFlow_0o2swg7</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0azyqci</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -46,6 +46,9 @@
     <bpmn:sequenceFlow id="SequenceFlow_1j028nc" sourceRef="ExclusiveGateway_19sphcv" targetRef="CATCH_MSG_WAGGON_DAMAGE_ASSUMED">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!VAR_TRAIN_DEPARTMENT_DATA.allCriticalWaggonsAssumed()}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
+    <bpmn:boundaryEvent id="BoundaryEvent_0w7nxjb" attachedToRef="TaskCreateDepartureOrder">
+      <bpmn:errorEventDefinition errorRef="Error_1wgdhwk" />
+    </bpmn:boundaryEvent>
     <bpmn:association id="Association_05dakjc" sourceRef="ExclusiveGateway_19sphcv" targetRef="TextAnnotation_0773cnl" />
     <bpmn:textAnnotation id="TextAnnotation_0773cnl">
       <bpmn:text>loop until all waggons were assumed</bpmn:text>
@@ -71,6 +74,7 @@
   </bpmn:process>
   <bpmn:message id="Message_1thk6f5" name="MSG_START_ASSUMPTION" />
   <bpmn:message id="Message_0xqe3b6" name="MSG_WAGGON_DAMAGE_ASSUMED" />
+  <bpmn:error id="Error_1wgdhwk" name="ERROR_CREATE_DO" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1pma7cv">
       <bpmndi:BPMNShape id="Participant_01bg2ti_di" bpmnElement="Participant_01bg2ti">
@@ -93,7 +97,7 @@
         <di:waypoint x="405" y="120" />
         <di:waypoint x="469" y="120" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_0d72zzr_di" bpmnElement="Task_0gd9din">
+      <bpmndi:BPMNShape id="ServiceTask_0d72zzr_di" bpmnElement="TaskCreateDepartureOrder">
         <dc:Bounds x="305" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_08epxzs_di" bpmnElement="SequenceFlow_08epxzs">
@@ -164,6 +168,9 @@
         <di:waypoint x="787" y="110" />
         <di:waypoint x="810" y="95" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BoundaryEvent_15gc9sv_di" bpmnElement="BoundaryEvent_0w7nxjb">
+        <dc:Bounds x="387" y="142" width="36" height="36" />
+      </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>

@@ -7,7 +7,7 @@ import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 
 import de.gravitex.bpm.helper.constant.ProcessConstants;
-import de.gravitex.bpm.helper.entity.traindepartmentnew.TrainDepartmentData;
+import de.gravitex.bpm.helper.entity.traindepartmentnew.TrainDepartureData;
 import de.gravitex.bpm.helper.entity.traindepartmentnew.Waggon;
 import de.gravitex.bpm.helper.entity.traindepartmentnew.WaggonDamageRepairAssumption;
 import de.gravitex.bpm.helper.runner.base.ProcessRunner;
@@ -28,7 +28,7 @@ public class TrainDepartmentNewRunner extends ProcessRunner {
 				ProcessConstants.Trainpartment.TrainStation.DEF.DEF_TRAIN_STATION_PROCESS,
 				ProcessConstants.Trainpartment.TrainStation.MSG.MSG_DEPARTURE_ORDERED,
 				HashMapBuilder.create().withValuePair(ProcessConstants.Trainpartment.TrainStation.VAR.VAR_TRAIN_DEPARTMENT_DATA,
-						new TrainDepartmentData().addWaggons(waggonList)).build(),
+						new TrainDepartureData().addWaggons(waggonList)).build(),
 				null);
 		return processInstance;
 	}

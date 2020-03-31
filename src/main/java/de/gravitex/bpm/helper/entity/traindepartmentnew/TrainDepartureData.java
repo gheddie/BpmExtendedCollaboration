@@ -7,15 +7,15 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-public class TrainDepartmentData implements Serializable {
+public class TrainDepartureData implements Serializable {
 	
-	private static final Logger logger = Logger.getLogger(TrainDepartmentData.class);
+	private static final Logger logger = Logger.getLogger(TrainDepartureData.class);
 	
 	private static final long serialVersionUID = 9130404831557192719L;
 	
 	private HashMap<String, Waggon> waggons = new HashMap<String, Waggon>();
 
-	public TrainDepartmentData() {
+	public TrainDepartureData() {
 		// ...
 	}
 
@@ -23,7 +23,7 @@ public class TrainDepartmentData implements Serializable {
 		return waggons.values();
 	}
 
-	public TrainDepartmentData addWaggons(List<Waggon> aWaggons) {
+	public TrainDepartureData addWaggons(List<Waggon> aWaggons) {
 		for (Waggon waggon : aWaggons) {
 			waggons.put(waggon.getWaggonNumber(), waggon);
 		}
