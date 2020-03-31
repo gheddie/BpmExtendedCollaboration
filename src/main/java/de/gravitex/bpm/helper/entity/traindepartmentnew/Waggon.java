@@ -1,11 +1,11 @@
-package de.gravitex.bpm.helper.logic.traindepartmentnew;
+package de.gravitex.bpm.helper.entity.traindepartmentnew;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import de.gravitex.bpm.helper.logic.traindepartmentnew.parser.WaggonDamageParser;
+import de.gravitex.bpm.helper.entity.traindepartmentnew.parser.WaggonDamageParser;
 import lombok.Data;
 
 @Data

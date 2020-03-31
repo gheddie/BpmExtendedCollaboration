@@ -3,7 +3,7 @@ package de.gravitex.bpm.helper.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.gravitex.bpm.helper.logic.traindepartmentnew.Waggon;
+import de.gravitex.bpm.helper.entity.traindepartmentnew.Waggon;
 import lombok.Data;
 
 @Data

@@ -7,9 +7,9 @@ import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 
 import de.gravitex.bpm.helper.constant.ProcessConstants;
-import de.gravitex.bpm.helper.logic.traindepartmentnew.TrainDepartmentData;
-import de.gravitex.bpm.helper.logic.traindepartmentnew.Waggon;
-import de.gravitex.bpm.helper.logic.traindepartmentnew.WaggonDamageRepairAssumption;
+import de.gravitex.bpm.helper.entity.traindepartmentnew.TrainDepartmentData;
+import de.gravitex.bpm.helper.entity.traindepartmentnew.Waggon;
+import de.gravitex.bpm.helper.entity.traindepartmentnew.WaggonDamageRepairAssumption;
 import de.gravitex.bpm.helper.runner.base.ProcessRunner;
 import de.gravitex.bpm.helper.util.HashMapBuilder;
 import de.gravitex.bpm.helper.util.ProcessHelper;

@@ -1,4 +1,4 @@
-package de.gravitex.bpm.helper.logic.collaborationtest;
+package de.gravitex.bpm.helper.entity.collaborationtest;
 
 import de.gravitex.bpm.helper.util.businesskey.base.ProcessIdentifier;
 import lombok.Data;

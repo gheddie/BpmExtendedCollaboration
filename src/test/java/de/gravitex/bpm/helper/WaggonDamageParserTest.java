@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.junit.Test;
 
-import de.gravitex.bpm.helper.logic.traindepartmentnew.WaggonDamage;
-import de.gravitex.bpm.helper.logic.traindepartmentnew.parser.WaggonDamageParser;
+import de.gravitex.bpm.helper.entity.traindepartmentnew.WaggonDamage;
+import de.gravitex.bpm.helper.entity.traindepartmentnew.parser.WaggonDamageParser;
 
 public class WaggonDamageParserTest {
 

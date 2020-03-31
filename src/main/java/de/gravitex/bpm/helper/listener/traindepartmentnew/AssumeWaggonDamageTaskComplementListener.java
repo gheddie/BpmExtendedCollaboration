@@ -5,8 +5,8 @@ import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.delegate.DelegateTask;
 
 import de.gravitex.bpm.helper.constant.ProcessConstants;
+import de.gravitex.bpm.helper.entity.traindepartmentnew.WaggonDamageRepairAssumption;
 import de.gravitex.bpm.helper.listener.base.ExtendedTaskListener;
-import de.gravitex.bpm.helper.logic.traindepartmentnew.WaggonDamageRepairAssumption;
 import de.gravitex.bpm.helper.util.HashMapBuilder;
 
 public class AssumeWaggonDamageTaskComplementListener extends ExtendedTaskListener {

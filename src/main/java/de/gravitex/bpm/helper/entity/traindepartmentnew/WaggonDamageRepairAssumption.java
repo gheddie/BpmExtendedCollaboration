@@ -1,4 +1,4 @@
-package de.gravitex.bpm.helper.logic.traindepartmentnew;
+package de.gravitex.bpm.helper.entity.traindepartmentnew;
 
 import de.gravitex.bpm.helper.util.businesskey.base.BusinesskeyGenerator;
 import de.gravitex.bpm.helper.util.businesskey.base.ProcessIdentifier;

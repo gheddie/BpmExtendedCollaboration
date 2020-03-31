@@ -10,8 +10,8 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import de.gravitex.bpm.helper.constant.ProcessConstants;
-import de.gravitex.bpm.helper.logic.traindepartmentnew.WaggonDamageRepairAssumption;
-import de.gravitex.bpm.helper.logic.traindepartmentnew.WaggonErrorCode;
+import de.gravitex.bpm.helper.entity.traindepartmentnew.WaggonDamageRepairAssumption;
+import de.gravitex.bpm.helper.entity.traindepartmentnew.WaggonErrorCode;
 import de.gravitex.bpm.helper.runner.TrainDepartmentNewRunner;
 import de.gravitex.bpm.helper.util.WaggonList;
 

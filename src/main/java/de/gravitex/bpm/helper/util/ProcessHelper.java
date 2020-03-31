@@ -8,7 +8,7 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 
 import de.gravitex.bpm.helper.constant.ProcessConstants;
-import de.gravitex.bpm.helper.logic.traindepartmentnew.TrainDepartmentData;
+import de.gravitex.bpm.helper.entity.traindepartmentnew.TrainDepartmentData;
 import de.gravitex.bpm.helper.util.businesskey.DefaultBusinesskeyGenerator;
 import de.gravitex.bpm.helper.util.businesskey.base.BusinesskeyGenerator;
 import de.gravitex.bpm.helper.util.businesskey.collaboration.AnotherSlaveBusinesskeyGenerator;

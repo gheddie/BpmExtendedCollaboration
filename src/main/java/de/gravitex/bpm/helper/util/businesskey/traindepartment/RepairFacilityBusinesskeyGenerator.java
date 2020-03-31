@@ -1,7 +1,7 @@
 package de.gravitex.bpm.helper.util.businesskey.traindepartment;
 
 import de.gravitex.bpm.helper.constant.ProcessConstants;
-import de.gravitex.bpm.helper.logic.traindepartmentnew.WaggonDamageInfo;
+import de.gravitex.bpm.helper.entity.traindepartmentnew.WaggonDamageInfo;
 import de.gravitex.bpm.helper.util.businesskey.base.BusinesskeyGenerator;
 
 public class RepairFacilityBusinesskeyGenerator extends BusinesskeyGenerator<WaggonDamageInfo> {

@@ -1,4 +1,4 @@
-package de.gravitex.bpm.helper.logic.collaborationtest;
+package de.gravitex.bpm.helper.entity.collaborationtest;
 
 import java.util.ArrayList;
 import java.util.HashMap;

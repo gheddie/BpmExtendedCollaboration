@@ -1,11 +1,11 @@
-package de.gravitex.bpm.helper.logic.traindepartmentnew.parser;
+package de.gravitex.bpm.helper.entity.traindepartmentnew.parser;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.gravitex.bpm.helper.logic.traindepartmentnew.Waggon;
-import de.gravitex.bpm.helper.logic.traindepartmentnew.WaggonDamage;
-import de.gravitex.bpm.helper.logic.traindepartmentnew.WaggonDamageInfo;
+import de.gravitex.bpm.helper.entity.traindepartmentnew.Waggon;
+import de.gravitex.bpm.helper.entity.traindepartmentnew.WaggonDamage;
+import de.gravitex.bpm.helper.entity.traindepartmentnew.WaggonDamageInfo;
 
 public class WaggonDamageParser {
 

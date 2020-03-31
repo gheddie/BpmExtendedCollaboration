@@ -1,10 +1,10 @@
 package de.gravitex.bpm.helper.constant;
 
 import de.gravitex.bpm.helper.delegate.traindepartmentnew.OrderWaggonRepairsDelegate;
-import de.gravitex.bpm.helper.logic.traindepartmentnew.TrainDepartmentData;
-import de.gravitex.bpm.helper.logic.traindepartmentnew.Waggon;
-import de.gravitex.bpm.helper.logic.traindepartmentnew.WaggonDamageRepairAssumption;
-import de.gravitex.bpm.helper.logic.traindepartmentnew.WaggonErrorCode;
+import de.gravitex.bpm.helper.entity.traindepartmentnew.TrainDepartmentData;
+import de.gravitex.bpm.helper.entity.traindepartmentnew.Waggon;
+import de.gravitex.bpm.helper.entity.traindepartmentnew.WaggonDamageRepairAssumption;
+import de.gravitex.bpm.helper.entity.traindepartmentnew.WaggonErrorCode;
 
 public class ProcessConstants {
 

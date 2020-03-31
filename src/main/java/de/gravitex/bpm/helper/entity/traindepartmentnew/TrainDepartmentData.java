@@ -1,4 +1,4 @@
-package de.gravitex.bpm.helper.logic.traindepartmentnew;
+package de.gravitex.bpm.helper.entity.traindepartmentnew;
 
 import java.io.Serializable;
 import java.util.Collection;

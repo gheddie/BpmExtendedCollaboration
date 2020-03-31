@@ -3,8 +3,8 @@ package de.gravitex.bpm.helper.listener.traindepartmentnew;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 
 import de.gravitex.bpm.helper.constant.ProcessConstants;
+import de.gravitex.bpm.helper.entity.traindepartmentnew.WaggonDamageRepairAssumption;
 import de.gravitex.bpm.helper.listener.base.ExtendedExecutionListener;
-import de.gravitex.bpm.helper.logic.traindepartmentnew.WaggonDamageRepairAssumption;
 
 public class MessageWaggonAssumedStartExecutionListener extends ExtendedExecutionListener {
 
