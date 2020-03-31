@@ -37,6 +37,35 @@ public class TrainDepartmentNewTestCase {
 		assertEquals(1, processEngine.getRuntimeService().createProcessInstanceQuery()
 				.processDefinitionKey(ProcessConstants.Trainpartment.TrainStation.DEF.DEF_TRAIN_STATION_PROCESS).list().size());
 	}
+	
+	@Test
+	@Deployment(resources = { "trainDepartmentNew.bpmn" })
+	public void testRestartDepartingOrder() {
+		
+		TrainDepartmentNewRunner runner = new TrainDepartmentNewRunner(processEngine);
+
+		ProcessInstance masterProcessInstance = runner.startDepartureProcess(
+				new WaggonList().withWaggonData("W1@D1=C1,N1#D2=C2").withWaggonData("W2").withWaggonData("W3@D2=C1,C3,C4").getWaggonList());
+		
+		// we have 5 facility processes in master
+		assertEquals(5,
+				processEngine.getRuntimeService().createProcessInstanceQuery()
+						.processDefinitionKey(ProcessConstants.Trainpartment.RepairFacility.DEF.DEF_REPAIR_FACILITY_PROCESS)
+						.variableValueEquals(ProcessConstants.Common.VAR.VAR_MASTER_PROCESS_BK, masterProcessInstance.getBusinessKey())
+						.list().size());
+
+		assertThat(masterProcessInstance).isWaitingAt(ProcessConstants.Trainpartment.RepairFacility.CATCH.CATCH_MSG_WAGGON_DAMAGE_ASSUMED);
+
+		// assumements
+		runner.assumeWaggonDamages(masterProcessInstance, WaggonDamageRepairAssumption.fromValues("W1", "D1", WaggonErrorCode.C1, 13),
+				WaggonDamageRepairAssumption.fromValues("W1", "D2", WaggonErrorCode.C2, 27));
+
+		runner.assumeWaggonDamages(masterProcessInstance, WaggonDamageRepairAssumption.fromValues("W3", "D2", WaggonErrorCode.C1, 25),
+				WaggonDamageRepairAssumption.fromValues("W3", "D2", WaggonErrorCode.C3, 26),
+				WaggonDamageRepairAssumption.fromValues("W3", "D2", WaggonErrorCode.C4, 27));
+
+		assertThat(masterProcessInstance).isWaitingAt(ProcessConstants.Trainpartment.TrainStation.TASK.TASK_PROCESS_ROLLOUT);
+	}
 
 	@Test
 	@Deployment(resources = { "trainDepartmentNew.bpmn" })
@@ -47,7 +76,7 @@ public class TrainDepartmentNewTestCase {
 
 		ProcessInstance masterProcessInstance1 = runner1.startDepartureProcess(
 				new WaggonList().withWaggonData("W1@D1=C1,N1#D2=C2").withWaggonData("W2").withWaggonData("W3@D2=C1,C3,C4").getWaggonList());
-		ProcessInstance masterProcessInstance2 = runner1.startDepartureProcess(
+		ProcessInstance masterProcessInstance2 = runner2.startDepartureProcess(
 				new WaggonList().withWaggonData("W11@D1=C1,N1#D2=C2").withWaggonData("W12").withWaggonData("W13@D2=C1,C3,C4").getWaggonList());
 		
 		// 2 processes...
@@ -72,7 +101,6 @@ public class TrainDepartmentNewTestCase {
 		assertThat(masterProcessInstance2).isWaitingAt(ProcessConstants.Trainpartment.RepairFacility.CATCH.CATCH_MSG_WAGGON_DAMAGE_ASSUMED);
 
 		// assumements for master 1
-
 		runner1.assumeWaggonDamages(masterProcessInstance1, WaggonDamageRepairAssumption.fromValues("W1", "D1", WaggonErrorCode.C1, 13),
 				WaggonDamageRepairAssumption.fromValues("W1", "D2", WaggonErrorCode.C2, 27));
 
@@ -81,7 +109,6 @@ public class TrainDepartmentNewTestCase {
 				WaggonDamageRepairAssumption.fromValues("W3", "D2", WaggonErrorCode.C4, 27));
 
 		// assumements for master 2
-
 		runner2.assumeWaggonDamages(masterProcessInstance2, WaggonDamageRepairAssumption.fromValues("W11", "D1", WaggonErrorCode.C1, 13),
 				WaggonDamageRepairAssumption.fromValues("W11", "D2", WaggonErrorCode.C2, 27));
 
@@ -89,8 +116,8 @@ public class TrainDepartmentNewTestCase {
 				WaggonDamageRepairAssumption.fromValues("W13", "D2", WaggonErrorCode.C3, 26),
 				WaggonDamageRepairAssumption.fromValues("W13", "D2", WaggonErrorCode.C4, 27));
 
-		assertThat(masterProcessInstance1).isEnded();
-		assertThat(masterProcessInstance2).isEnded();
+		assertThat(masterProcessInstance1).isWaitingAt(ProcessConstants.Trainpartment.TrainStation.TASK.TASK_PROCESS_ROLLOUT);
+		assertThat(masterProcessInstance2).isWaitingAt(ProcessConstants.Trainpartment.TrainStation.TASK.TASK_PROCESS_ROLLOUT);
 	}
 
 	// ---

@@ -81,6 +81,10 @@ public class ProcessConstants {
 				 */
 				public static final String VAR_SINGLE_WAGGON_DAMAGE_TO_ASSUME = "VAR_SINGLE_WAGGON_TO_ASSUME";
 			}
+
+			public class TASK {
+				public static final String TASK_PROCESS_ROLLOUT = "TASK_PROCESS_ROLLOUT";
+			}
 		}
 	}
 
