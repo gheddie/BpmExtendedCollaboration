@@ -1,9 +1,11 @@
 package de.gravitex.bpm.helper.logic.traindepartmentnew;
 
+import de.gravitex.bpm.helper.util.businesskey.base.BusinesskeyGenerator;
+import de.gravitex.bpm.helper.util.businesskey.base.ProcessIdentifier;
 import lombok.Data;
 
 @Data
-public class WaggonDamageRepairAssumption {
+public class WaggonDamageRepairAssumption implements ProcessIdentifier {
 
 	private String waggonNumber;
 	
@@ -25,5 +27,10 @@ public class WaggonDamageRepairAssumption {
 		waggonDamageRepairAssumption.setAssumedRepairDurationInHours(anAssumedRepairDurationInHours);
 		waggonDamageRepairAssumption.setDamageIdentifier(aDamageIdentifier);
 		return waggonDamageRepairAssumption;
+	}
+
+	@Override
+	public String generateProcessIdentifier() {
+		return BusinesskeyGenerator.buildConcatedIdentifier(waggonNumber, damageIdentifier, waggonErrorCode.toString());
 	}
 }

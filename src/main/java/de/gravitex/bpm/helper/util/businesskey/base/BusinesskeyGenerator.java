@@ -1,5 +1,6 @@
 package de.gravitex.bpm.helper.util.businesskey.base;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -10,7 +11,7 @@ import org.apache.log4j.Logger;
 import lombok.Data;
 
 @Data
-public abstract class BusinesskeyGenerator {
+public abstract class BusinesskeyGenerator<T> {
 	
 	private static final Logger logger = Logger.getLogger(BusinesskeyGenerator.class);
 
@@ -28,21 +29,15 @@ public abstract class BusinesskeyGenerator {
 	
 	private static final String BUSINESS_KEY_PBKEY_DIVIDER = "#";
 	
+	private static final String BUSINESS_KEY_ADDITIONAL_VALUE_DIVIDER = "_";
+	
 	private HashMap<String, Object> variables;
 
 	public String generateBusinessKey(String aProcessDefinitionKey, HashMap<String, Object> aVariables, String aParentBusinessKey) {
 		this.processDefinitionKey = aProcessDefinitionKey;
 		this.variables = aVariables;
-		StringBuffer buffer = new StringBuffer();
 		List<Object> businesskeyComponents = getBusinesskeyComponents();
-		int index = 0;
-		for (Object component : businesskeyComponents) {
-			buffer.append(component);
-			if (index < businesskeyComponents.size() - 1) {
-				buffer.append(BUSINESS_KEY_COMPONENT_DIVIDER);				
-			}
-			index++;
-		}
+		StringBuffer buffer = separatedList(businesskeyComponents, BUSINESS_KEY_COMPONENT_DIVIDER);
 		if (aParentBusinessKey != null) {
 			buffer.append(BUSINESS_KEY_PBKEY_DIVIDER).append(aParentBusinessKey);
 		}
@@ -50,8 +45,28 @@ public abstract class BusinesskeyGenerator {
 		return result;
 	}
 
+	private static StringBuffer separatedList(List<Object> values, Object divider) {
+		StringBuffer buffer = new StringBuffer();
+		int index = 0;
+		for (Object component : values) {
+			buffer.append(component);
+			if (index < values.size() - 1) {
+				buffer.append(divider);				
+			}
+			index++;
+		}
+		return buffer;
+	}
+
 	protected List<Object> getBusinesskeyComponents() {
-		return Arrays.asList(new Object[] {processDefinitionKey, UUID.randomUUID()});
+		List<Object> businesskeyComponents = new ArrayList<Object>();
+		businesskeyComponents.add(processDefinitionKey);
+		businesskeyComponents.add(UUID.randomUUID());
+		ProcessIdentifier processIdentifier = (ProcessIdentifier) getAdditionalValueObject();
+		if (processIdentifier != null) {
+			businesskeyComponents.add(processIdentifier.generateProcessIdentifier());			
+		}
+		return businesskeyComponents;
 	}
 
 	public static HashMap<String, String> splitComponents(String businessKey) {
@@ -75,5 +90,12 @@ public abstract class BusinesskeyGenerator {
 
 	public static String getAdditionalValue(String businessKey) {
 		return splitComponents(businessKey).get(KEY_ADDITIONAL_VALUE);
+	}
+	
+	protected abstract T getAdditionalValueObject();
+
+	public static String buildConcatedIdentifier(Object... values) {
+		String result = separatedList(Arrays.asList(values), BUSINESS_KEY_ADDITIONAL_VALUE_DIVIDER).toString();
+		return result;
 	}
 }

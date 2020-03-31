@@ -27,13 +27,10 @@ public class TrainDepartmentNewTestCase {
 		TrainDepartmentNewRunner runner = new TrainDepartmentNewRunner(processEngine);
 
 		ProcessInstance masterProcessInstance = runner.startDepartureProcess(
-				new WaggonList().withWaggonData("W1@D1=C1,N1#D2=C2").withWaggonData("W2").withWaggonData("W3@D2=C1").getWaggonList());
-
-		assertEquals(2, processEngine.getTaskService().createTaskQuery()
-				.taskDefinitionKey(ProcessConstants.Trainpartment.RepairFacility.TASK.TASK_ASSUME_WAGGON).list().size());
+				new WaggonList().withWaggonData("W1@D1=C1,N1#D2=C2").withWaggonData("W2").withWaggonData("W3@D2=C1,C3,C4").getWaggonList());
 
 		// we have 3 facility processes
-		assertEquals(3,
+		assertEquals(5,
 				processEngine.getRuntimeService().createProcessInstanceQuery()
 						.processDefinitionKey(ProcessConstants.Trainpartment.RepairFacility.DEF.DEF_REPAIR_FACILITY_PROCESS)
 						.variableValueEquals(ProcessConstants.Common.VAR.VAR_MASTER_PROCESS_BK, masterProcessInstance.getBusinessKey())
@@ -44,6 +41,8 @@ public class TrainDepartmentNewTestCase {
 		runner.assumeWaggonDamages(masterProcessInstance, WaggonDamageRepairAssumption.fromValues("W1", "D1", WaggonErrorCode.C1, 13));
 		runner.assumeWaggonDamages(masterProcessInstance, WaggonDamageRepairAssumption.fromValues("W1", "D2", WaggonErrorCode.C2, 27));
 		runner.assumeWaggonDamages(masterProcessInstance, WaggonDamageRepairAssumption.fromValues("W3", "D2", WaggonErrorCode.C1, 25));
+		runner.assumeWaggonDamages(masterProcessInstance, WaggonDamageRepairAssumption.fromValues("W3", "D2", WaggonErrorCode.C3, 26));
+		runner.assumeWaggonDamages(masterProcessInstance, WaggonDamageRepairAssumption.fromValues("W3", "D2", WaggonErrorCode.C4, 27));
 
 		assertThat(masterProcessInstance).isEnded();
 	}

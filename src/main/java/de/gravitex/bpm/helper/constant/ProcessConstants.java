@@ -75,7 +75,7 @@ public class ProcessConstants {
 				 * by message {@link ProcessConstants.Trainpartment.RepairFacility.MSG#MSG_START_ASSUMPTION}.
 				 * Also passes back an assumed waggon to the main process.
 				 */
-				public static final String VAR_SINGLE_WAGGON__DAMAGE_TO_ASSUME = "VAR_SINGLE_WAGGON_TO_ASSUME";
+				public static final String VAR_SINGLE_WAGGON_DAMAGE_TO_ASSUME = "VAR_SINGLE_WAGGON_TO_ASSUME";
 			}
 		}
 	}

@@ -1,8 +1,5 @@
 package de.gravitex.bpm.helper.runner;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import org.camunda.bpm.engine.ProcessEngineServices;
@@ -16,6 +13,7 @@ import de.gravitex.bpm.helper.logic.traindepartmentnew.WaggonDamageRepairAssumpt
 import de.gravitex.bpm.helper.runner.base.ProcessRunner;
 import de.gravitex.bpm.helper.util.HashMapBuilder;
 import de.gravitex.bpm.helper.util.ProcessHelper;
+import de.gravitex.bpm.helper.util.businesskey.base.ProcessIdentifier;
 import de.gravitex.bpm.helper.util.businesskey.matcher.BusinessKeyMatcher;
 
 public class TrainDepartmentNewRunner extends ProcessRunner {
@@ -38,11 +36,13 @@ public class TrainDepartmentNewRunner extends ProcessRunner {
 	@SuppressWarnings("unchecked")
 	public void assumeWaggonDamages(ProcessInstance processInstance, WaggonDamageRepairAssumption... waggonRepairAssumption) {
 		TaskService taskService = getProcessEngine().getTaskService();
+		String additionalValue = null;
 		for (WaggonDamageRepairAssumption repairAssumption : waggonRepairAssumption) {
 			// get assume task for waggon...
+			additionalValue = ((ProcessIdentifier) repairAssumption).generateProcessIdentifier();
 			String facilityBusinessKey = BusinessKeyMatcher
 					.forProcessDefinitionKey(ProcessConstants.Trainpartment.RepairFacility.DEF.DEF_REPAIR_FACILITY_PROCESS)
-					.withAdditionalValue(repairAssumption.getWaggonNumber()).singleResult(getProcessEngine().getRuntimeService())
+					.withAdditionalValue(additionalValue).singleResult(getProcessEngine().getRuntimeService())
 					.getBusinessKey();
 			taskService.complete(taskService.createTaskQuery().processInstanceBusinessKey(facilityBusinessKey)
 					.taskDefinitionKey(ProcessConstants.Trainpartment.RepairFacility.TASK.TASK_ASSUME_WAGGON).singleResult().getId(),

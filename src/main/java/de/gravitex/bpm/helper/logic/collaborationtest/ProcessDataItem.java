@@ -1,9 +1,10 @@
 package de.gravitex.bpm.helper.logic.collaborationtest;
 
+import de.gravitex.bpm.helper.util.businesskey.base.ProcessIdentifier;
 import lombok.Data;
 
 @Data
-public class ProcessDataItem {
+public class ProcessDataItem implements ProcessIdentifier {
 
 	private String value;
 	
@@ -15,5 +16,10 @@ public class ProcessDataItem {
 		ProcessDataItem processDataItem = new ProcessDataItem();
 		processDataItem.setValue(string);
 		return processDataItem;
+	}
+
+	@Override
+	public String generateProcessIdentifier() {
+		return value;
 	}
 }

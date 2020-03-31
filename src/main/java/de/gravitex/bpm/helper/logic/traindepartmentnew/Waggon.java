@@ -26,7 +26,8 @@ public class Waggon implements Serializable {
 		String[] splitted = waggonData.split("@");
 		waggon.setWaggonNumber(splitted[0]);
 		if (splitted.length > 1) {
-			waggon.applyWaggonDamages(WaggonDamageParser.parse(splitted[1]));			
+			List<WaggonDamage> waggonDamages = new WaggonDamageParser().parse(waggon, splitted[1]);
+			waggon.applyWaggonDamages(waggonDamages);			
 		}
 		return waggon;
 	}
@@ -57,5 +58,17 @@ public class Waggon implements Serializable {
 
 	public void updateRepairAssumement(WaggonDamageRepairAssumption waggonDamageRepairAssumption) {
 		waggonDamages.get(waggonDamageRepairAssumption.getDamageIdentifier()).updateRepairAssumement(waggonDamageRepairAssumption);
+	}
+
+	public List<WaggonDamageInfo> getCritialDamages() {
+		List<WaggonDamageInfo> critialDamages = new ArrayList<WaggonDamageInfo>();
+		for (WaggonDamage waggonDamage : waggonDamages.values()) {
+			for (WaggonDamageInfo waggonDamageInfo : waggonDamage.getWaggonDamageInfos().values()) {
+				if (waggonDamageInfo.isCritical()) {
+					critialDamages.add(waggonDamageInfo);
+				}
+			}	
+		}
+		return critialDamages;
 	}
 }

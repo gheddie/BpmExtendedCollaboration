@@ -38,7 +38,7 @@ public class ProcessHelper {
 			businesskeyGenerator = businesskeyGenerators.get(DEFAULT_BKG);
 		}
 		String businessKey = businesskeyGenerator.generateBusinessKey(processDefinitionKey, variables, parentBusinessKey);
-		logger.info("generated business for definition '" + processDefinitionKey + "': " + businessKey);
+		logger.info("generated business key for definition '" + processDefinitionKey + "': " + businessKey);
 		return businessKey;
 	}
 
