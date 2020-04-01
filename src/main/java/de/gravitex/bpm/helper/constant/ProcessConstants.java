@@ -105,6 +105,10 @@ public class ProcessConstants {
 			public class USERTASK {
 				public static final String TASK_MOO = "TASK_MOO";
 			}
+
+			public class DEF {
+				public static final String DEF_RESTART_DEP_ORDERS_PROCESS = "DEF_RESTART_DEP_ORDERS_PROCESS";
+			}
 		}
 	}
 

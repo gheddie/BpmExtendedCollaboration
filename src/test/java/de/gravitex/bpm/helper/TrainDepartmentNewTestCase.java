@@ -75,7 +75,7 @@ public class TrainDepartmentNewTestCase {
 				ProcessConstants.Trainpartment.TrainStation.SERVICETASK.TASK_CANCEL_DEPARTING_ORDER,
 				ProcessConstants.Trainpartment.TrainStation.END.END_DO_CANCELLED);
 
-		// assertThat(masterProcessInstance).isEnded();
+		assertThat(masterProcessInstance).isEnded();
 
 		// concurring order must restart...
 		runner.executeAndAssertSingleTask(processEngine, null, ProcessConstants.Trainpartment.RestartDepartingOrder.USERTASK.TASK_MOO, null,
