@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_09z394c" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="2.0.3">
   <bpmn:message id="Message_0qjwkrk" name="MSG_DEPARTURE_ORDERED" />
-  <bpmn:collaboration id="Collaboration_1pma7cv">
+  <bpmn:collaboration id="P123">
     <bpmn:participant id="Participant_01bg2ti" name="train station" processRef="DEF_TRAIN_STATION_PROCESS" />
     <bpmn:participant id="Participant_0mhw2wp" name="repair facility" processRef="DEF_REPAIR_FACILITY_PROCESS" />
     <bpmn:messageFlow id="MessageFlow_17gm53k" sourceRef="Task_1nyuar1" targetRef="StartEvent_0srvslc" />
@@ -46,32 +46,35 @@
     <bpmn:sequenceFlow id="SequenceFlow_1j028nc" sourceRef="ExclusiveGateway_19sphcv" targetRef="CATCH_MSG_WAGGON_DAMAGE_ASSUMED">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!VAR_TRAIN_DEPARTMENT_DATA.allCriticalWaggonsAssumed()}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_0vszm4d" sourceRef="TASK_PROCESS_ROLLOUT" targetRef="ExclusiveGateway_0voi9fg" />
-    <bpmn:exclusiveGateway id="ExclusiveGateway_0voi9fg" default="SequenceFlow_12hd3uk">
+    <bpmn:sequenceFlow id="SequenceFlow_0vszm4d" sourceRef="TASK_PROCESS_ROLLOUT" targetRef="GW_CANCEL_FINISH_DO" />
+    <bpmn:exclusiveGateway id="GW_CANCEL_FINISH_DO" default="SequenceFlow_12hd3uk">
       <bpmn:incoming>SequenceFlow_0vszm4d</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0129h6a</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_12hd3uk</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_0129h6a" sourceRef="ExclusiveGateway_0voi9fg" targetRef="Task_1h1pi1a">
+    <bpmn:sequenceFlow id="SequenceFlow_0129h6a" sourceRef="GW_CANCEL_FINISH_DO" targetRef="TASK_CANCEL_DEPARTING_ORDER">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${VAR_TRAIN_DEPARTMENT_DATA.departingOrderFinished()}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_12hd3uk" sourceRef="ExclusiveGateway_0voi9fg" targetRef="Task_04bnidw" />
-    <bpmn:sequenceFlow id="SequenceFlow_0txkcvv" sourceRef="Task_1h1pi1a" targetRef="IntermediateThrowEvent_04frfyn" />
-    <bpmn:sequenceFlow id="SequenceFlow_0lbg23f" sourceRef="IntermediateThrowEvent_04frfyn" targetRef="ExclusiveGateway_0qrng81" />
-    <bpmn:sequenceFlow id="SequenceFlow_168n3se" sourceRef="Task_04bnidw" targetRef="ExclusiveGateway_0qrng81" />
+    <bpmn:sequenceFlow id="SequenceFlow_12hd3uk" sourceRef="GW_CANCEL_FINISH_DO" targetRef="TASK_FINISH_DEPARTING_ORDER" />
+    <bpmn:sequenceFlow id="SequenceFlow_0txkcvv" sourceRef="TASK_CANCEL_DEPARTING_ORDER" targetRef="SIG_DO_CANCELLED" />
+    <bpmn:sequenceFlow id="SequenceFlow_0lbg23f" sourceRef="SIG_DO_CANCELLED" targetRef="ExclusiveGateway_0qrng81" />
+    <bpmn:sequenceFlow id="SequenceFlow_168n3se" sourceRef="TASK_FINISH_DEPARTING_ORDER" targetRef="ExclusiveGateway_0qrng81" />
     <bpmn:userTask id="TASK_PROCESS_ROLLOUT" name="process rollout">
+      <bpmn:extensionElements>
+        <camunda:taskListener class="de.gravitex.bpm.helper.delegate.traindepartmentnew.ProcessRolloutComplementListener" event="complete" />
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0bzhy2s</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0vszm4d</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:serviceTask id="Task_1h1pi1a" name="cancel departing order" camunda:class="de.gravitex.bpm.helper.delegate.traindepartmentnew.CancelDepartingOrderDelegate">
+    <bpmn:serviceTask id="TASK_CANCEL_DEPARTING_ORDER" name="cancel departing order" camunda:class="de.gravitex.bpm.helper.delegate.traindepartmentnew.CancelDepartingOrderDelegate">
       <bpmn:incoming>SequenceFlow_0129h6a</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0txkcvv</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="Task_04bnidw" name="finish departing order" camunda:class="de.gravitex.bpm.helper.delegate.traindepartmentnew.FinishDepartingOrderDelegate">
+    <bpmn:serviceTask id="TASK_FINISH_DEPARTING_ORDER" name="finish departing order" camunda:class="de.gravitex.bpm.helper.delegate.traindepartmentnew.FinishDepartingOrderDelegate">
       <bpmn:incoming>SequenceFlow_12hd3uk</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_168n3se</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:intermediateThrowEvent id="IntermediateThrowEvent_04frfyn" name="SIG_DO_CANCELLED">
+    <bpmn:intermediateThrowEvent id="SIG_DO_CANCELLED" name="SIG_DO_CANCELLED">
       <bpmn:incoming>SequenceFlow_0txkcvv</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0lbg23f</bpmn:outgoing>
       <bpmn:signalEventDefinition signalRef="Signal_1icgniv" />
@@ -113,7 +116,7 @@
   <bpmn:error id="Error_1wgdhwk" name="ERROR_CREATE_DO" />
   <bpmn:signal id="Signal_1icgniv" name="SIG_DO_CANCELLED" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1pma7cv">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="P123">
       <bpmndi:BPMNShape id="Participant_01bg2ti_di" bpmnElement="Participant_01bg2ti">
         <dc:Bounds x="47" y="-88" width="1475" height="316" />
       </bpmndi:BPMNShape>
@@ -205,7 +208,7 @@
       <bpmndi:BPMNShape id="BoundaryEvent_15gc9sv_di" bpmnElement="BoundaryEvent_0w7nxjb">
         <dc:Bounds x="387" y="90" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ExclusiveGateway_0voi9fg_di" bpmnElement="ExclusiveGateway_0voi9fg" isMarkerVisible="true">
+      <bpmndi:BPMNShape id="ExclusiveGateway_0voi9fg_di" bpmnElement="GW_CANCEL_FINISH_DO" isMarkerVisible="true">
         <dc:Bounds x="1037" y="43" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0vszm4d_di" bpmnElement="SequenceFlow_0vszm4d">
@@ -242,13 +245,13 @@
       <bpmndi:BPMNShape id="UserTask_0fzkhta_di" bpmnElement="TASK_PROCESS_ROLLOUT">
         <dc:Bounds x="895" y="28" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_15rjw88_di" bpmnElement="Task_1h1pi1a">
+      <bpmndi:BPMNShape id="ServiceTask_15rjw88_di" bpmnElement="TASK_CANCEL_DEPARTING_ORDER">
         <dc:Bounds x="1129" y="-48" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1pmbf84_di" bpmnElement="Task_04bnidw">
+      <bpmndi:BPMNShape id="ServiceTask_1pmbf84_di" bpmnElement="TASK_FINISH_DEPARTING_ORDER">
         <dc:Bounds x="1129" y="104" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="IntermediateThrowEvent_14khrtr_di" bpmnElement="IntermediateThrowEvent_04frfyn">
+      <bpmndi:BPMNShape id="IntermediateThrowEvent_14khrtr_di" bpmnElement="SIG_DO_CANCELLED">
         <dc:Bounds x="1279" y="-26" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1254" y="17" width="87" height="27" />

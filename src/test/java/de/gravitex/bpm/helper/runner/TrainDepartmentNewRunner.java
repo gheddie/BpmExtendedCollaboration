@@ -54,6 +54,6 @@ public class TrainDepartmentNewRunner extends ProcessRunner {
 
 	public void processRollout(ProcessInstance masterProcessInstance, boolean rollout) {
 		executeAndAssertSingleTask(getProcessEngine(), masterProcessInstance,
-				ProcessConstants.Trainpartment.TrainStation.TASK.TASK_PROCESS_ROLLOUT, null, true);
+				ProcessConstants.Trainpartment.TrainStation.USERTASK.TASK_PROCESS_ROLLOUT, null, true);
 	}
 }
