@@ -50,7 +50,7 @@
     </bpmn:userTask>
     <bpmn:serviceTask id="TASK_CANCEL_DEPARTING_ORDER" name="cancel departing order" camunda:class="de.gravitex.bpm.helper.delegate.traindepartmentnew.CancelDepartingOrderDelegate">
       <bpmn:incoming>SequenceFlow_0129h6a</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1u4pngx</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_025ahtk</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="TASK_FINISH_DEPARTING_ORDER" name="finish departing order" camunda:class="de.gravitex.bpm.helper.delegate.traindepartmentnew.FinishDepartingOrderDelegate">
       <bpmn:incoming>SequenceFlow_12hd3uk</bpmn:incoming>
@@ -61,10 +61,6 @@
       <bpmn:outgoing>SequenceFlow_0129h6a</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_12hd3uk</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:endEvent id="EndEvent_038olxq" name="SIG_DO_CANCELLED">
-      <bpmn:incoming>SequenceFlow_1u4pngx</bpmn:incoming>
-      <bpmn:signalEventDefinition signalRef="Signal_1icgniv" />
-    </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_0o2swg7" sourceRef="StartEvent_1" targetRef="TaskCreateDepartureOrder" />
     <bpmn:sequenceFlow id="SequenceFlow_0azyqci" sourceRef="TaskCreateDepartureOrder" targetRef="Task_1nyuar1" />
     <bpmn:sequenceFlow id="SequenceFlow_08epxzs" sourceRef="Task_1nyuar1" targetRef="CATCH_MSG_WAGGON_DAMAGE_ASSUMED" />
@@ -79,17 +75,12 @@
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_12hd3uk" sourceRef="GW_CANCEL_FINISH_DO" targetRef="TASK_FINISH_DEPARTING_ORDER" />
     <bpmn:sequenceFlow id="SequenceFlow_168n3se" sourceRef="TASK_FINISH_DEPARTING_ORDER" targetRef="EndEvent_0mnknr3" />
-    <bpmn:sequenceFlow id="SequenceFlow_1u4pngx" sourceRef="TASK_CANCEL_DEPARTING_ORDER" targetRef="EndEvent_038olxq" />
     <bpmn:subProcess id="DEF_SUB_RESTART_DO" triggeredByEvent="true">
       <bpmn:sequenceFlow id="SequenceFlow_1egu0zd" sourceRef="StartEvent_1tgkupg" targetRef="TASK_MOO" />
       <bpmn:endEvent id="EndEvent_0982wh4">
         <bpmn:incoming>SequenceFlow_1wg031d</bpmn:incoming>
       </bpmn:endEvent>
       <bpmn:sequenceFlow id="SequenceFlow_1wg031d" sourceRef="TASK_RESTART_DEPARTING_ORDERS" targetRef="EndEvent_0982wh4" />
-      <bpmn:startEvent id="StartEvent_1tgkupg">
-        <bpmn:outgoing>SequenceFlow_1egu0zd</bpmn:outgoing>
-        <bpmn:signalEventDefinition signalRef="Signal_1icgniv" />
-      </bpmn:startEvent>
       <bpmn:serviceTask id="TASK_RESTART_DEPARTING_ORDERS" name="restart departing orders" camunda:class="de.gravitex.bpm.helper.delegate.traindepartmentnew.RestartDepartingOrdersDelgate">
         <bpmn:incoming>SequenceFlow_0e2b19r</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_1wg031d</bpmn:outgoing>
@@ -99,7 +90,20 @@
         <bpmn:incoming>SequenceFlow_1egu0zd</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_0e2b19r</bpmn:outgoing>
       </bpmn:userTask>
+      <bpmn:startEvent id="StartEvent_1tgkupg" name="ERROR_DO_CANC">
+        <bpmn:outgoing>SequenceFlow_1egu0zd</bpmn:outgoing>
+        <bpmn:errorEventDefinition errorRef="Error_0oddlgy" />
+      </bpmn:startEvent>
+      <bpmn:textAnnotation id="TextAnnotation_0olypfr">
+        <bpmn:text>does not work work a signal?!?</bpmn:text>
+      </bpmn:textAnnotation>
+      <bpmn:association id="Association_08iircd" sourceRef="StartEvent_1tgkupg" targetRef="TextAnnotation_0olypfr" />
     </bpmn:subProcess>
+    <bpmn:sequenceFlow id="SequenceFlow_025ahtk" sourceRef="TASK_CANCEL_DEPARTING_ORDER" targetRef="END_DO_CANCELLED" />
+    <bpmn:endEvent id="END_DO_CANCELLED" name="ERROR_DO_CANC">
+      <bpmn:incoming>SequenceFlow_025ahtk</bpmn:incoming>
+      <bpmn:errorEventDefinition errorRef="Error_0oddlgy" />
+    </bpmn:endEvent>
     <bpmn:textAnnotation id="TextAnnotation_0773cnl">
       <bpmn:text>loop until all waggons were assumed</bpmn:text>
     </bpmn:textAnnotation>
@@ -126,11 +130,11 @@
   <bpmn:message id="Message_1thk6f5" name="MSG_START_ASSUMPTION" />
   <bpmn:message id="Message_0xqe3b6" name="MSG_WAGGON_DAMAGE_ASSUMED" />
   <bpmn:error id="Error_1wgdhwk" name="ERROR_CREATE_DO" />
-  <bpmn:signal id="Signal_1icgniv" name="SIG_DO_CANCELLED" />
+  <bpmn:error id="Error_0oddlgy" name="ERROR_DO_CANC" errorCode="ERROR_DO_CANC" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="P123">
       <bpmndi:BPMNShape id="Participant_01bg2ti_di" bpmnElement="Participant_01bg2ti">
-        <dc:Bounds x="47" y="-88" width="1477" height="535" />
+        <dc:Bounds x="47" y="-174" width="1477" height="621" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="StartEvent_138yvz9_di" bpmnElement="StartEvent_1">
         <dc:Bounds x="173" y="269" width="36" height="36" />
@@ -253,18 +257,8 @@
       <bpmndi:BPMNShape id="EndEvent_0mnknr3_di" bpmnElement="EndEvent_0mnknr3">
         <dc:Bounds x="1356" y="345" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_1u4pngx_di" bpmnElement="SequenceFlow_1u4pngx">
-        <di:waypoint x="1229" y="211" />
-        <di:waypoint x="1356" y="211" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="EndEvent_1dy2w9z_di" bpmnElement="EndEvent_038olxq">
-        <dc:Bounds x="1356" y="193" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1331" y="236" width="87" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="SubProcess_15vcco5_di" bpmnElement="DEF_SUB_RESTART_DO" isExpanded="true">
-        <dc:Bounds x="146" y="-52" width="599" height="205" />
+        <dc:Bounds x="146" y="-114" width="599" height="267" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1egu0zd_di" bpmnElement="SequenceFlow_1egu0zd">
         <di:waypoint x="226" y="44" />
@@ -277,9 +271,6 @@
         <di:waypoint x="561" y="44" />
         <di:waypoint x="628" y="44" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="StartEvent_08juy5y_di" bpmnElement="StartEvent_1tgkupg">
-        <dc:Bounds x="190" y="26" width="36" height="36" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_157mw5y_di" bpmnElement="TASK_RESTART_DEPARTING_ORDERS">
         <dc:Bounds x="461" y="4" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -290,6 +281,29 @@
       <bpmndi:BPMNShape id="UserTask_1y3rg4s_di" bpmnElement="TASK_MOO">
         <dc:Bounds x="290" y="4" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_025ahtk_di" bpmnElement="SequenceFlow_025ahtk">
+        <di:waypoint x="1229" y="211" />
+        <di:waypoint x="1356" y="211" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_1iru7h4_di" bpmnElement="END_DO_CANCELLED">
+        <dc:Bounds x="1356" y="193" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1332" y="236" width="85" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_171291z_di" bpmnElement="StartEvent_1tgkupg">
+        <dc:Bounds x="190" y="26" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="166" y="69" width="85" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0olypfr_di" bpmnElement="TextAnnotation_0olypfr">
+        <dc:Bounds x="195" y="-74" width="99.99999880417013" height="53.291536050156736" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_08iircd_di" bpmnElement="Association_08iircd">
+        <di:waypoint x="215" y="27" />
+        <di:waypoint x="234" y="-21" />
+      </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>

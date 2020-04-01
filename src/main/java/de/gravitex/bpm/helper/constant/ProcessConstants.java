@@ -43,6 +43,10 @@ public class ProcessConstants {
 
 		public class TrainStation {
 			
+			public class END {
+				public static final String END_DO_CANCELLED = "END_DO_CANCELLED";				
+			}
+			
 			public class ERROR {
 				/**
 				 * creation of a {@link DepartureOrder} failed...

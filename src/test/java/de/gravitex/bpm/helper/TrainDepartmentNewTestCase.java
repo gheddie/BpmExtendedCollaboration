@@ -72,9 +72,10 @@ public class TrainDepartmentNewTestCase {
 		runner.processRollout(masterProcessInstance, false);
 
 		assertThat(masterProcessInstance).hasPassed(ProcessConstants.Trainpartment.TrainStation.GATEWAY.GW_CANCEL_FINISH_DO,
-				ProcessConstants.Trainpartment.TrainStation.SERVICETASK.TASK_CANCEL_DEPARTING_ORDER);
+				ProcessConstants.Trainpartment.TrainStation.SERVICETASK.TASK_CANCEL_DEPARTING_ORDER,
+				ProcessConstants.Trainpartment.TrainStation.END.END_DO_CANCELLED);
 
-		assertThat(masterProcessInstance).isEnded();
+		// assertThat(masterProcessInstance).isEnded();
 
 		// concurring order must restart...
 		runner.executeAndAssertSingleTask(processEngine, null, ProcessConstants.Trainpartment.RestartDepartingOrder.USERTASK.TASK_MOO, null,
