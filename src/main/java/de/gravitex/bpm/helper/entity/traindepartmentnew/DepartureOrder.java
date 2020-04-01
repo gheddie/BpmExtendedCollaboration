@@ -11,15 +11,18 @@ public class DepartureOrder {
 	private Collection<Waggon> waggons;
 	
 	private DepartureOrderState departureOrderState;
+	
+	private String businessKey;
 
 	private DepartureOrder() {
 		// ...
 	}
 
-	public static DepartureOrder fromWaggons(Collection<Waggon> aWaggons) {
+	public static DepartureOrder fromWaggons(Collection<Waggon> aWaggons, String aBusinessKey) {
 		DepartureOrder departureOrder = new DepartureOrder();
 		departureOrder.setWaggons(aWaggons);
 		departureOrder.setDepartureOrderState(DepartureOrderState.ACTIVE);
+		departureOrder.setBusinessKey(aBusinessKey);
 		return departureOrder;
 	}
 }

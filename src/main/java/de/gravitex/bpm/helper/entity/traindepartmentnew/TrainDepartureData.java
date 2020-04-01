@@ -7,6 +7,11 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import de.gravitex.bpm.helper.enumeration.traindepartmentnew.DepartureOrderState;
+import de.gravitex.bpm.helper.logic.traindepartmentnew.TrainDepartureLogic;
+import lombok.Data;
+
+@Data
 public class TrainDepartureData implements Serializable {
 	
 	private static final Logger logger = Logger.getLogger(TrainDepartureData.class);
@@ -14,6 +19,8 @@ public class TrainDepartureData implements Serializable {
 	private static final long serialVersionUID = 9130404831557192719L;
 	
 	private HashMap<String, Waggon> waggons = new HashMap<String, Waggon>();
+	
+	private String businessKey;
 
 	public TrainDepartureData() {
 		// ...
@@ -47,5 +54,10 @@ public class TrainDepartureData implements Serializable {
 
 	public void updateRepairAssumement(WaggonDamageRepairAssumption waggonDamageRepairAssumption) {
 		waggons.get(waggonDamageRepairAssumption.getWaggonNumber()).updateRepairAssumement(waggonDamageRepairAssumption);
+	}
+	
+	public boolean departingOrderFinished() {
+		DepartureOrder departureOrder = TrainDepartureLogic.getInstance().getDepartureOrder(businessKey);
+		return departureOrder.getDepartureOrderState().equals(DepartureOrderState.FINISHED);
 	}
 }

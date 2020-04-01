@@ -14,7 +14,7 @@ import de.gravitex.bpm.helper.constant.ProcessConstants;
 import de.gravitex.bpm.helper.entity.traindepartmentnew.WaggonDamageRepairAssumption;
 import de.gravitex.bpm.helper.entity.traindepartmentnew.WaggonErrorCode;
 import de.gravitex.bpm.helper.enumeration.traindepartmentnew.DepartureOrderState;
-import de.gravitex.bpm.helper.logic.traindepartmentnew.TrainDepartmentLogic;
+import de.gravitex.bpm.helper.logic.traindepartmentnew.TrainDepartureLogic;
 import de.gravitex.bpm.helper.runner.TrainDepartmentNewRunner;
 import de.gravitex.bpm.helper.util.WaggonList;
 
@@ -31,7 +31,7 @@ public class TrainDepartmentNewTestCase {
 		new TrainDepartmentNewRunner(processEngine).startDepartureProcess(new WaggonList().withWaggonData("W0").getWaggonList());
 
 		// we have only 1 departure order...
-		assertEquals(1, TrainDepartmentLogic.getInstance().getDepartureOrders(DepartureOrderState.ACTIVE).size());
+		assertEquals(1, TrainDepartureLogic.getInstance().getDepartureOrders(DepartureOrderState.ACTIVE).size());
 
 		// ...and only 1 process!!
 		assertEquals(1, processEngine.getRuntimeService().createProcessInstanceQuery()
@@ -65,6 +65,8 @@ public class TrainDepartmentNewTestCase {
 				WaggonDamageRepairAssumption.fromValues("W3", "D2", WaggonErrorCode.C4, 27));
 
 		assertThat(masterProcessInstance).isWaitingAt(ProcessConstants.Trainpartment.TrainStation.TASK.TASK_PROCESS_ROLLOUT);
+		
+		runner.processRollout(masterProcessInstance, false);
 	}
 
 	@Test
@@ -124,6 +126,6 @@ public class TrainDepartmentNewTestCase {
 
 	@Before
 	public void resetLogic() {
-		TrainDepartmentLogic.getInstance().reset();
+		TrainDepartureLogic.getInstance().reset();
 	}
 }

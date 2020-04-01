@@ -10,19 +10,19 @@ import de.gravitex.bpm.helper.entity.traindepartmentnew.Waggon;
 import de.gravitex.bpm.helper.enumeration.traindepartmentnew.DepartureOrderState;
 import de.gravitex.bpm.helper.exception.traindepartmentnew.CreateDepartureOrderException;
 
-public class TrainDepartmentLogic {
+public class TrainDepartureLogic {
 
-	private static TrainDepartmentLogic instance;
+	private static TrainDepartureLogic instance;
 	
 	HashMap<String, DepartureOrder> departureOrders = new HashMap<String, DepartureOrder>();
 	
-	private TrainDepartmentLogic() {
+	private TrainDepartureLogic() {
 		// ...
 	}
 
-	public static TrainDepartmentLogic getInstance() {
+	public static TrainDepartureLogic getInstance() {
 		if (instance == null) {
-			instance = new TrainDepartmentLogic();
+			instance = new TrainDepartureLogic();
 		}
 		return instance;
 	}
@@ -37,9 +37,11 @@ public class TrainDepartmentLogic {
 		return result;
 	}
 
-	public void createDepartureOrder(String businessKey, Collection<Waggon> aWaggons) throws CreateDepartureOrderException {
+	public DepartureOrder createDepartureOrder(String businessKey, Collection<Waggon> aWaggons) throws CreateDepartureOrderException {
 		checkActiveWaggons(aWaggons);
-		departureOrders.put(businessKey, DepartureOrder.fromWaggons(aWaggons));
+		DepartureOrder departureOrder = DepartureOrder.fromWaggons(aWaggons, businessKey);
+		departureOrders.put(departureOrder.getBusinessKey(), departureOrder);
+		return departureOrder;
 	}
 
 	private void checkActiveWaggons(Collection<Waggon> aWaggons) throws CreateDepartureOrderException {
@@ -64,5 +66,9 @@ public class TrainDepartmentLogic {
 
 	public void reset() {
 		departureOrders = new HashMap<String, DepartureOrder>();
+	}
+
+	public DepartureOrder getDepartureOrder(String businessKey) {
+		return departureOrders.get(businessKey);
 	}
 }
