@@ -3,7 +3,10 @@ package de.gravitex.bpm.helper;
 import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.assertThat;
 import static org.junit.Assert.assertEquals;
 
+import java.util.List;
+
 import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.engine.test.Deployment;
 import org.camunda.bpm.engine.test.ProcessEngineRule;
 import org.junit.Before;
@@ -69,8 +72,13 @@ public class TrainDepartmentNewTestCase {
 		runner.processRollout(masterProcessInstance, false);
 
 		assertThat(masterProcessInstance).hasPassed(ProcessConstants.Trainpartment.TrainStation.GATEWAY.GW_CANCEL_FINISH_DO,
-				ProcessConstants.Trainpartment.TrainStation.SERVICETASK.TASK_CANCEL_DEPARTING_ORDER,
-				ProcessConstants.Trainpartment.TrainStation.SIGNAL.SIG_DO_CANCELLED);
+				ProcessConstants.Trainpartment.TrainStation.SERVICETASK.TASK_CANCEL_DEPARTING_ORDER);
+
+		assertThat(masterProcessInstance).isEnded();
+
+		// concurring order must restart...
+		runner.executeAndAssertSingleTask(processEngine, null, ProcessConstants.Trainpartment.RestartDepartingOrder.USERTASK.TASK_MOO, null,
+				false);
 	}
 
 	@Test

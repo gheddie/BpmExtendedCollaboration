@@ -1,5 +1,7 @@
 package de.gravitex.bpm.helper.runner.base;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.util.Map;
 
 import org.camunda.bpm.engine.ProcessEngineServices;
@@ -20,7 +22,7 @@ public abstract class ProcessRunner {
 		this.processEngine = aProcessEngine;
 	}
 
-	protected Task executeAndAssertSingleTask(ProcessEngineServices processEngine, ProcessInstance processInstance,
+	public Task executeAndAssertSingleTask(ProcessEngineServices processEngine, ProcessInstance processInstance,
 			String taskDefinitionKey, Map<String, Object> variables, boolean execute) {
 		TaskService taskService = processEngine.getTaskService();
 		TaskQuery taskQuery = taskService.createTaskQuery();
@@ -28,6 +30,7 @@ public abstract class ProcessRunner {
 			taskQuery.processInstanceId(processInstance.getId());
 		}
 		Task task = taskQuery.taskDefinitionKey(taskDefinitionKey).singleResult();
+		assertNotNull(task);
 		if (execute) {
 			taskService.complete(task.getId(), variables);
 		}

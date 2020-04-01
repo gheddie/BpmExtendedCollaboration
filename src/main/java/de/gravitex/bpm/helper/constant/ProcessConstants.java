@@ -86,10 +86,6 @@ public class ProcessConstants {
 				public static final String TASK_PROCESS_ROLLOUT = "TASK_PROCESS_ROLLOUT";
 			}
 			
-			public class SIGNAL {
-				public static final String SIG_DO_CANCELLED = "SIG_DO_CANCELLED";				
-			}
-			
 			public class SERVICETASK {
 				public static final String TASK_CANCEL_DEPARTING_ORDER = "TASK_CANCEL_DEPARTING_ORDER";
 				public static final String TASK_FINISH_DEPARTING_ORDER = "TASK_FINISH_DEPARTING_ORDER";
@@ -97,6 +93,13 @@ public class ProcessConstants {
 			
 			public class GATEWAY {
 				public static final String GW_CANCEL_FINISH_DO = "GW_CANCEL_FINISH_DO";
+			}
+		}
+
+		public class RestartDepartingOrder {
+
+			public class USERTASK {
+				public static final String TASK_MOO = "TASK_MOO";
 			}
 		}
 	}
