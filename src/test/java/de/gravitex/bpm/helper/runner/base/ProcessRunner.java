@@ -19,13 +19,20 @@ public abstract class ProcessRunner<T> {
 	
 	// the started process instance
 	private ProcessInstance processInstance;
+
+	private T processInputData;
 	
 	public ProcessRunner(ProcessEngineServices aProcessEngine) {
 		super();
 		this.processEngine = aProcessEngine;
 	}
 	
-	public abstract ProcessRunner<T> startProcessInstance(T processInputData);
+	protected abstract ProcessInstance startProcessInstance(T processInputData);
+	
+	public void startProcess(T aProcessInputData) {
+		this.processInputData = aProcessInputData;
+		processInstance = startProcessInstance(processInputData);
+	}
 
 	public Task executeAndAssertSingleTask(ProcessEngineServices processEngine, ProcessInstance processInstance,
 			String taskDefinitionKey, Map<String, Object> variables, boolean execute) {

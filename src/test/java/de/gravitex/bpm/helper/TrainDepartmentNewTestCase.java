@@ -14,7 +14,7 @@ import de.gravitex.bpm.helper.entity.traindepartmentnew.WaggonDamageRepairAssump
 import de.gravitex.bpm.helper.entity.traindepartmentnew.WaggonErrorCode;
 import de.gravitex.bpm.helper.enumeration.traindepartmentnew.DepartureOrderState;
 import de.gravitex.bpm.helper.logic.traindepartmentnew.TrainDepartureLogic;
-import de.gravitex.bpm.helper.runner.TrainDepartmentNewRunner;
+import de.gravitex.bpm.helper.runner.traindepartmentnew.TrainDepartmentNewRunner;
 import de.gravitex.bpm.helper.util.WaggonList;
 
 public class TrainDepartmentNewTestCase {
@@ -26,8 +26,8 @@ public class TrainDepartmentNewTestCase {
 	@Deployment(resources = { "trainDepartmentNew.bpmn" })
 	public void testConcurringDepartureOrders() {
 
-		new TrainDepartmentNewRunner(processEngine).startProcessInstance(new WaggonList().withWaggonData("W0").getWaggonList());
-		new TrainDepartmentNewRunner(processEngine).startProcessInstance(new WaggonList().withWaggonData("W0").getWaggonList());
+		new TrainDepartmentNewRunner(processEngine).startProcess(new WaggonList().withWaggonData("W0").getWaggonList());
+		new TrainDepartmentNewRunner(processEngine).startProcess(new WaggonList().withWaggonData("W0").getWaggonList());
 
 		// we have only 1 departure order...
 		assertEquals(1, TrainDepartureLogic.getInstance().getDepartureOrders(DepartureOrderState.ACTIVE).size());
@@ -43,7 +43,7 @@ public class TrainDepartmentNewTestCase {
 
 		TrainDepartmentNewRunner runner = new TrainDepartmentNewRunner(processEngine);
 
-		runner.startProcessInstance(
+		runner.startProcess(
 				new WaggonList().withWaggonData("W1@D1=C1,N1#D2=C2").withWaggonData("W2").withWaggonData("W3@D2=C1,C3,C4").getWaggonList());
 
 		// we have 5 facility processes in master
@@ -85,9 +85,9 @@ public class TrainDepartmentNewTestCase {
 		TrainDepartmentNewRunner runner1 = new TrainDepartmentNewRunner(processEngine);
 		TrainDepartmentNewRunner runner2 = new TrainDepartmentNewRunner(processEngine);
 
-		runner1.startProcessInstance(
+		runner1.startProcess(
 				new WaggonList().withWaggonData("W1@D1=C1,N1#D2=C2").withWaggonData("W2").withWaggonData("W3@D2=C1,C3,C4").getWaggonList());
-		runner2.startProcessInstance(new WaggonList().withWaggonData("W11@D1=C1,N1#D2=C2")
+		runner2.startProcess(new WaggonList().withWaggonData("W11@D1=C1,N1#D2=C2")
 				.withWaggonData("W12").withWaggonData("W13@D2=C1,C3,C4").getWaggonList());
 
 		// 2 processes...

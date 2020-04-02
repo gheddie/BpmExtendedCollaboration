@@ -11,7 +11,6 @@ import org.camunda.bpm.engine.task.Task;
 
 import de.gravitex.bpm.helper.constant.ProcessConstants;
 import de.gravitex.bpm.helper.entity.collaborationtest.ProcessData;
-import de.gravitex.bpm.helper.runner.TrainDepartmentNewRunner;
 import de.gravitex.bpm.helper.runner.base.ProcessRunner;
 import de.gravitex.bpm.helper.util.HashMapBuilder;
 import de.gravitex.bpm.helper.util.ProcessHelper;
@@ -82,7 +81,7 @@ public class CollaborationRunner extends ProcessRunner<Object> {
 	}
 
 	@Override
-	public ProcessRunner<Object> startProcessInstance(Object processInputData) {
+	protected ProcessInstance startProcessInstance(Object processInputData) {
 		// TODO Auto-generated method stub
 		return null;
 	}

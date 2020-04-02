@@ -1,4 +1,4 @@
-package de.gravitex.bpm.helper.runner;
+package de.gravitex.bpm.helper.runner.traindepartmentnew;
 
 import java.util.List;
 
@@ -26,14 +26,13 @@ public class TrainDepartmentNewRunner extends ProcessRunner<List<Waggon>> {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public ProcessRunner<List<Waggon>> startProcessInstance(List<Waggon> waggonList) {
-		setProcessInstance(ProcessHelper.startProcessInstanceByMessage(getProcessEngine(),
+	protected ProcessInstance startProcessInstance(List<Waggon> waggonList) {
+		return ProcessHelper.startProcessInstanceByMessage(getProcessEngine(),
 				ProcessConstants.Trainpartment.TrainStation.DEF.DEF_TRAIN_STATION_PROCESS,
 				ProcessConstants.Trainpartment.TrainStation.MSG.MSG_DEPARTURE_ORDERED,
 				HashMapBuilder.create().withValuePair(ProcessConstants.Trainpartment.TrainStation.VAR.VAR_TRAIN_DEPARTMENT_DATA,
 						new TrainDepartureData().addWaggons(waggonList)).build(),
-				null));
-		return this;
+				null);
 	}
 	
 	@SuppressWarnings("unchecked")
