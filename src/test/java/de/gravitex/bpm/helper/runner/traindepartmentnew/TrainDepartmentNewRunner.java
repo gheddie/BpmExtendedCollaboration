@@ -28,13 +28,13 @@ public class TrainDepartmentNewRunner extends ProcessRunner<List<Waggon>> {
 	@Override
 	protected ProcessInstance startProcessInstance(List<Waggon> waggonList) {
 		return ProcessHelper.startProcessInstanceByMessage(getProcessEngine(),
-				ProcessConstants.Trainpartment.TrainStation.DEF.DEF_TRAIN_STATION_PROCESS,
+				getProcessDefinitionKey(),
 				ProcessConstants.Trainpartment.TrainStation.MSG.MSG_DEPARTURE_ORDERED,
 				HashMapBuilder.create().withValuePair(ProcessConstants.Trainpartment.TrainStation.VAR.VAR_TRAIN_DEPARTMENT_DATA,
 						new TrainDepartureData().addWaggons(waggonList)).build(),
 				null);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public void assumeWaggonDamages(WaggonDamageRepairAssumption... waggonRepairAssumption) {
 		TaskService taskService = getProcessEngine().getTaskService();
@@ -61,5 +61,10 @@ public class TrainDepartmentNewRunner extends ProcessRunner<List<Waggon>> {
 
 	public String getBusinessKey() {
 		return getProcessInstance().getBusinessKey();
+	}
+	
+	@Override
+	protected String getProcessDefinitionKey() {
+		return ProcessConstants.Trainpartment.TrainStation.DEF.DEF_TRAIN_STATION_PROCESS;
 	}
 }

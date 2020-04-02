@@ -85,4 +85,9 @@ public class CollaborationRunner extends ProcessRunner<Object> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	protected String getProcessDefinitionKey() {
+		return ProcessConstants.Collaboration.Main.DEF.DEF_MAIN_PROCESS;
+	}
 }

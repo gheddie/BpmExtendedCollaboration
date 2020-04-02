@@ -10,6 +10,7 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.engine.task.TaskQuery;
 
+import de.gravitex.bpm.helper.constant.ProcessConstants;
 import lombok.Data;
 
 @Data
@@ -48,4 +49,6 @@ public abstract class ProcessRunner<T> {
 		}
 		return task;
 	}
+	
+	protected abstract String getProcessDefinitionKey();
 }
