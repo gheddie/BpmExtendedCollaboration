@@ -2,6 +2,7 @@ package de.gravitex.bpm.helper;
 
 import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.camunda.bpm.engine.test.Deployment;
 import org.camunda.bpm.engine.test.ProcessEngineRule;
@@ -12,6 +13,7 @@ import org.junit.Test;
 import de.gravitex.bpm.helper.constant.ProcessConstants;
 import de.gravitex.bpm.helper.entity.traindepartmentnew.WaggonDamageRepairAssumption;
 import de.gravitex.bpm.helper.entity.traindepartmentnew.WaggonErrorCode;
+import de.gravitex.bpm.helper.enumeration.traindepartmentnew.DepartureOrderState;
 import de.gravitex.bpm.helper.logic.traindepartmentnew.TrainDepartureLogic;
 import de.gravitex.bpm.helper.runner.traindepartmentnew.TrainDepartmentNewRunner;
 import de.gravitex.bpm.helper.util.WaggonList;
@@ -36,6 +38,20 @@ public class TrainDepartmentNewTestCase {
 
 		// waggons [W1, W3] are already in departure...
 		assertThat(runner2.getProcessInstance()).isWaitingAt(ProcessConstants.Trainpartment.TrainStation.CATCH.CATCH_SIGNAL_DO_CANC);
+		
+		runner1.processRollout(false);
+		
+		// process 1 is gone...
+		assertThat(runner1.getProcessInstance()).isEnded();
+		// DO 1 cancelled... 
+		assertTrue(TrainDepartureLogic.getInstance().getDepartureOrder(runner1.getProcessInstance().getBusinessKey())
+				.getDepartureOrderState().equals(DepartureOrderState.CANCELLED));
+		
+		// process 2 is now waiting for assumement...
+		assertThat(runner2.getProcessInstance()).isWaitingAt(ProcessConstants.Trainpartment.TrainStation.CATCH.CATCH_MSG_WAGGON_DAMAGE_ASSUMED);
+		// DO 2 active again!!
+		assertTrue(TrainDepartureLogic.getInstance().getDepartureOrder(runner2.getProcessInstance().getBusinessKey())
+				.getDepartureOrderState().equals(DepartureOrderState.ACTIVE));
 	}
 
 	@Test
@@ -65,9 +81,9 @@ public class TrainDepartmentNewTestCase {
 				.list().size());
 
 		assertThat(runner1.getProcessInstance())
-				.isWaitingAt(ProcessConstants.Trainpartment.RepairFacility.CATCH.CATCH_MSG_WAGGON_DAMAGE_ASSUMED);
+				.isWaitingAt(ProcessConstants.Trainpartment.TrainStation.CATCH.CATCH_MSG_WAGGON_DAMAGE_ASSUMED);
 		assertThat(runner2.getProcessInstance())
-				.isWaitingAt(ProcessConstants.Trainpartment.RepairFacility.CATCH.CATCH_MSG_WAGGON_DAMAGE_ASSUMED);
+				.isWaitingAt(ProcessConstants.Trainpartment.TrainStation.CATCH.CATCH_MSG_WAGGON_DAMAGE_ASSUMED);
 
 		// assumements for master 1
 		runner1.assumeWaggonDamages(WaggonDamageRepairAssumption.fromValues("W1", "D1", WaggonErrorCode.C1, 13),

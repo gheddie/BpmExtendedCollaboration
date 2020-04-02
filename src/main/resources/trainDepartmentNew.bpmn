@@ -61,7 +61,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_168n3se" sourceRef="TASK_FINISH_DEPARTING_ORDER" targetRef="EndEvent_0mnknr3" />
     <bpmn:sequenceFlow id="SequenceFlow_0vszm4d" sourceRef="TASK_PROCESS_ROLLOUT" targetRef="GW_CANCEL_FINISH_DO" />
     <bpmn:sequenceFlow id="SequenceFlow_0129h6a" sourceRef="GW_CANCEL_FINISH_DO" targetRef="TASK_CANCEL_DEPARTING_ORDER">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${VAR_TRAIN_DEPARTMENT_DATA.departingOrderFinished()}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${VAR_TRAIN_DEPARTMENT_DATA.departingOrderCancelled()}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_025ahtk" sourceRef="TASK_CANCEL_DEPARTING_ORDER" targetRef="END_DO_CANCELLED" />
     <bpmn:sequenceFlow id="SequenceFlow_12hd3uk" sourceRef="GW_CANCEL_FINISH_DO" targetRef="TASK_FINISH_DEPARTING_ORDER" />

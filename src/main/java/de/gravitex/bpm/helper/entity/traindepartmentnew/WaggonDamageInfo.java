@@ -15,9 +15,9 @@ public class WaggonDamageInfo implements ProcessIdentifier, Serializable {
 
 	private Integer assumedRepairDurationInHours = null;
 
-	private transient Waggon waggon;
+	private Waggon waggon;
 
-	private transient WaggonDamage waggonDamage;
+	private WaggonDamage waggonDamage;
 
 	public boolean isCritical() {
 		return waggonErrorCode.isCritical();

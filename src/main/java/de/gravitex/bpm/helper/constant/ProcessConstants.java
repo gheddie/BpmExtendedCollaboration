@@ -37,7 +37,7 @@ public class ProcessConstants {
 			}
 
 			public class CATCH {
-				public static final String CATCH_MSG_WAGGON_DAMAGE_ASSUMED = "CATCH_MSG_WAGGON_DAMAGE_ASSUMED";
+				// ...
 			}
 		}
 
@@ -100,6 +100,7 @@ public class ProcessConstants {
 
 			public class CATCH {
 				public static final String CATCH_SIGNAL_DO_CANC = "CATCH_SIGNAL_DO_CANC";
+				public static final String CATCH_MSG_WAGGON_DAMAGE_ASSUMED = "CATCH_MSG_WAGGON_DAMAGE_ASSUMED";
 			}
 		}
 	}
