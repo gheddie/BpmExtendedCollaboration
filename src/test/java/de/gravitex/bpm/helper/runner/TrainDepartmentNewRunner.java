@@ -18,16 +18,17 @@ import de.gravitex.bpm.helper.util.businesskey.matcher.BusinessKeyMatcher;
 import lombok.Data;
 
 @Data
-public class TrainDepartmentNewRunner extends ProcessRunner {
+public class TrainDepartmentNewRunner extends ProcessRunner<List<Waggon>> {
 
 	private ProcessInstance processInstance;
 
 	public TrainDepartmentNewRunner(ProcessEngineServices aProcessEngine) {
 		super(aProcessEngine);
 	}
-
+	
 	@SuppressWarnings("unchecked")
-	public TrainDepartmentNewRunner startProcessInstance(List<Waggon> waggonList) {
+	@Override
+	public ProcessRunner<List<Waggon>> startProcessInstance(List<Waggon> waggonList) {
 		processInstance = ProcessHelper.startProcessInstanceByMessage(getProcessEngine(),
 				ProcessConstants.Trainpartment.TrainStation.DEF.DEF_TRAIN_STATION_PROCESS,
 				ProcessConstants.Trainpartment.TrainStation.MSG.MSG_DEPARTURE_ORDERED,
@@ -36,7 +37,7 @@ public class TrainDepartmentNewRunner extends ProcessRunner {
 				null);
 		return this;
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	public void assumeWaggonDamages(WaggonDamageRepairAssumption... waggonRepairAssumption) {
 		TaskService taskService = getProcessEngine().getTaskService();

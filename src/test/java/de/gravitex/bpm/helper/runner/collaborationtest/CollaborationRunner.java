@@ -11,13 +11,14 @@ import org.camunda.bpm.engine.task.Task;
 
 import de.gravitex.bpm.helper.constant.ProcessConstants;
 import de.gravitex.bpm.helper.entity.collaborationtest.ProcessData;
+import de.gravitex.bpm.helper.runner.TrainDepartmentNewRunner;
 import de.gravitex.bpm.helper.runner.base.ProcessRunner;
 import de.gravitex.bpm.helper.util.HashMapBuilder;
 import de.gravitex.bpm.helper.util.ProcessHelper;
 import lombok.Data;
 
 @Data
-public class CollaborationRunner extends ProcessRunner {
+public class CollaborationRunner extends ProcessRunner<Object> {
 	
 	public CollaborationRunner(ProcessEngineServices processEngine) {
 		super(processEngine);
@@ -78,5 +79,11 @@ public class CollaborationRunner extends ProcessRunner {
 		executeAndAssertSingleTask(getProcessEngine(), masterProcessInstance, ProcessConstants.Collaboration.Main.TASK.TASK_M2, null,
 				true);
 		return masterProcessInstance;
+	}
+
+	@Override
+	public ProcessRunner<Object> startProcessInstance(Object processInputData) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
