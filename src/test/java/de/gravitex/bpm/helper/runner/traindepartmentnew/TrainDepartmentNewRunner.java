@@ -64,7 +64,7 @@ public class TrainDepartmentNewRunner extends ProcessRunner<List<Waggon>> {
 	}
 	
 	@Override
-	protected String getProcessDefinitionKey() {
+	public String getProcessDefinitionKey() {
 		return ProcessConstants.Trainpartment.TrainStation.DEF.DEF_TRAIN_STATION_PROCESS;
 	}
 }

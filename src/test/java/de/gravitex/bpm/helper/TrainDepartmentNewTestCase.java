@@ -26,15 +26,18 @@ public class TrainDepartmentNewTestCase {
 	@Deployment(resources = { "trainDepartmentNew.bpmn" })
 	public void testConcurringDepartureOrders() {
 
-		new TrainDepartmentNewRunner(processEngine).startProcess(new WaggonList().withWaggonData("W0").getWaggonList());
-		new TrainDepartmentNewRunner(processEngine).startProcess(new WaggonList().withWaggonData("W0").getWaggonList());
+		TrainDepartmentNewRunner runner1 = new TrainDepartmentNewRunner(processEngine);
+		runner1.startProcess(new WaggonList().withWaggonData("W0").getWaggonList());
+		
+		TrainDepartmentNewRunner runner2 = new TrainDepartmentNewRunner(processEngine);
+		runner2.startProcess(new WaggonList().withWaggonData("W0").getWaggonList());
 
 		// we have only 1 departure order...
 		assertEquals(1, TrainDepartureLogic.getInstance().getDepartureOrders(DepartureOrderState.ACTIVE).size());
 
 		// ...and only 1 process!!
 		assertEquals(1, processEngine.getRuntimeService().createProcessInstanceQuery()
-				.processDefinitionKey(ProcessConstants.Trainpartment.TrainStation.DEF.DEF_TRAIN_STATION_PROCESS).list().size());
+				.processDefinitionKey(runner1.getProcessDefinitionKey()).list().size());
 	}
 
 	@Test
@@ -92,7 +95,7 @@ public class TrainDepartmentNewTestCase {
 
 		// 2 processes...
 		assertEquals(2, processEngine.getRuntimeService().createProcessInstanceQuery()
-				.processDefinitionKey(ProcessConstants.Trainpartment.TrainStation.DEF.DEF_TRAIN_STATION_PROCESS).list().size());
+				.processDefinitionKey(runner1.getProcessDefinitionKey()).list().size());
 
 		// we have 5 facility processes in master1
 		assertEquals(5,

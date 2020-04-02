@@ -44,7 +44,7 @@ public class CollaborationTestCase {
 		
 		// all mains gone...
 		assertEquals(0, processEngine.getRuntimeService().createProcessInstanceQuery()
-				.processDefinitionKey(ProcessConstants.Collaboration.Main.DEF.DEF_MAIN_PROCESS).list().size());
+				.processDefinitionKey(runner1.getProcessDefinitionKey()).list().size());
 		
 		// all another slaves gone...
 		assertEquals(0, processEngine.getRuntimeService().createProcessInstanceQuery()

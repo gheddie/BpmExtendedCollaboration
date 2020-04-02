@@ -87,7 +87,7 @@ public class CollaborationRunner extends ProcessRunner<Object> {
 	}
 
 	@Override
-	protected String getProcessDefinitionKey() {
+	public String getProcessDefinitionKey() {
 		return ProcessConstants.Collaboration.Main.DEF.DEF_MAIN_PROCESS;
 	}
 }

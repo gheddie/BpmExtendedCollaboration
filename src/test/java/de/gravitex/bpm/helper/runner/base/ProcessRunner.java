@@ -50,5 +50,5 @@ public abstract class ProcessRunner<T> {
 		return task;
 	}
 	
-	protected abstract String getProcessDefinitionKey();
+	public abstract String getProcessDefinitionKey();
 }
