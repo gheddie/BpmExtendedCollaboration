@@ -2,7 +2,6 @@ package de.gravitex.bpm.helper.runner.base;
 
 import static org.junit.Assert.assertNotNull;
 
-import java.util.List;
 import java.util.Map;
 
 import org.camunda.bpm.engine.ProcessEngineServices;
@@ -11,14 +10,15 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.engine.task.TaskQuery;
 
-import de.gravitex.bpm.helper.entity.traindepartmentnew.Waggon;
-import de.gravitex.bpm.helper.runner.TrainDepartmentNewRunner;
 import lombok.Data;
 
 @Data
 public abstract class ProcessRunner<T> {
 	
 	private ProcessEngineServices processEngine;
+	
+	// the started process instance
+	private ProcessInstance processInstance;
 	
 	public ProcessRunner(ProcessEngineServices aProcessEngine) {
 		super();

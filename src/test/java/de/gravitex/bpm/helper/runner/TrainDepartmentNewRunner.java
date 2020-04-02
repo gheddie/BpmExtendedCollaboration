@@ -20,8 +20,6 @@ import lombok.Data;
 @Data
 public class TrainDepartmentNewRunner extends ProcessRunner<List<Waggon>> {
 
-	private ProcessInstance processInstance;
-
 	public TrainDepartmentNewRunner(ProcessEngineServices aProcessEngine) {
 		super(aProcessEngine);
 	}
@@ -29,12 +27,12 @@ public class TrainDepartmentNewRunner extends ProcessRunner<List<Waggon>> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ProcessRunner<List<Waggon>> startProcessInstance(List<Waggon> waggonList) {
-		processInstance = ProcessHelper.startProcessInstanceByMessage(getProcessEngine(),
+		setProcessInstance(ProcessHelper.startProcessInstanceByMessage(getProcessEngine(),
 				ProcessConstants.Trainpartment.TrainStation.DEF.DEF_TRAIN_STATION_PROCESS,
 				ProcessConstants.Trainpartment.TrainStation.MSG.MSG_DEPARTURE_ORDERED,
 				HashMapBuilder.create().withValuePair(ProcessConstants.Trainpartment.TrainStation.VAR.VAR_TRAIN_DEPARTMENT_DATA,
 						new TrainDepartureData().addWaggons(waggonList)).build(),
-				null);
+				null));
 		return this;
 	}
 	
@@ -47,7 +45,7 @@ public class TrainDepartmentNewRunner extends ProcessRunner<List<Waggon>> {
 			additionalValue = ((ProcessIdentifier) repairAssumption).generateProcessIdentifier();
 			String facilityBusinessKey = BusinessKeyMatcher
 					.forProcessDefinitionKey(ProcessConstants.Trainpartment.RepairFacility.DEF.DEF_REPAIR_FACILITY_PROCESS)
-					.withAdditionalValue(additionalValue).withParentBusinessKey(processInstance.getBusinessKey())
+					.withAdditionalValue(additionalValue).withParentBusinessKey(getProcessInstance().getBusinessKey())
 					.singleResult(getProcessEngine().getRuntimeService()).getBusinessKey();
 			taskService.complete(taskService.createTaskQuery().processInstanceBusinessKey(facilityBusinessKey)
 					.taskDefinitionKey(ProcessConstants.Trainpartment.RepairFacility.TASK.TASK_ASSUME_WAGGON).singleResult().getId(),
@@ -58,11 +56,11 @@ public class TrainDepartmentNewRunner extends ProcessRunner<List<Waggon>> {
 	}
 
 	public void processRollout(boolean rollout) {
-		executeAndAssertSingleTask(getProcessEngine(), processInstance,
+		executeAndAssertSingleTask(getProcessEngine(), getProcessInstance(),
 				ProcessConstants.Trainpartment.TrainStation.USERTASK.TASK_PROCESS_ROLLOUT, null, true);
 	}
 
 	public String getBusinessKey() {
-		return processInstance.getBusinessKey();
+		return getProcessInstance().getBusinessKey();
 	}
 }
