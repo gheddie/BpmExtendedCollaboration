@@ -30,9 +30,10 @@ public abstract class ProcessRunner<T> {
 	
 	protected abstract ProcessInstance startProcessInstance(T processInputData);
 	
-	public void startProcess(T aProcessInputData) {
+	public ProcessRunner<T> startProcess(T aProcessInputData) {
 		this.processInputData = aProcessInputData;
 		processInstance = startProcessInstance(processInputData);
+		return this;
 	}
 
 	public Task executeAndAssertSingleTask(ProcessEngineServices processEngine, ProcessInstance processInstance,

@@ -93,21 +93,16 @@ public class ProcessConstants {
 			public class SERVICETASK {
 				public static final String TASK_CANCEL_DEPARTING_ORDER = "TASK_CANCEL_DEPARTING_ORDER";
 				public static final String TASK_FINISH_DEPARTING_ORDER = "TASK_FINISH_DEPARTING_ORDER";
+				public static final String TASK_ORDER_WAGGON_REPAIRS = "TASK_ORDER_WAGGON_REPAIRS";
+				public static final String TASK_SUSPEND_DEPARTURE_ORDER = "TASK_SUSPEND_DEPARTURE_ORDER";
 			}
 			
 			public class GATEWAY {
 				public static final String GW_CANCEL_FINISH_DO = "GW_CANCEL_FINISH_DO";
 			}
-		}
 
-		public class RestartDepartingOrder {
-
-			public class USERTASK {
-				public static final String TASK_MOO = "TASK_MOO";
-			}
-
-			public class DEF {
-				public static final String DEF_RESTART_DEP_ORDERS_PROCESS = "DEF_RESTART_DEP_ORDERS_PROCESS";
+			public class CATCH {
+				public static final String CATCH_SIGNAL_DO_CANC = "CATCH_SIGNAL_DO_CANC";
 			}
 		}
 	}

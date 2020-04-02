@@ -1,5 +1,6 @@
 package de.gravitex.bpm.helper.runner.traindepartmentnew;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.camunda.bpm.engine.ProcessEngineServices;
@@ -9,16 +10,18 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 import de.gravitex.bpm.helper.constant.ProcessConstants;
 import de.gravitex.bpm.helper.entity.traindepartmentnew.TrainDepartureData;
 import de.gravitex.bpm.helper.entity.traindepartmentnew.Waggon;
+import de.gravitex.bpm.helper.entity.traindepartmentnew.WaggonDamageInfo;
 import de.gravitex.bpm.helper.entity.traindepartmentnew.WaggonDamageRepairAssumption;
 import de.gravitex.bpm.helper.runner.base.ProcessRunner;
 import de.gravitex.bpm.helper.util.HashMapBuilder;
 import de.gravitex.bpm.helper.util.ProcessHelper;
+import de.gravitex.bpm.helper.util.WaggonList;
 import de.gravitex.bpm.helper.util.businesskey.base.ProcessIdentifier;
 import de.gravitex.bpm.helper.util.businesskey.matcher.BusinessKeyMatcher;
 import lombok.Data;
 
 @Data
-public class TrainDepartmentNewRunner extends ProcessRunner<List<Waggon>> {
+public class TrainDepartmentNewRunner extends ProcessRunner<WaggonList> {
 
 	public TrainDepartmentNewRunner(ProcessEngineServices aProcessEngine) {
 		super(aProcessEngine);
@@ -26,13 +29,21 @@ public class TrainDepartmentNewRunner extends ProcessRunner<List<Waggon>> {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	protected ProcessInstance startProcessInstance(List<Waggon> waggonList) {
+	protected ProcessInstance startProcessInstance(WaggonList waggonList) {
 		return ProcessHelper.startProcessInstanceByMessage(getProcessEngine(),
 				getProcessDefinitionKey(),
 				ProcessConstants.Trainpartment.TrainStation.MSG.MSG_DEPARTURE_ORDERED,
 				HashMapBuilder.create().withValuePair(ProcessConstants.Trainpartment.TrainStation.VAR.VAR_TRAIN_DEPARTMENT_DATA,
-						new TrainDepartureData().addWaggons(waggonList)).build(),
+						new TrainDepartureData().addWaggons(waggonList.getWaggonList())).build(),
 				null);
+	}
+	
+	public TrainDepartmentNewRunner assumeAllWaggonDamages(int assumdRepairHours) {
+		List<WaggonDamageRepairAssumption> generatedRepairAssumptions = generateRepairAssumptions(assumdRepairHours);
+		for (WaggonDamageRepairAssumption waggonDamageRepairAssumption : generatedRepairAssumptions) {
+			assumeWaggonDamages(waggonDamageRepairAssumption);	
+		}
+		return this;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -54,9 +65,10 @@ public class TrainDepartmentNewRunner extends ProcessRunner<List<Waggon>> {
 		}
 	}
 
-	public void processRollout(boolean rollout) {
+	public TrainDepartmentNewRunner processRollout(boolean rollout) {
 		executeAndAssertSingleTask(getProcessEngine(), getProcessInstance(),
 				ProcessConstants.Trainpartment.TrainStation.USERTASK.TASK_PROCESS_ROLLOUT, null, true);
+		return this;
 	}
 
 	public String getBusinessKey() {
@@ -66,5 +78,19 @@ public class TrainDepartmentNewRunner extends ProcessRunner<List<Waggon>> {
 	@Override
 	public String getProcessDefinitionKey() {
 		return ProcessConstants.Trainpartment.TrainStation.DEF.DEF_TRAIN_STATION_PROCESS;
+	}
+	
+	private List<WaggonDamageRepairAssumption> generateRepairAssumptions(int assumdRepairHours) {
+		List<WaggonDamageRepairAssumption> result = new ArrayList<WaggonDamageRepairAssumption>();
+		WaggonDamageRepairAssumption assumption = null;
+		for (Waggon waggon : getProcessInputData().getWaggonList()) {
+			for (WaggonDamageInfo waggonDamageInfo : waggon.getCritialDamages()) {
+				assumption = WaggonDamageRepairAssumption.fromValues(waggon.getWaggonNumber(),
+						waggonDamageInfo.getWaggonDamage().getDamageIdentifier(), waggonDamageInfo.getWaggonErrorCode(), 0);
+				assumption.setAssumedRepairDurationInHours(assumdRepairHours);
+				result.add(assumption);
+			}
+		}
+		return result;
 	}
 }
