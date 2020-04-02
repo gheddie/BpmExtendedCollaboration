@@ -30,8 +30,8 @@ public class TrainDepartmentNewTestCase {
 	@Deployment(resources = { "trainDepartmentNew.bpmn" })
 	public void testConcurringDepartureOrders() {
 
-		new TrainDepartmentNewRunner(processEngine).startDepartureProcess(new WaggonList().withWaggonData("W0").getWaggonList());
-		new TrainDepartmentNewRunner(processEngine).startDepartureProcess(new WaggonList().withWaggonData("W0").getWaggonList());
+		new TrainDepartmentNewRunner(processEngine).startProcessInstance(new WaggonList().withWaggonData("W0").getWaggonList());
+		new TrainDepartmentNewRunner(processEngine).startProcessInstance(new WaggonList().withWaggonData("W0").getWaggonList());
 
 		// we have only 1 departure order...
 		assertEquals(1, TrainDepartureLogic.getInstance().getDepartureOrders(DepartureOrderState.ACTIVE).size());
@@ -47,35 +47,35 @@ public class TrainDepartmentNewTestCase {
 
 		TrainDepartmentNewRunner runner = new TrainDepartmentNewRunner(processEngine);
 
-		ProcessInstance masterProcessInstance = runner.startDepartureProcess(
+		runner.startProcessInstance(
 				new WaggonList().withWaggonData("W1@D1=C1,N1#D2=C2").withWaggonData("W2").withWaggonData("W3@D2=C1,C3,C4").getWaggonList());
 
 		// we have 5 facility processes in master
 		assertEquals(5,
 				processEngine.getRuntimeService().createProcessInstanceQuery()
 						.processDefinitionKey(ProcessConstants.Trainpartment.RepairFacility.DEF.DEF_REPAIR_FACILITY_PROCESS)
-						.variableValueEquals(ProcessConstants.Common.VAR.VAR_MASTER_PROCESS_BK, masterProcessInstance.getBusinessKey())
+						.variableValueEquals(ProcessConstants.Common.VAR.VAR_MASTER_PROCESS_BK, runner.getBusinessKey())
 						.list().size());
 
-		assertThat(masterProcessInstance).isWaitingAt(ProcessConstants.Trainpartment.RepairFacility.CATCH.CATCH_MSG_WAGGON_DAMAGE_ASSUMED);
+		assertThat(runner.getProcessInstance()).isWaitingAt(ProcessConstants.Trainpartment.RepairFacility.CATCH.CATCH_MSG_WAGGON_DAMAGE_ASSUMED);
 
 		// assumements
-		runner.assumeWaggonDamages(masterProcessInstance, WaggonDamageRepairAssumption.fromValues("W1", "D1", WaggonErrorCode.C1, 13),
+		runner.assumeWaggonDamages(WaggonDamageRepairAssumption.fromValues("W1", "D1", WaggonErrorCode.C1, 13),
 				WaggonDamageRepairAssumption.fromValues("W1", "D2", WaggonErrorCode.C2, 27));
 
-		runner.assumeWaggonDamages(masterProcessInstance, WaggonDamageRepairAssumption.fromValues("W3", "D2", WaggonErrorCode.C1, 25),
+		runner.assumeWaggonDamages(WaggonDamageRepairAssumption.fromValues("W3", "D2", WaggonErrorCode.C1, 25),
 				WaggonDamageRepairAssumption.fromValues("W3", "D2", WaggonErrorCode.C3, 26),
 				WaggonDamageRepairAssumption.fromValues("W3", "D2", WaggonErrorCode.C4, 27));
 
-		assertThat(masterProcessInstance).isWaitingAt(ProcessConstants.Trainpartment.TrainStation.USERTASK.TASK_PROCESS_ROLLOUT);
+		assertThat(runner.getProcessInstance()).isWaitingAt(ProcessConstants.Trainpartment.TrainStation.USERTASK.TASK_PROCESS_ROLLOUT);
 
-		runner.processRollout(masterProcessInstance, false);
+		runner.processRollout(false);
 
-		assertThat(masterProcessInstance).hasPassed(ProcessConstants.Trainpartment.TrainStation.GATEWAY.GW_CANCEL_FINISH_DO,
+		assertThat(runner.getProcessInstance()).hasPassed(ProcessConstants.Trainpartment.TrainStation.GATEWAY.GW_CANCEL_FINISH_DO,
 				ProcessConstants.Trainpartment.TrainStation.SERVICETASK.TASK_CANCEL_DEPARTING_ORDER,
 				ProcessConstants.Trainpartment.TrainStation.END.END_DO_CANCELLED);
 
-		assertThat(masterProcessInstance).isEnded();
+		assertThat(runner.getProcessInstance()).isEnded();
 
 		// concurring order must restart...
 		runner.executeAndAssertSingleTask(processEngine, null, ProcessConstants.Trainpartment.RestartDepartingOrder.USERTASK.TASK_MOO, null,
@@ -89,9 +89,9 @@ public class TrainDepartmentNewTestCase {
 		TrainDepartmentNewRunner runner1 = new TrainDepartmentNewRunner(processEngine);
 		TrainDepartmentNewRunner runner2 = new TrainDepartmentNewRunner(processEngine);
 
-		ProcessInstance masterProcessInstance1 = runner1.startDepartureProcess(
+		runner1.startProcessInstance(
 				new WaggonList().withWaggonData("W1@D1=C1,N1#D2=C2").withWaggonData("W2").withWaggonData("W3@D2=C1,C3,C4").getWaggonList());
-		ProcessInstance masterProcessInstance2 = runner2.startDepartureProcess(new WaggonList().withWaggonData("W11@D1=C1,N1#D2=C2")
+		runner2.startProcessInstance(new WaggonList().withWaggonData("W11@D1=C1,N1#D2=C2")
 				.withWaggonData("W12").withWaggonData("W13@D2=C1,C3,C4").getWaggonList());
 
 		// 2 processes...
@@ -102,37 +102,37 @@ public class TrainDepartmentNewTestCase {
 		assertEquals(5,
 				processEngine.getRuntimeService().createProcessInstanceQuery()
 						.processDefinitionKey(ProcessConstants.Trainpartment.RepairFacility.DEF.DEF_REPAIR_FACILITY_PROCESS)
-						.variableValueEquals(ProcessConstants.Common.VAR.VAR_MASTER_PROCESS_BK, masterProcessInstance1.getBusinessKey())
+						.variableValueEquals(ProcessConstants.Common.VAR.VAR_MASTER_PROCESS_BK, runner1.getProcessInstance().getBusinessKey())
 						.list().size());
 
 		// we have 5 facility processes in master2
 		assertEquals(5,
 				processEngine.getRuntimeService().createProcessInstanceQuery()
 						.processDefinitionKey(ProcessConstants.Trainpartment.RepairFacility.DEF.DEF_REPAIR_FACILITY_PROCESS)
-						.variableValueEquals(ProcessConstants.Common.VAR.VAR_MASTER_PROCESS_BK, masterProcessInstance2.getBusinessKey())
+						.variableValueEquals(ProcessConstants.Common.VAR.VAR_MASTER_PROCESS_BK, runner2.getProcessInstance().getBusinessKey())
 						.list().size());
 
-		assertThat(masterProcessInstance1).isWaitingAt(ProcessConstants.Trainpartment.RepairFacility.CATCH.CATCH_MSG_WAGGON_DAMAGE_ASSUMED);
-		assertThat(masterProcessInstance2).isWaitingAt(ProcessConstants.Trainpartment.RepairFacility.CATCH.CATCH_MSG_WAGGON_DAMAGE_ASSUMED);
+		assertThat(runner1.getProcessInstance()).isWaitingAt(ProcessConstants.Trainpartment.RepairFacility.CATCH.CATCH_MSG_WAGGON_DAMAGE_ASSUMED);
+		assertThat(runner2.getProcessInstance()).isWaitingAt(ProcessConstants.Trainpartment.RepairFacility.CATCH.CATCH_MSG_WAGGON_DAMAGE_ASSUMED);
 
 		// assumements for master 1
-		runner1.assumeWaggonDamages(masterProcessInstance1, WaggonDamageRepairAssumption.fromValues("W1", "D1", WaggonErrorCode.C1, 13),
+		runner1.assumeWaggonDamages(WaggonDamageRepairAssumption.fromValues("W1", "D1", WaggonErrorCode.C1, 13),
 				WaggonDamageRepairAssumption.fromValues("W1", "D2", WaggonErrorCode.C2, 27));
 
-		runner1.assumeWaggonDamages(masterProcessInstance1, WaggonDamageRepairAssumption.fromValues("W3", "D2", WaggonErrorCode.C1, 25),
+		runner1.assumeWaggonDamages(WaggonDamageRepairAssumption.fromValues("W3", "D2", WaggonErrorCode.C1, 25),
 				WaggonDamageRepairAssumption.fromValues("W3", "D2", WaggonErrorCode.C3, 26),
 				WaggonDamageRepairAssumption.fromValues("W3", "D2", WaggonErrorCode.C4, 27));
 
 		// assumements for master 2
-		runner2.assumeWaggonDamages(masterProcessInstance2, WaggonDamageRepairAssumption.fromValues("W11", "D1", WaggonErrorCode.C1, 13),
+		runner2.assumeWaggonDamages(WaggonDamageRepairAssumption.fromValues("W11", "D1", WaggonErrorCode.C1, 13),
 				WaggonDamageRepairAssumption.fromValues("W11", "D2", WaggonErrorCode.C2, 27));
 
-		runner2.assumeWaggonDamages(masterProcessInstance2, WaggonDamageRepairAssumption.fromValues("W13", "D2", WaggonErrorCode.C1, 25),
+		runner2.assumeWaggonDamages(WaggonDamageRepairAssumption.fromValues("W13", "D2", WaggonErrorCode.C1, 25),
 				WaggonDamageRepairAssumption.fromValues("W13", "D2", WaggonErrorCode.C3, 26),
 				WaggonDamageRepairAssumption.fromValues("W13", "D2", WaggonErrorCode.C4, 27));
 
-		assertThat(masterProcessInstance1).isWaitingAt(ProcessConstants.Trainpartment.TrainStation.USERTASK.TASK_PROCESS_ROLLOUT);
-		assertThat(masterProcessInstance2).isWaitingAt(ProcessConstants.Trainpartment.TrainStation.USERTASK.TASK_PROCESS_ROLLOUT);
+		assertThat(runner1.getProcessInstance()).isWaitingAt(ProcessConstants.Trainpartment.TrainStation.USERTASK.TASK_PROCESS_ROLLOUT);
+		assertThat(runner2.getProcessInstance()).isWaitingAt(ProcessConstants.Trainpartment.TrainStation.USERTASK.TASK_PROCESS_ROLLOUT);
 	}
 
 	// ---

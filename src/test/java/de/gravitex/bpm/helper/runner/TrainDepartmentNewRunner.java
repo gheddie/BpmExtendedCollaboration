@@ -15,26 +15,30 @@ import de.gravitex.bpm.helper.util.HashMapBuilder;
 import de.gravitex.bpm.helper.util.ProcessHelper;
 import de.gravitex.bpm.helper.util.businesskey.base.ProcessIdentifier;
 import de.gravitex.bpm.helper.util.businesskey.matcher.BusinessKeyMatcher;
+import lombok.Data;
 
+@Data
 public class TrainDepartmentNewRunner extends ProcessRunner {
+
+	private ProcessInstance processInstance;
 
 	public TrainDepartmentNewRunner(ProcessEngineServices aProcessEngine) {
 		super(aProcessEngine);
 	}
 
 	@SuppressWarnings("unchecked")
-	public ProcessInstance startDepartureProcess(List<Waggon> waggonList) {
-		ProcessInstance processInstance = ProcessHelper.startProcessInstanceByMessage(getProcessEngine(),
+	public TrainDepartmentNewRunner startProcessInstance(List<Waggon> waggonList) {
+		processInstance = ProcessHelper.startProcessInstanceByMessage(getProcessEngine(),
 				ProcessConstants.Trainpartment.TrainStation.DEF.DEF_TRAIN_STATION_PROCESS,
 				ProcessConstants.Trainpartment.TrainStation.MSG.MSG_DEPARTURE_ORDERED,
 				HashMapBuilder.create().withValuePair(ProcessConstants.Trainpartment.TrainStation.VAR.VAR_TRAIN_DEPARTMENT_DATA,
 						new TrainDepartureData().addWaggons(waggonList)).build(),
 				null);
-		return processInstance;
+		return this;
 	}
 
 	@SuppressWarnings("unchecked")
-	public void assumeWaggonDamages(ProcessInstance processInstance, WaggonDamageRepairAssumption... waggonRepairAssumption) {
+	public void assumeWaggonDamages(WaggonDamageRepairAssumption... waggonRepairAssumption) {
 		TaskService taskService = getProcessEngine().getTaskService();
 		String additionalValue = null;
 		for (WaggonDamageRepairAssumption repairAssumption : waggonRepairAssumption) {
@@ -52,8 +56,12 @@ public class TrainDepartmentNewRunner extends ProcessRunner {
 		}
 	}
 
-	public void processRollout(ProcessInstance masterProcessInstance, boolean rollout) {
-		executeAndAssertSingleTask(getProcessEngine(), masterProcessInstance,
+	public void processRollout(boolean rollout) {
+		executeAndAssertSingleTask(getProcessEngine(), processInstance,
 				ProcessConstants.Trainpartment.TrainStation.USERTASK.TASK_PROCESS_ROLLOUT, null, true);
+	}
+
+	public String getBusinessKey() {
+		return processInstance.getBusinessKey();
 	}
 }
