@@ -56,11 +56,11 @@ public class TrainDepartureData implements Serializable {
 		waggons.get(waggonDamageRepairAssumption.getWaggonNumber()).updateRepairAssumement(waggonDamageRepairAssumption);
 	}
 	
-	public boolean departingOrderFinished() {
-		DepartureOrder departureOrder = TrainDepartureLogic.getInstance().getDepartureOrder(businessKey);
-		return departureOrder.getDepartureOrderState().equals(DepartureOrderState.CANCELLED);
+	public boolean departingOrderSuspended() {
+		return TrainDepartureLogic.getInstance().getDepartureOrder(businessKey).getDepartureOrderState()
+				.equals(DepartureOrderState.SUSPENDED);
 	}
-
+	
 	public void updateDepartingOrder(DepartureOrderState departureOrderState) {
 		TrainDepartureLogic.getInstance().getDepartureOrder(businessKey).setDepartureOrderState(departureOrderState);
 	}

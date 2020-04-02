@@ -18,10 +18,10 @@ public class DepartureOrder {
 		// ...
 	}
 
-	public static DepartureOrder fromWaggons(Collection<Waggon> aWaggons, String aBusinessKey) {
+	public static DepartureOrder fromWaggons(Collection<Waggon> aWaggons, String aBusinessKey, DepartureOrderState aDepartureOrderState) {
 		DepartureOrder departureOrder = new DepartureOrder();
 		departureOrder.setWaggons(aWaggons);
-		departureOrder.setDepartureOrderState(DepartureOrderState.ACTIVE);
+		departureOrder.setDepartureOrderState(aDepartureOrderState);
 		departureOrder.setBusinessKey(aBusinessKey);
 		return departureOrder;
 	}

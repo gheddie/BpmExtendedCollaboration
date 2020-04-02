@@ -48,10 +48,7 @@ public class ProcessConstants {
 			}
 			
 			public class ERROR {
-				/**
-				 * creation of a {@link DepartureOrder} failed...
-				 */
-				public static final String ERROR_CREATE_DO = "ERROR_CREATE_DO";
+				// ...
 			}
 
 			public class MSG {

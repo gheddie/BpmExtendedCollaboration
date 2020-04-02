@@ -54,4 +54,8 @@ public class WaggonDamage implements Serializable {
 		waggonDamageInfos.get(waggonDamageRepairAssumption.getWaggonErrorCode())
 				.setAssumedRepairDurationInHours(waggonDamageRepairAssumption.getAssumedRepairDurationInHours());
 	}
+	
+	public String toString() {
+		return getClass().getSimpleName();
+	}
 }

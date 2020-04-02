@@ -27,7 +27,7 @@ public class TrainDepartmentNewTestCase {
 
 		TrainDepartmentNewRunner runner1 = new TrainDepartmentNewRunner(processEngine);
 		runner1.startProcess(new WaggonList().withWaggonData("W1@D1=C1,N1#D2=C2").withWaggonData("W2").withWaggonData("W3@D2=C1,C3,C4"));
-		
+
 		assertThat(runner1.assumeAllWaggonDamages(12).getProcessInstance())
 				.isWaitingAt(ProcessConstants.Trainpartment.TrainStation.USERTASK.TASK_PROCESS_ROLLOUT);
 

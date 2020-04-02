@@ -5,12 +5,16 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import org.apache.log4j.Logger;
+
 import de.gravitex.bpm.helper.entity.traindepartmentnew.DepartureOrder;
+import de.gravitex.bpm.helper.entity.traindepartmentnew.TrainDepartureData;
 import de.gravitex.bpm.helper.entity.traindepartmentnew.Waggon;
 import de.gravitex.bpm.helper.enumeration.traindepartmentnew.DepartureOrderState;
-import de.gravitex.bpm.helper.exception.traindepartmentnew.CreateDepartureOrderException;
 
 public class TrainDepartureLogic {
+	
+	private static final Logger logger = Logger.getLogger(TrainDepartureLogic.class);
 
 	private static TrainDepartureLogic instance;
 	
@@ -37,21 +41,26 @@ public class TrainDepartureLogic {
 		return result;
 	}
 
-	public DepartureOrder createDepartureOrder(String businessKey, Collection<Waggon> aWaggons) throws CreateDepartureOrderException {
-		checkActiveWaggons(aWaggons);
-		DepartureOrder departureOrder = DepartureOrder.fromWaggons(aWaggons, businessKey);
+	public DepartureOrder createDepartureOrder(String businessKey, Collection<Waggon> aWaggons) {
+		DepartureOrder departureOrder = null;
+		if (!checkActiveWaggons(aWaggons)) {
+			departureOrder = DepartureOrder.fromWaggons(aWaggons, businessKey, DepartureOrderState.SUSPENDED);	
+		} else {
+			departureOrder = DepartureOrder.fromWaggons(aWaggons, businessKey, DepartureOrderState.ACTIVE);
+		}
+		logger.info("created departure order for business key [" + businessKey + "]: " + departureOrder);
 		departureOrders.put(departureOrder.getBusinessKey(), departureOrder);
 		return departureOrder;
 	}
 
-	private void checkActiveWaggons(Collection<Waggon> aWaggons) throws CreateDepartureOrderException {
+	private boolean checkActiveWaggons(Collection<Waggon> aWaggons) {
 		HashSet<String> activeWaggons = collectActiveWaggons();
 		for (Waggon waggon : aWaggons) {
 			if (activeWaggons.contains(waggon.getWaggonNumber())) {
-				throw new CreateDepartureOrderException(
-						"waggon " + waggon.getWaggonNumber() + " is already in an active departure order!!");
+				return false;
 			}
 		}
+		return true;
 	}
 
 	private HashSet<String> collectActiveWaggons() {
